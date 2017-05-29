@@ -32,14 +32,15 @@ $(document).ready(function(){
             })
             var el = dom.children('.image');
             el.each(function(i){
-                $(el[i]).css({
-                    'transform' : 'rotate('+$(el[i]).attr('rotate')+'deg)'
-                })
                 $(el[i]).animate({
                     'margin-top' : $(el[i]).attr('lastTop')+'px',
                     'margin-left': $(el[i]).attr('lastLeft')+'px',
                     'height': $(el[i]).attr('lastHeight')+'px',
-                    'width': $(el[i]).attr('lastWidth')+'px'
+                    'width': $(el[i]).attr('lastWidth')+'px',
+                }, { 
+                    step: function(){
+                        $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
+                    } 
                 })
             })
         }, 1000)
