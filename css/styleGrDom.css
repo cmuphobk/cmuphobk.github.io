@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: flex-end;
     transition: 1s linear;
+    z-index: 1;
 }
 .wheel_dom{
     width: 15vh;
@@ -21,6 +22,7 @@
     border: 1px solid black;
     float: right;
     background-color: white;
+    z-index: 2;
 }
 .wheel_dom1{
     position: absolute;
@@ -52,7 +54,6 @@
 .image{
     position: absolute;
     display: none;
-    width: 100px;
-    height: 100px;
     transition: 1s linear;
+    z-index: 0;
 }

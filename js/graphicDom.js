@@ -1,44 +1,46 @@
 $(document).ready(function(){
+    //клик по 1
     $('.wheel_dom1').click(function(){
+        $('.wheel').css('transform','rotate(60deg)')
+        $('.wheel_dom1').css('transform','rotate(-60deg)')
+    })
+    //клик по 2
+    $('.wheel_dom2').click(function(){
+        
+        $('.wheel').css('transform','rotate(0deg)')
+    })
+    //клик по 3
+    $('.wheel_dom3').click(function(){
+        $('.wheel').css('transform','rotate(-60deg)')
+        $('.wheel_dom3').css('transform','rotate(60deg)')
+    })
+    //клик по любому
+    $('.wheel_dom').click(function(){
+        var dom = $(this);
         $('.wheel_dom .image').css({
             'display':'none',
         })
-        $('.wheel').css('transform','rotate(45deg)')
-        $('.wheel_dom1').css('transform','rotate(-45deg)')
-    })
-    $('.wheel_dom2').click(function(){
-         $('.wheel_dom .image').css({
-            'display':'none',
-        })
-        $('.wheel').css('transform','rotate(0deg)')
-    })
-    $('.wheel_dom3').click(function(){
-         $('.wheel_dom .image').css({
-            'display':'none',
-        })
-        $('.wheel').css('transform','rotate(-45deg)')
-        $('.wheel_dom3').css('transform','rotate(45deg)')
-    })
-    $('.wheel_dom').click(function(){
-        var dom = $(this);
         setTimeout(function(){
             
             dom.children('.image').css({
                 'display':'block',
                 'margin-left':'0px',
-                'transform':'rotate(20deg)'
+                'margin-top':'0px',
+                'height':'0px',
+                'width':'0px',
+                'transform':'rotate(0deg)'
             })
-            dom.children('.image1').animate({
-                'margin-top' : '20px',
-                'margin-left':'400px',
-            })
-            dom.children('.image2').animate({
-                'margin-top' : '110px',
-                'margin-left':'600px',
-            })
-            dom.children('.image3').animate({
-                'margin-top' : '80px',
-                'margin-left':'800px',
+            var el = dom.children('.image');
+            el.each(function(i){
+                $(el[i]).css({
+                    'transform' : 'rotate('+$(el[i]).attr('rotate')+'deg)'
+                })
+                $(el[i]).animate({
+                    'margin-top' : $(el[i]).attr('lastTop')+'px',
+                    'margin-left': $(el[i]).attr('lastLeft')+'px',
+                    'height': $(el[i]).attr('lastHeight')+'px',
+                    'width': $(el[i]).attr('lastWidth')+'px'
+                })
             })
         }, 1000)
     })
