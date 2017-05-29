@@ -1,0 +1,14 @@
+{
+  "name": "landingbacca",
+  "version": "1.0.0",
+  "description": "emc2 landing baccs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ksmirnov@baccasoft.ru",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
