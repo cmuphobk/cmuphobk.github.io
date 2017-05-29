@@ -14,6 +14,9 @@ app.get('/', function(req, res) {
 app.get('/graphic', function(req, res) {
   res.sendfile('graphic.html');
 });
+app.get('/graphicDom', function(req, res) {
+  res.sendfile('graphicDom.html');
+});
 
 // запускаем сервер на порту 8081
 app.listen(8081);
