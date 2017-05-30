@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    
+    var zIndexPhoto = 0;
     //клик по 1
     $('.wheel_dom1').click(function(){
         $('.wheel').css('transform','rotate(60deg)')
@@ -15,17 +17,19 @@ $(document).ready(function(){
         $('.wheel_dom3').css('transform','rotate(60deg)')
     })
     //клик по любому
-    $('.wheel_dom').click(function(e){
-        var isRet = true;
-        e.originalEvent.target.classList.forEach(function(el){
-            if(el == 'wheel_dom'){
-                isRet = false;
+    var arrWheels = $('.wheel_dom');
+    arrWheels.each(function(i){
+        var elementWheel = arrWheels[i];
+        elementWheel.addEventListener('mousedown', function(e){
+            if($(e.srcElement).hasClass('wheel_dom')){
+                clickWheel(elementWheel);
             }
         })
-        if(isRet){
-            return;
-        }
-        var dom = $(this);
+    });
+
+    //обработка нажатия на круг (куча анимаций)
+    function clickWheel(el){
+        var dom = $(el);
         $('.wheel_dom .image').css({
             'display':'none',
         })
@@ -51,17 +55,29 @@ $(document).ready(function(){
                 }, { 
                     step: function(){
                         $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
+                        setTimeout(function(){
+                            $(element).css({
+                                'transition':'none'
+                            })
+                        }, 1000)
+                        
                     } 
                 })
+                
+                //обработка draggable
+                
+                $(element).draggable({
+                    start:function(event, ui){
+                        zIndexPhoto++;
+                        $(event.target).css('z-index', zIndexPhoto);
+                    }
+                }); 
 
-                element.addEventListener('click', function(e){
-                    console.log('ahaha');
-                }, false);
+                //обработка resizable
+                
             })
 
             
         }, 1000)
-
-        
-    })
+    }
 });
