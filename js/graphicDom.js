@@ -15,7 +15,16 @@ $(document).ready(function(){
         $('.wheel_dom3').css('transform','rotate(60deg)')
     })
     //клик по любому
-    $('.wheel_dom').click(function(){
+    $('.wheel_dom').click(function(e){
+        var isRet = true;
+        e.originalEvent.target.classList.forEach(function(el){
+            if(el == 'wheel_dom'){
+                isRet = false;
+            }
+        })
+        if(isRet){
+            return;
+        }
         var dom = $(this);
         $('.wheel_dom .image').css({
             'display':'none',
@@ -30,6 +39,7 @@ $(document).ready(function(){
                 'width':'0px',
                 'transform':'rotate(0deg)'
             })
+            
             var el = dom.children('.image');
             el.each(function(i){
                 $(el[i]).animate({
@@ -43,6 +53,15 @@ $(document).ready(function(){
                     } 
                 })
             })
+
+            el.each(function(i){
+                var element = el[i];
+                element.addEventListener('gestureend', function(e){
+                    alert('ahaha');
+                }, false);
+            })
         }, 1000)
+
+        
     })
 });
