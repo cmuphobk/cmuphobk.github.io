@@ -42,7 +42,8 @@ $(document).ready(function(){
             
             var el = dom.children('.image');
             el.each(function(i){
-                $(el[i]).animate({
+                var element = el[i];
+                $(element).animate({
                     'margin-top' : $(el[i]).attr('lastTop')+'px',
                     'margin-left': $(el[i]).attr('lastLeft')+'px',
                     'height': $(el[i]).attr('lastHeight')+'px',
@@ -52,14 +53,13 @@ $(document).ready(function(){
                         $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
                     } 
                 })
-            })
 
-            el.each(function(i){
-                var element = el[i];
-                element.addEventListener('gestureend', function(e){
-                    alert('ahaha');
+                element.addEventListener('click', function(e){
+                    console.log('ahaha');
                 }, false);
             })
+
+            
         }, 1000)
 
         
