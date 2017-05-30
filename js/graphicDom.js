@@ -1,6 +1,15 @@
+var zIndexPhoto = 0;
 $(document).ready(function(){
-    
-    var zIndexPhoto = 0;
+
+    document.getElementsByTagName('img').ondragstart = function() { return false; };
+
+    $('.exit').click(function(e){  
+        $('.wheel_dom .image').css({
+            'display':'none',
+        })
+        window.removeEventListener('mousemove',null);
+    })
+
     //клик по 1
     $('.wheel_dom1').click(function(){
         $('.wheel').css('transform','rotate(60deg)')
@@ -8,7 +17,6 @@ $(document).ready(function(){
     })
     //клик по 2
     $('.wheel_dom2').click(function(){
-        
         $('.wheel').css('transform','rotate(0deg)')
     })
     //клик по 3
@@ -22,64 +30,148 @@ $(document).ready(function(){
         var elementWheel = arrWheels[i];
         elementWheel.addEventListener('mousedown', function(e){
             if($(e.srcElement).hasClass('wheel_dom')){
-                clickWheel(elementWheel);
+                clickWheel(this);
             }
         })
+        //мутим на все картинки dragging
+        addWheel($(elementWheel));
     });
 
-    //обработка нажатия на круг (куча анимаций)
-    function clickWheel(el){
-        var dom = $(el);
-        $('.wheel_dom .image').css({
-            'display':'none',
-        })
-        setTimeout(function(){
-            
-            dom.children('.image').css({
-                'display':'block',
-                'margin-left':'0px',
-                'margin-top':'0px',
-                'height':'0px',
-                'width':'0px',
-                'transform':'rotate(0deg)'
-            })
-            
-            var el = dom.children('.image');
-            el.each(function(i){
-                var element = el[i];
-                $(element).animate({
-                    'margin-top' : $(el[i]).attr('lastTop')+'px',
-                    'margin-left': $(el[i]).attr('lastLeft')+'px',
-                    'height': $(el[i]).attr('lastHeight')+'px',
-                    'width': $(el[i]).attr('lastWidth')+'px',
-                }, { 
-                    step: function(){
-                        $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
-                        setTimeout(function(){
-                            $(element).css({
-                                'transition':'none'
-                            })
-                        }, 1000)
-                        
-                    } 
-                })
-                
-                //обработка draggable
-                
-                $(element).draggable({
-                    start:function(event, ui){
-                        zIndexPhoto++;
-                        $(event.target).css('z-index', zIndexPhoto);
-                    }
-                }); 
-
-                //обработка resizable
-                element.addEventListener("touchstart", function(e){
-                    var touches = e.changedTouches;
-                });
-            })
-
-            
-        }, 1000)
-    }
+    
 });
+
+//обработка нажатия на круг (куча анимаций)
+function clickWheel(el){
+    var dom = $(el);
+    $('.wheel_dom .image').css({
+        'display':'none',
+    })
+    setTimeout(function(){
+        
+        dom.children('.image').css({
+            'display':'block',
+            'left':'0px',
+            'top':'0px',
+            'height':'0px',
+            'width':'0px',
+            'transition':'transform 1.2s, top 1s, left 1s',
+            'transform':'rotate(0deg)'
+        })
+
+        var el = dom.children('.image');
+        el.each(function(i){
+            var element = el[i];
+            $(element).animate({
+                'top' : $(el[i]).attr('lastTop')+'px',
+                'left': $(el[i]).attr('lastLeft')+'px',
+                'height': $(el[i]).attr('lastHeight')+'px',
+                'width': $(el[i]).attr('lastWidth')+'px',
+            }, { 
+                step: function(){
+                    $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
+                    setTimeout(function(){
+                        $(element).css({
+                            'transition':'none'
+                        })
+                    }, 1000)
+                    
+                } 
+            })
+        });
+        
+    }, 1000)
+
+}
+
+//принимает евент и элемент с кастомными параметрами, по ним высчитывает его положение и перемещает
+function addDraggableHandler(e, element){
+    if(element.isClick){
+        element.dragX = e.pageX-element.clickX;
+        element.dragY = e.pageY-element.clickY;
+    }else{
+        element.dragX = null;
+        element.dragY = null;
+    }
+    if(element.dragX != null && element.dragY != null && element.clickX != null && element.clickY != null){
+        var deltaX = element.dragX;
+        var deltaY = element.dragY;
+        
+        var newPosX = element.startPosX + deltaX;
+        //if(newPosX >= ($('.wheel').width()/2)){
+            $(element).css('left', newPosX);
+        //}
+
+        $(element).css('top', element.startPosY + deltaY);
+
+        
+    }
+}
+
+//просто ансетит кастомные параметры и удаляет листенер mousemove с окна
+ function removeDraggableHandle(element){
+    element.isClick = false;
+    element.clickX = null;
+    element.clickY = null;
+    element.removeEventListener('mousedown', null)
+    window.removeEventListener('mousemove', null);
+}
+
+//добавить все обработчики на одно колесо
+function addWheel(dom){
+    var el = dom.children('.image');
+    el.each(function(i){
+        var element = el[i];
+        
+        //обработка draggable   
+        element.isClick = false;
+        element.clickX = null;
+        element.clickY = null;
+        element.dragX = null;
+        element.dragY = null;
+        element.startPosX = null;
+        element.startPosY = null;
+
+        element.addEventListener('mousedown', function(e){
+
+            if(!element.isClick){
+                element.isClick = true;
+                element.clickX = e.pageX;
+                element.clickY = e.pageY;
+                element.startPosX = parseFloat($(element).css('left'));
+                element.startPosY = parseFloat($(element).css('top'));
+                zIndexPhoto++;
+                $(element).css('z-index', zIndexPhoto);
+                
+                window.addEventListener('mousemove', function(e){
+                    addDraggableHandler(e, element);
+                }, false);
+                
+            }else{
+                removeDraggableHandle(element);
+            }
+
+        }, false);
+        
+
+        element.addEventListener('touchstart', function(e){
+                e = e.changedTouches[0];
+                element.isClick = true;
+                element.clickX = e.pageX;
+                element.clickY = e.pageY;
+                element.startPosX = parseFloat($(element).css('left'));
+                element.startPosY = parseFloat($(element).css('top'));
+                zIndexPhoto++;
+                $(element).css('z-index', zIndexPhoto);
+
+                element.addEventListener('touchmove', function(e){
+                    e = e.changedTouches[0];
+                    addDraggableHandler(e, element);
+                }, false);
+        })
+
+        element.addEventListener('touchend', function(e){
+            removeDraggableHandle(element);
+        });
+        
+    })
+}
