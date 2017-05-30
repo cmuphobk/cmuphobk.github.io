@@ -3,18 +3,18 @@ body{
 }
 .wheel{
     position: fixed;
-    top:0;
+    top: 0;
     left: -50vh;
     height: 100vh;
     width: 100vh;
-    border:solid 1px rgba(200,200,200,1);
+    border: solid 1px rgba(200,200,200,1);
     border-top-right-radius: 60%;
     border-bottom-right-radius: 60%;
     border-top-left-radius: 60%;
     border-bottom-left-radius: 60%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     transition: 1s linear;
     z-index: 1;
     background: rgba(240,240,240,1);
@@ -35,13 +35,13 @@ body{
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
-.wheel_dom:before{
+/*.wheel_dom:before{
     margin-top: -1vh;
 }
 .wheel_dom:after{
     margin-top: -16vh;
-}
-.wheel_dom:before, .wheel_dom:after{
+}*/
+/*.wheel_dom:before, .wheel_dom:after{
     content:"";
     display: inline-block;
     width: 15vh;
@@ -53,8 +53,8 @@ body{
     background-size:auto 100%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-}
-.wheel_dom1{  
+}*/
+/*.wheel_dom1{  
     top: 0;
     margin-left: -15vh;
     background-image: url('../img/img0.png');
@@ -76,7 +76,7 @@ body{
 }
 .wheel_dom3:before, .wheel_dom3:after{
     background-image: url('../img/img2.png');
-}
+}*/
 .image{
     position: absolute;
     display: none;

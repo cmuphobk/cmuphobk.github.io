@@ -1,4 +1,5 @@
 var zIndexPhoto = 0;
+var oldDeg = 90;
 $(document).ready(function(){
 
     document.getElementsByTagName('img').ondragstart = function() { return false; };
@@ -9,25 +10,35 @@ $(document).ready(function(){
         })
         window.removeEventListener('mousemove',null);
     })
-
-    //клик по 1
-    $('.wheel_dom1').click(function(){
-        $('.wheel').css('transform','rotate(60deg)')
-        $('.wheel_dom1').css('transform','rotate(-60deg)')
-    })
-    //клик по 2
-    $('.wheel_dom2').click(function(){
-        $('.wheel').css('transform','rotate(0deg)')
-    })
-    //клик по 3
-    $('.wheel_dom3').click(function(){
-        $('.wheel').css('transform','rotate(-60deg)')
-        $('.wheel_dom3').css('transform','rotate(60deg)')
-    })
-    //клик по любому
+    
     var arrWheels = $('.wheel_dom');
+
     arrWheels.each(function(i){
         var elementWheel = arrWheels[i];
+
+        $(elementWheel).css({
+            'background-image':$(elementWheel).attr('back')
+        })
+
+        var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
+        var radius = $('.wheel').width()/2;
+
+        var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
+        var deg90 = 90*Math.PI/180;
+        var deg180 = 180*Math.PI/180;
+        var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
+        var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
+
+        if(parseFloat($(elementWheel).attr('deg')) > 180){
+            X = -X;
+        }
+
+        $(elementWheel).css({
+            top:Y - $(elementWheel).height()/2,
+            left:X - $(elementWheel).width()/2 + window.innerHeight/2
+        })
+
+        //клик по шарику
         elementWheel.addEventListener('mousedown', function(e){
             if($(e.srcElement).hasClass('wheel_dom')){
                 clickWheel(this);
@@ -43,6 +54,18 @@ $(document).ready(function(){
 //обработка нажатия на круг (куча анимаций)
 function clickWheel(el){
     var dom = $(el);
+
+    var deg = parseFloat(dom.attr('deg'));
+    
+
+    $('.wheel').css({
+        'transform':'rotate('+(oldDeg-deg)+'deg)'
+    })
+    dom.css({
+        'transform':'rotate('+-(oldDeg-deg)+'deg)'
+    })
+
+
     $('.wheel_dom .image').css({
         'display':'none',
     })
@@ -97,9 +120,8 @@ function addDraggableHandler(e, element){
         var deltaY = element.dragY;
         
         var newPosX = element.startPosX + deltaX;
-        //if(newPosX >= ($('.wheel').width()/2)){
-            $(element).css('left', newPosX);
-        //}
+        
+        $(element).css('left', newPosX);
 
         $(element).css('top', element.startPosY + deltaY);
 
