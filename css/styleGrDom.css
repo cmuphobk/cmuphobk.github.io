@@ -59,7 +59,7 @@
     background-image: url('../img/img0.png');
 }
 .wheel_dom2{
-    margin-left: 50px;
+    margin-left: 7vh;
     background-image: url('../img/img1.png');
 }
 .wheel_dom2:before, .wheel_dom2:after{
