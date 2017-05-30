@@ -74,7 +74,9 @@ $(document).ready(function(){
                 }); 
 
                 //обработка resizable
-                
+                element.addEventListener("touchstart", function(e){
+                    var touches = e.changedTouches;
+                });
             })
 
             
