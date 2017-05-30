@@ -40,8 +40,8 @@ body{
 }
 .wheel_dom:after{
     margin-top: -16vh;
-}*/
-/*.wheel_dom:before, .wheel_dom:after{
+}
+.wheel_dom:before, .wheel_dom:after{
     content:"";
     display: inline-block;
     width: 15vh;
@@ -54,29 +54,7 @@ body{
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }*/
-/*.wheel_dom1{  
-    top: 0;
-    margin-left: -15vh;
-    background-image: url('../img/img0.png');
-}
-.wheel_dom1:before, .wheel_dom1:after{
-    background-image: url('../img/img0.png');
-}
-.wheel_dom2{
-    margin-left: 7vh;
-    background-image: url('../img/img1.png');
-}
-.wheel_dom2:before, .wheel_dom2:after{
-    background-image: url('../img/img1.png');
-}
-.wheel_dom3{
-    bottom: 0;
-    margin-left: -15vh;
-    background-image: url('../img/img2.png');
-}
-.wheel_dom3:before, .wheel_dom3:after{
-    background-image: url('../img/img2.png');
-}*/
+
 .image{
     position: absolute;
     display: none;
