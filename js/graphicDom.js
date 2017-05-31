@@ -1,5 +1,6 @@
 var zIndexPhoto = 0;
 var oldDeg = 90;
+var isScrolled = false;
 $(document).ready(function(){
 
     document.getElementsByTagName('img').ondragstart = function() { return false; };
@@ -40,7 +41,8 @@ $(document).ready(function(){
 
         //клик по шарику
         elementWheel.addEventListener('mousedown', function(e){
-            if($(e.srcElement).hasClass('wheel_dom')){
+            if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
+                isScrolled = true;
                 clickWheel(this);
             }
         })
@@ -96,11 +98,13 @@ function clickWheel(el){
                         $(element).css({
                             'transition':'none'
                         })
+                        
                     }, 1000)
                     
                 } 
             })
         });
+        isScrolled = false;
         
     }, 1000)
 
