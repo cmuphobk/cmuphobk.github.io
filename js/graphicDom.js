@@ -3,6 +3,10 @@ var oldDeg = 90;
 var isScrolled = false;
 $(document).ready(function(){
 
+    document.body.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, false); 
+
     document.getElementsByTagName('img').ondragstart = function() { return false; };
 
     $('.exit').click(function(e){  
@@ -136,12 +140,18 @@ function addDraggableHandler(e, element){
     }
 }
 
+//обработчик мультитач
+function addResizeHandler(arrTouches, element){
+
+}
+
 //просто ансетит кастомные параметры и удаляет листенер mousemove с окна
  function removeDraggableHandle(element){
     element.isClick = false;
     element.clickX = null;
     element.clickY = null;
-    element.removeEventListener('mousedown', null)
+    element.removeEventListener('mousedown', null);
+    element.removeEventListener('touchmove', null);
     window.removeEventListener('mousemove', null);
 }
 
@@ -193,8 +203,11 @@ function addWheel(dom){
                 $(element).css('z-index', zIndexPhoto);
 
                 element.addEventListener('touchmove', function(e){
-                    e = e.changedTouches[0];
-                    addDraggableHandler(e, element);
+                    element.arrTouches = arrTouches;
+                    if(arrTouches.length <= 1){
+                        e = e.changedTouches[0];
+                        addDraggableHandler(e, element);
+                    }
                 }, false);
         })
 
