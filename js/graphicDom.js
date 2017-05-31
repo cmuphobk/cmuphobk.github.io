@@ -203,11 +203,14 @@ function addWheel(dom){
                 $(element).css('z-index', zIndexPhoto);
 
                 element.addEventListener('touchmove', function(e){
-                    element.arrTouches = arrTouches;
+                    var arrTouches = e.targetTouches;
                     if(arrTouches.length <= 1){
                         e = e.changedTouches[0];
                         addDraggableHandler(e, element);
+                    }else{
+                        addResizeHandler(arrTouches, element)
                     }
+                    
                 }, false);
         })
 
