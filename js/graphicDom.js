@@ -97,17 +97,16 @@ function clickWheel(el){
                 'width': $(el[i]).attr('lastWidth')+'px',
             }, { 
                 step: function(){
-                    $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');
-                    setTimeout(function(){
-                        $(element).css({
-                            'transition':'none'
-                        })
-                        
-                    }, 1000)
-                    
+                    $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');                    
                 } 
             })
+            setTimeout(function(){
+                $(element).css({
+                    'transition':'none'
+                })
+            }, 1000)
         });
+        
         isScrolled = false;
         
     }, 1000)
