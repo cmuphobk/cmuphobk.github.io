@@ -12,15 +12,19 @@ $(document).ready(function(){
         window.removeEventListener('mousemove',null);
     })
     
+    //массив кругов на колесе
     var arrWheels = $('.wheel_dom');
 
     arrWheels.each(function(i){
+        //круг
         var elementWheel = arrWheels[i];
 
+        //задаем бекграунд
         $(elementWheel).css({
             'background-image':$(elementWheel).attr('back')
         })
 
+        //забираем градус и считаем X и Y - центр круга в колесе
         var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
         var radius = $('.wheel').width()/2;
 
