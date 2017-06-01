@@ -1,13 +1,18 @@
 $(document).ready(function(){
-    setTimeout(function(){
-        $('.video_body').append(
-            '<button class="button1" onclick="clickButton1()"></button>'+
-            '<button class="button2"></button>'+
-            '<button class="button3"></button>'+
-            '<button class="button4"></button>'+
-            '<button class="button5"></button>'
-        );
-    }, 13000)
+    var video = document.getElementById('video');
+    video.addEventListener('canplay', function(e) {
+        this.play();
+        setTimeout(function(){
+            $('.video_body').append(
+                '<button class="button1" onclick="clickButton1()"></button>'+
+                '<button class="button2"></button>'+
+                '<button class="button3"></button>'+
+                '<button class="button4"></button>'+
+                '<button class="button5"></button>'
+            );
+        }, 13000)
+    });
+    
     
 })
 
