@@ -8,7 +8,7 @@ $(document).ready(function(){
 })
 
 function sec13(e){
-    if(e.srcElement.currentTime >= 13000){
+    if(e.srcElement.currentTime >= 13){
         $('.video_body').append(
             '<button class="button1" onclick="clickButton1()"></button>'+
             '<button class="button2"></button>'+
