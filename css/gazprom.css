@@ -74,13 +74,13 @@ label{
 .circle_sm {
     display: inline-block;
     content: ' ';
-    margin-top: 10%;
+    margin-top: 10.1%;
     margin-left: 10%;
     background-color: white;
     background-image: url(../img/gazpromform.png);
-    background-size: 52% auto;
+    background-size: 63% auto;
     background-repeat: no-repeat;
-    background-position-x: 48%;
+    background-position-x: 45%;
     background-position-y: 40%;
     width: 12%;
     height: 17%;
@@ -101,4 +101,4 @@ label{
 @-webkit-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
 @-moz-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
 @-ms-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
-@keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 50px rgba(232, 76, 61, 0);}}
