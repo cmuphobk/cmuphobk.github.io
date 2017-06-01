@@ -152,7 +152,7 @@ function addResizeHandler(arrTouches, element){
     var lengthByHeight = Math.abs(firstTouch.pageY - secondTouch.pageY);
     var lengthByWidth = Math.abs(firstTouch.pageX - secondTouch.pageX);
       
-    if(lengthByHeight > lengthByWidth)  {
+    //if(lengthByHeight > lengthByWidth)  {
         if(oldLengthHeight != null){
             var delta = oldLengthHeight - lengthByHeight;
             if(delta != 0){
@@ -160,10 +160,10 @@ function addResizeHandler(arrTouches, element){
             }   
         }
         oldLengthHeight = lengthByHeight;
-    }
+    //}
     
     
-    if(lengthByWidth > lengthByHeight)  {
+    //if(lengthByWidth > lengthByHeight)  {
         if(oldLengthWidth != null){
             var delta = oldLengthWidth - lengthByWidth;
             if(delta != 0){
@@ -171,7 +171,7 @@ function addResizeHandler(arrTouches, element){
             }   
         }
         oldLengthWidth = lengthByWidth;
-    }
+    //}
 }
 
 //просто ансетит кастомные параметры и удаляет листенер mousemove с окна
