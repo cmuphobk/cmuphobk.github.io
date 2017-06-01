@@ -3,6 +3,12 @@ var oldDeg = 90;
 var isScrolled = false;
 $(document).ready(function(){
 
+    $(window).resize(function(){
+        setTimeout(function(){
+            initWheels();
+        }, 1500);
+    })
+
     document.body.addEventListener('touchmove', function(event) {
         event.preventDefault();
     }, false); 
@@ -16,50 +22,57 @@ $(document).ready(function(){
         window.removeEventListener('mousemove',null);
     })
     
-    //массив кругов на колесе
-    var arrWheels = $('.wheel_dom');
-
-    arrWheels.each(function(i){
-        //круг
-        var elementWheel = arrWheels[i];
-
-        //задаем бекграунд
-        $(elementWheel).css({
-            'background-image':$(elementWheel).attr('back')
-        })
-
-        //забираем градус и считаем X и Y - центр круга в колесе
-        var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
-        var radius = $('.wheel').width()/2;
-
-        var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
-        var deg90 = 90*Math.PI/180;
-        var deg180 = 180*Math.PI/180;
-        var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
-        var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
-
-        if(parseFloat($(elementWheel).attr('deg')) > 180){
-            X = -X;
-        }
-
-        $(elementWheel).css({
-            top:Y - $(elementWheel).height()/2,
-            left:X - $(elementWheel).width()/2 + window.innerHeight/2
-        })
-
-        //клик по шарику
-        elementWheel.addEventListener('mousedown', function(e){
-            if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
-                isScrolled = true;
-                clickWheel(this);
-            }
-        })
-        //мутим на все картинки dragging
-        addWheel($(elementWheel));
-    });
+    
+    
+    
+    initWheels();
 
     
 });
+
+
+function initWheels(){
+        //массив кругов на колесе
+        var arrWheels = $('.wheel_dom');
+        arrWheels.each(function(i){
+            //круг
+            var elementWheel = arrWheels[i];
+
+            //задаем бекграунд
+            $(elementWheel).css({
+                'background-image':$(elementWheel).attr('back')
+            })
+
+            //забираем градус и считаем X и Y - центр круга в колесе
+            var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
+            var radius = $('.wheel').width()/2;
+
+            var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
+            var deg90 = 90*Math.PI/180;
+            var deg180 = 180*Math.PI/180;
+            var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
+            var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
+
+            if(parseFloat($(elementWheel).attr('deg')) > 180){
+                X = -X;
+            }
+
+            $(elementWheel).css({
+                top:Y - $(elementWheel).height()/2,
+                left:X - $(elementWheel).width()/2 + window.innerHeight/2
+            })
+
+            //клик по шарику
+            elementWheel.addEventListener('mousedown', function(e){
+                if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
+                    isScrolled = true;
+                    clickWheel(this);
+                }
+            })
+            //мутим на все картинки dragging
+            addWheel($(elementWheel));
+        });
+    }
 
 //обработка нажатия на круг (куча анимаций)
 function clickWheel(el){
