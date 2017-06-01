@@ -79,6 +79,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 .exit:hover{
     background: lightgray;
