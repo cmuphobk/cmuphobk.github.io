@@ -141,8 +141,20 @@ function addDraggableHandler(e, element){
 }
 
 //обработчик мультитач
+var oldLength = null;
 function addResizeHandler(arrTouches, element){
+    var width = $(element).width();
+    var firstTouch = arrTouches[0];
+    var secondTouch = arrTouches[1];
+    var length = Math.pow(Math.pow(firstTouch.pageX - secondTouch.pageX, 2) + Math.pow(firstTouch.pageY - secondTouch.pageY, 2));
 
+      
+    if(oldLength != null){
+        var delta = oldLength - length;
+        $(element).css('width', width + delta)
+    }
+    
+    oldLength = length;
 }
 
 //просто ансетит кастомные параметры и удаляет листенер mousemove с окна
@@ -207,7 +219,8 @@ function addWheel(dom){
                     if(arrTouches.length <= 1){
                         e = e.changedTouches[0];
                         addDraggableHandler(e, element);
-                    }else{
+                        oldLength = null;
+                    }else if(arrTouches.length == 2){
                         addResizeHandler(arrTouches, element)
                     }
                     
