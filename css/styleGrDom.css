@@ -80,6 +80,7 @@ body{
     align-items: center;
     justify-content: center;
     padding-left: 5px;
+    text-align: center;
 }
 .exit:hover{
     background: lightgray;
