@@ -149,8 +149,8 @@ function addResizeHandler(arrTouches, element){
     var firstTouch = arrTouches[0];
     var secondTouch = arrTouches[1];
     //var length = Math.pow(Math.pow(firstTouch.pageX - secondTouch.pageX, 2) + Math.pow(firstTouch.pageY - secondTouch.pageY, 2), 0.5);
-    var lengthByHeight = firstTouch.pageY - secondTouch.pageY;
-    var lengthByWidth = firstTouch.pageX - secondTouch.pageX;
+    var lengthByHeight = Math.abs(firstTouch.pageY - secondTouch.pageY);
+    var lengthByWidth = Math.abs(firstTouch.pageX - secondTouch.pageX);
       
     if(oldLengthHeight != null){
         var delta = oldLengthHeight - lengthByHeight;
