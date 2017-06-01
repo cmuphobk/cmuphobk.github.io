@@ -9,6 +9,8 @@ $(document).ready(function(){
         }, 1500);
     })
 
+
+
     document.body.addEventListener('touchmove', function(event) {
         event.preventDefault();
     }, false); 
@@ -19,6 +21,8 @@ $(document).ready(function(){
         $('.wheel_dom .image').css({
             'display':'none',
         })
+        $('.wheel_body').addClass('hidden_type');
+        $('.video_body').removeClass('blur');
         window.removeEventListener('mousemove',null);
     })
     
@@ -99,7 +103,7 @@ function clickWheel(el){
             'left':'0px',
             'top':'0px',
             'height':'0px',
-            'width':'0px',
+            'width':'auto',
             'transition':'transform 1.2s, top 1s, left 1s',
             'transform':'rotate(0deg)'
         })
@@ -111,7 +115,7 @@ function clickWheel(el){
                 'top' : $(el[i]).attr('lastTop')+'px',
                 'left': $(el[i]).attr('lastLeft')+'px',
                 'height': $(el[i]).attr('lastHeight')+'px',
-                'width': $(el[i]).attr('lastWidth')+'px',
+                'width': 'auto'//$(el[i]).attr('lastWidth')+'px',
             }, { 
                 step: function(){
                     $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');                    

@@ -9,78 +9,63 @@
         <link rel="icon" type="image/png" href="img/favicon.png">
         <title>SAP</title>
         <link rel="stylesheet" href="css/styleGrDom.css"></link>
+        <!--css без адаптива-->
+        <link rel="stylesheet" href="css/staticStyleGrDom.css"></link>
     </head>
     <body>
+    
+    
+
+    <div class="video_body">
+        <video id="video" class="ytplayer" preload="auto" autoplay="true">
+                <source src="img/rzhdMap.mp4"></source>
+        </video>  
+        <div class="timeline"></div>
+    </div>
+
+    
+    <div class="wheel_body hidden_type">
+        <button class="exit">x</button>
         
-    <button class="exit">x</button>
-    <!--Использование-->
-    <!--Колесо-->
-    <div class="wheel">
-        <!--Шарики на колесе-->
-        <!--API (описание параметров)-->
-        <!--back (урл к картинке)-->
-        <!--deg (угол)-->
-        <div back="url('img/img0.png')" deg="00" class="wheel_dom">
-            <!--Картинки которые вылетают из шарика-->
+        
+        <!--Использование-->
+        <!--Колесо-->
+        <div class="back_wheel">
+        </div>
+        <div class="wheel">
+            <!--Шарики на колесе-->
             <!--API (описание параметров)-->
-            <!--lastHeight (Высота которую примет пикча после анимации)-->
-            <!--lastWidth  (Ширина которую примет пикча после анимации)-->
-            <!--lastLeft  (Офсет слева который примет пикча после анимации)-->
-            <!--lastTop  (Офсет сверху который примет пикча после анимации)-->
-            <!--rotate  (Поворот который примет пикча после анимации)-->
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=30 rotate=20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=300 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=30 rotate=-20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=300 rotate=20 class="image" src="img/img3.png"/>
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img3.png')" deg="30" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/>
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img1.png')" deg="60" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/>
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img2.png')" deg="90" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/> 
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img0.png')" deg="120" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/> 
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img1.png')" deg="150" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/> 
-        </div>
-        <!--Шарики на колесе-->
-        <div back="url('img/img3.png')" deg="180" class="wheel_dom">
-            <img lastHeight=200 lastWidth=300 lastLeft=150 lastTop=-100 rotate=-20 class="image" src="img/img0.png"/>
-            <img lastHeight=100 lastWidth=200 lastLeft=150 lastTop=200 rotate=20 class="image" src="img/img1.png"/>
-            <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/img2.png"/>
-            <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-100 rotate=20 class="image" src="img/img3.png"/>
-            <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/img3.png"/> 
+            <!--back (урл к картинке)-->
+            <!--deg (угол)-->
+            <div back="url('img/rzhdsost.png')" deg="20" class="wheel_dom">
+                <!--Картинки которые вылетают из шарика-->
+                <!--API (описание параметров)-->
+                <!--lastHeight (Высота которую примет пикча после анимации)-->
+                <!--lastWidth  (Ширина которую примет пикча после анимации (теперь не используется))-->
+                <!--lastLeft  (Офсет слева который примет пикча после анимации)-->
+                <!--lastTop  (Офсет сверху который примет пикча после анимации)-->
+                <!--rotate  (Поворот который примет пикча после анимации)-->
+                <img lastHeight=200 lastWidth=300 lastLeft=250 lastTop=-30 rotate=20 class="image" src="img/rzhdGerst.jpg"/>
+                <img lastHeight=100 lastWidth=200 lastLeft=250 lastTop=200 rotate=20 class="image" src="img/rzhdKonstantinThon1820.jpg"/>
+                <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/rzhdNik1.jpg"/>
+                <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-30 rotate=-20 class="image" src="img/rzhdUist.jpg"/>
+                <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/rzhdBobr.jpg"/>
+            </div>
+            <div back="url('img/rzhdport1.png')" deg="90" class="wheel_dom">
+                <img lastHeight=200 lastWidth=300 lastLeft=250 lastTop=-30 rotate=20 class="image" src="img/rzhdGerst.jpg"/>
+                <img lastHeight=100 lastWidth=200 lastLeft=250 lastTop=200 rotate=20 class="image" src="img/rzhdKonstantinThon1820.jpg"/>
+                <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/rzhdNik1.jpg"/>
+                <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-30 rotate=-20 class="image" src="img/rzhdUist.jpg"/>
+                <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/rzhdBobr.jpg"/>
+            </div>
+            <div back="url('img/rzhdport2.png')" deg="160" class="wheel_dom">
+                <img lastHeight=200 lastWidth=300 lastLeft=250 lastTop=-30 rotate=20 class="image" src="img/rzhdGerst.jpg"/>
+                <img lastHeight=100 lastWidth=200 lastLeft=250 lastTop=200 rotate=20 class="image" src="img/rzhdKonstantinThon1820.jpg"/>
+                <img lastHeight=150 lastWidth=400 lastLeft=500 lastTop=150 rotate=-20 class="image" src="img/rzhdNik1.jpg"/>
+                <img lastHeight=300 lastWidth=500 lastLeft=800 lastTop=-30 rotate=-20 class="image" src="img/rzhdUist.jpg"/>
+                <img lastHeight=350 lastWidth=400 lastLeft=800 lastTop=200 rotate=20 class="image" src="img/rzhdBobr.jpg"/>
+            </div>
+            
         </div>
     </div>
    
@@ -88,6 +73,7 @@
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.extension.js"></script>
     <script type="text/javascript" src="js/graphicDom.js"></script>
+    <script type="text/javascript" src="js/staticGraphicDom.js"></script>
 
     </body>
 </html>

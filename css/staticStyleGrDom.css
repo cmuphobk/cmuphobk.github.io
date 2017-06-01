@@ -1,0 +1,50 @@
+.button1{
+    position: fixed;
+    height: 100px;
+    width: 340px;
+    top: 40px;
+    left: 190px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.button2{
+    position: fixed;
+    height: 100px;
+    width: 420px;
+    top: 85px;
+    left: 880px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.button3{
+    position: fixed;
+    height: 100px;
+    width: 415px;
+    top: 220px;
+    left: 600px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.button4{
+    position: fixed;
+    height: 145px;
+    width: 390px;
+    top: 320px;
+    left: 85px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.button5{
+    position: fixed;
+    height: 100px;
+    width: 420px;
+    top: 525px;
+    left: 580px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
