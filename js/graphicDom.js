@@ -152,7 +152,7 @@ function addResizeHandler(arrTouches, element){
     if(oldLength != null){
         var delta = oldLength - length;
         if(delta != 0){
-            $(element).css('width', width + delta)
+            $(element).css('width', width - delta)
         }
         
     }
