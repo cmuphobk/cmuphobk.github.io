@@ -123,5 +123,5 @@ body{
     width: 100%;
     background-image: url(../img/rzhdtimeline.png);
     background-size: 100% 100%;
-    z-index: 9999;
+    z-index: 1;
 }
