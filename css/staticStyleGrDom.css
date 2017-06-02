@@ -48,3 +48,44 @@
     border: none;
     outline: none;
 }
+.timeline .back{
+    background-image: url(../img/rzhdtimeline.png);
+    background-size: 100% 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    z-index: 4;
+    cursor: pointer;
+}
+.timeline button{
+    position: fixed;
+    bottom: 0;
+    height: 70px;
+    border: none;
+    background: none;
+    outline: none;
+    width: 20%;
+    z-index: 3;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5)
+}
+.timeline .active_btn{
+    background: rgba(80,0,0,0.3)
+}
+.timeline1{
+    left: 0;
+}
+.timeline2{
+    left: 20%;
+}
+.timeline3{
+    left: 40%;
+}
+.timeline4{
+    left: 60%;
+}
+.timeline5{
+    left: 80%;
+}   
