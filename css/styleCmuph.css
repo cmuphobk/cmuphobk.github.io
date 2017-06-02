@@ -3,5 +3,30 @@ body{
     font-family: Tahoma, Verdana, Segoe, sans-serif;
     font-style: normal;
     font-variant: normal;
-    font-size: 24px;
+}
+
+.body{  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+.header{
+    display: flex;
+    align-items: center;
+    height: 100px;
+    border-bottom: 2px solid rgba(180,180,180,1);
+    padding: 0 80px;
+}
+.footer{
+    height: 50px;
+    
+}
+h3, h4{
+    margin: 0;
 }
