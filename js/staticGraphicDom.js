@@ -35,6 +35,20 @@ $(document).ready(function(){
     $('.timeline1').click();
 })
 
+function clickButton1(){
+    
+    var video = document.getElementById('video');
+    video.pause();
+    $('.video_body').addClass('blur');
+    $('.wheel_body').removeClass('hidden_type');
+    setTimeout(function(){
+        $('.wheel').css({
+            'margin-left': '0px'
+        })
+    }, 100)
+    
+}
+
 function sec13(e){
     if(e.srcElement.currentTime >= 13){
         $('.video_body').append(
@@ -57,6 +71,7 @@ function allTimelineClick(){
         video.pause();
         video.currentTime = 0;
         $(video).addClass('hidden_type');
+        $(video).parent().children('button').remove();
     }
 }
 
@@ -67,11 +82,3 @@ function clickTimeline1(){
     video.addEventListener('timeupdate', sec13)
 }
 
-function clickButton1(){
-    $('.button1').click(function(){
-        var video = document.getElementById('video');
-        video.pause();
-        $('.video_body').addClass('blur');
-        $('.wheel_body').removeClass('hidden_type');
-    })
-}

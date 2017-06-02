@@ -1,6 +1,7 @@
 var zIndexPhoto = 0;
 var oldDeg = 90;
 var isScrolled = false;
+
 $(document).ready(function(){
 
     $(window).resize(function(){
@@ -8,8 +9,6 @@ $(document).ready(function(){
             initWheels();
         }, 1500);
     })
-
-
 
     document.body.addEventListener('touchmove', function(event) {
         event.preventDefault();
@@ -21,62 +20,62 @@ $(document).ready(function(){
         $('.wheel_dom .image').css({
             'display':'none',
         })
+        $('.card').remove();
         $('.wheel_body').addClass('hidden_type');
+        $('.wheel').css({
+            'margin-left': '-100vw'
+        })
         $('.video_body').removeClass('blur');
-        window.removeEventListener('mousemove',null);
+        $(window).off('mousemove');
     })
     
-    
-    
-    
     initWheels();
-
     
 });
 
 
 function initWheels(){
-        //массив кругов на колесе
-        var arrWheels = $('.wheel_dom');
-        arrWheels.each(function(i){
-            //круг
-            var elementWheel = arrWheels[i];
+    //массив кругов на колесе
+    var arrWheels = $('.wheel_dom');
+    arrWheels.each(function(i){
+        //круг
+        var elementWheel = arrWheels[i];
 
-            //задаем бекграунд
-            $(elementWheel).css({
-                'background-image':$(elementWheel).attr('back')
-            })
+        //задаем бекграунд
+        $(elementWheel).css({
+            'background-image':$(elementWheel).attr('back')
+        })
 
-            //забираем градус и считаем X и Y - центр круга в колесе
-            var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
-            var radius = $('.wheel').width()/2;
+        //забираем градус и считаем X и Y - центр круга в колесе
+        var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
+        var radius = $('.wheel').width()/2;
 
-            var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
-            var deg90 = 90*Math.PI/180;
-            var deg180 = 180*Math.PI/180;
-            var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
-            var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
+        var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
+        var deg90 = 90*Math.PI/180;
+        var deg180 = 180*Math.PI/180;
+        var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
+        var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
 
-            if(parseFloat($(elementWheel).attr('deg')) > 180){
-                X = -X;
+        if(parseFloat($(elementWheel).attr('deg')) > 180){
+            X = -X;
+        }
+
+        $(elementWheel).css({
+            top:Y - $(elementWheel).height()/2,
+            left:X - $(elementWheel).width()/2 + window.innerHeight/2
+        })
+
+        //клик по шарику
+        elementWheel.addEventListener('mousedown', function(e){
+            if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
+                isScrolled = true;
+                clickWheel(this);
             }
-
-            $(elementWheel).css({
-                top:Y - $(elementWheel).height()/2,
-                left:X - $(elementWheel).width()/2 + window.innerHeight/2
-            })
-
-            //клик по шарику
-            elementWheel.addEventListener('mousedown', function(e){
-                if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
-                    isScrolled = true;
-                    clickWheel(this);
-                }
-            })
-            //мутим на все картинки dragging
-            addWheel($(elementWheel));
-        });
-    }
+        })
+        //мутим на все картинки dragging
+        addWheel($(elementWheel));
+    });
+}
 
 //обработка нажатия на круг (куча анимаций)
 function clickWheel(el){
@@ -196,9 +195,9 @@ function addResizeHandler(arrTouches, element){
     element.isClick = false;
     element.clickX = null;
     element.clickY = null;
-    element.removeEventListener('mousedown', null);
-    element.removeEventListener('touchmove', null);
-    window.removeEventListener('mousemove', null);
+    $(element).off('mousedown')
+    $(element).off('touchmove')
+
 }
 
 //добавить все обработчики на одно колесо
@@ -216,24 +215,27 @@ function addWheel(dom){
         element.startPosX = null;
         element.startPosY = null;
 
+        $(element).off('mousedown')
         element.addEventListener('mousedown', function(e){
 
-            if(!element.isClick){
-                element.isClick = true;
-                element.clickX = e.pageX;
-                element.clickY = e.pageY;
-                element.startPosX = parseFloat($(element).css('left'));
-                element.startPosY = parseFloat($(element).css('top'));
-                zIndexPhoto++;
-                $(element).css('z-index', zIndexPhoto);
+                if(!element.isClick){
+                    element.isClick = true;
+                    element.clickX = e.pageX;
+                    element.clickY = e.pageY;
+                    element.startPosX = parseFloat($(element).css('left'));
+                    element.startPosY = parseFloat($(element).css('top'));
+                    zIndexPhoto++;
+                    $(element).css('z-index', zIndexPhoto);
+                    
+                    window.addEventListener('mousemove', function(e){
+                        addDraggableHandler(e, element);
+                    }, false);
+                    
+                }else{
+                    removeDraggableHandle(element);
+                    openCard(element);
+                }
                 
-                window.addEventListener('mousemove', function(e){
-                    addDraggableHandler(e, element);
-                }, false);
-                
-            }else{
-                removeDraggableHandle(element);
-            }
 
         }, false);
         
@@ -248,18 +250,27 @@ function addWheel(dom){
                 zIndexPhoto++;
                 $(element).css('z-index', zIndexPhoto);
 
-                element.addEventListener('touchmove', function(e){
-                    var arrTouches = e.targetTouches;
-                    if(arrTouches.length <= 1){
-                        e = e.changedTouches[0];
-                        addDraggableHandler(e, element);
-                        oldLengthHeight = null;
-                        oldLengthWidth = null;
-                    }else if(arrTouches.length == 2){
-                        addResizeHandler(arrTouches, element)
+                setTimeout(function(){
+                    if(element.isClick == false){
+                        //TODO: openCard
+                        openCard(element);
+                    }else{
+                        element.addEventListener('touchmove', function(e){
+                        var arrTouches = e.targetTouches;
+                        if(arrTouches.length <= 1){
+                            e = e.changedTouches[0];
+                            addDraggableHandler(e, element);
+                            oldLengthHeight = null;
+                            oldLengthWidth = null;
+                        }else if(arrTouches.length == 2){
+                            addResizeHandler(arrTouches, element)
+                        }
+                        
+                    }, false);
                     }
-                    
-                }, false);
+                },500)
+
+                
         })
 
         element.addEventListener('touchend', function(e){
@@ -267,4 +278,38 @@ function addWheel(dom){
         });
         
     })
+}
+
+function openCardMouse(element, callback){
+    openCard(element)
+    typeof(callback)=='function'&&callback();
+}
+function openCard(element){
+    $('.card').remove();
+    var srcCard = $(element).attr('card');
+    var x = $(element).offset().left + $(element).width();
+    var y = $(element).offset().top; + $(element).height()
+    var image = '<img class="card" src="'+srcCard+'" style="left:'+x+'px; top:'+y+'px;"/>';
+    $('body').append(image);
+
+    $('.card').click(function(e){
+         $('.card').css({
+            width: 0,
+            height: 'auto',
+        })
+        setTimeout(function(){
+            $('.card').remove();
+        }, 1000)
+        
+    })
+    
+    setTimeout(function(){
+        $('.card').css({
+            top: 100,
+            left: 200,
+            width: window.innerWidth-400,
+            height: 'auto',
+        })
+    }, 300)
+    
 }

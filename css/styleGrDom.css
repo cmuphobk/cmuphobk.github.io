@@ -4,6 +4,13 @@ body{
     margin: 0;
     overflow: hidden;
 }
+.card{
+    position: fixed;
+    width:0;
+    height: auto;
+    z-index: 5;
+    transition: 1s linear;
+}
 .wheel_body{
     transition: 1s linear;
 }
@@ -30,6 +37,7 @@ body{
     filter: blur(5px);
 }
 .wheel{
+    margin-left: -100vw;
     background-image: url(../img/rzhdputi.png);
     background-size: 99.8%;
     position: fixed;
@@ -50,6 +58,7 @@ body{
     background-color: rgba(240,240,240,1);
 }
 .wheel_dom{
+    cursor: pointer;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -100,10 +109,10 @@ body{
     height: 40px;
     width: 40px;
     background: none;
-    border: solid 1px lightgray;
+    border: solid 1px rgb(130,130,130);
     border-radius: 60%;
     font-weight: bold;
-    color: lightgray;
+    color: rgb(130,130,130);
     font-size: 20px;
     outline: none;
     display: flex;
@@ -112,7 +121,7 @@ body{
     text-align: center;
 }
 .exit:hover{
-    background: lightgray;
+    background: rgb(130,130,130);
     color:white;
 }
 .timeline{
