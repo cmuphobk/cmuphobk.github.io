@@ -14,11 +14,14 @@ app.get('/', function(req, res) {
 app.get('/graphic', function(req, res) {
   res.sendfile('graphic.html');
 });
+app.get('/gazprom', function(req, res) {
+  res.sendfile('gazprom.html');
+});
 app.get('/graphicDom', function(req, res) {
   res.sendfile('graphicDom.html');
 });
 
-// запускаем сервер на порту 8081
-app.listen(8081);
+// запускаем сервер на порту 8083
+app.listen(8083);
 // отправляем сообщение
 console.log('Сервер стартовал!');
