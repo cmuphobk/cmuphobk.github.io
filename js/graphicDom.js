@@ -256,17 +256,17 @@ function addWheel(dom){
                         openCard(element);
                     }else{
                         element.addEventListener('touchmove', function(e){
-                        var arrTouches = e.targetTouches;
-                        if(arrTouches.length <= 1){
-                            e = e.changedTouches[0];
-                            addDraggableHandler(e, element);
-                            oldLengthHeight = null;
-                            oldLengthWidth = null;
-                        }else if(arrTouches.length == 2){
-                            addResizeHandler(arrTouches, element)
-                        }
-                        
-                    }, false);
+                            var arrTouches = e.targetTouches;
+                            if(arrTouches.length <= 1){
+                                e = e.changedTouches[0];
+                                addDraggableHandler(e, element);
+                                oldLengthHeight = null;
+                                oldLengthWidth = null;
+                            }else if(arrTouches.length == 2){
+                                addResizeHandler(arrTouches, element)
+                            }
+                            
+                        }, false);
                     }
                 },500)
 
