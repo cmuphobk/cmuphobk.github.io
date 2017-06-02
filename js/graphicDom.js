@@ -216,7 +216,7 @@ function addWheel(dom){
         element.startPosY = null;
 
         $(element).off('mousedown')
-        element.addEventListener('mousedown', function(e){
+        /*element.addEventListener('mousedown', function(e){
 
                 if(!element.isClick){
                     element.isClick = true;
@@ -237,7 +237,7 @@ function addWheel(dom){
                 }
                 
 
-        }, false);
+        }, false);*/
         
 
         element.addEventListener('touchstart', function(e){
