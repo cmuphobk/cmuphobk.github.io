@@ -50,7 +50,7 @@ function clickButton1(){
 }
 
 function sec13(e){
-    if(e.srcElement.currentTime >= 13){
+    if(e.currentTarget.currentTime >= 13){
         $('.video_body').append(
             '<button class="button1" onclick="clickButton1()"></button>'+
             '<button class="button2"></button>'+
