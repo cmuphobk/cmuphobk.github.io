@@ -35,35 +35,18 @@ $(document).ready(function(){
 
 
 function initWheels(){
+    var step = 180 / ($('.wheel_dom').length + 1);
+    var wheels = $('.wheel_dom');
+    wheels.each(function(i){
+        var wheel = wheels[i];
+        $(wheel).attr('deg', step * (i+1))
+    })
+    drawCircles();
     //массив кругов на колесе
     var arrWheels = $('.wheel_dom');
     arrWheels.each(function(i){
         //круг
         var elementWheel = arrWheels[i];
-
-        //задаем бекграунд
-        $(elementWheel).css({
-            'background-image':$(elementWheel).attr('back')
-        })
-
-        //забираем градус и считаем X и Y - центр круга в колесе
-        var deg = parseFloat($(elementWheel).attr('deg'))*Math.PI/180;
-        var radius = $('.wheel').width()/2;
-
-        var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
-        var deg90 = 90*Math.PI/180;
-        var deg180 = 180*Math.PI/180;
-        var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
-        var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
-
-        if(parseFloat($(elementWheel).attr('deg')) > 180){
-            X = -X;
-        }
-
-        $(elementWheel).css({
-            top:Y - $(elementWheel).height()/2,
-            left:X - $(elementWheel).width()/2 + window.innerHeight/2
-        })
 
         //клик по шарику
         elementWheel.addEventListener('mousedown', function(e){
@@ -77,18 +60,76 @@ function initWheels(){
     });
 }
 
+function drawCircles(){
+    //массив кругов на колесе
+    var arrWheels = $('.wheel_dom');
+    arrWheels.each(function(i){
+        //круг
+        var elementWheel = arrWheels[i];
+
+        //задаем бекграунд
+        $(elementWheel).css({
+            'background-image':$(elementWheel).attr('back')
+        })
+
+        //забираем градус и считаем X и Y - центр круга в колесе
+        var deg = parseInt($(elementWheel).attr('deg'))*Math.PI/180;
+        var radius = $('.wheel').width()/2;
+
+        var C = Math.pow((2*Math.pow(radius,2)) - (2*Math.pow(radius,2)*Math.cos(deg)),0.5);
+        var deg90 = 90*Math.PI/180;
+        var deg180 = 180*Math.PI/180;
+        var Y = A = Math.sin(deg90-(deg180-deg)/2) * C;
+        var X = B = Math.pow(Math.pow(C,2) - Math.pow(A,2), 0.5);
+
+        if(parseFloat($(elementWheel).attr('deg')) > 180){
+            X = -X;
+        }
+
+        $(elementWheel).css({
+            top:Y - parseInt($(elementWheel).height()/2),
+            left:X - parseInt($(elementWheel).width()/2) + parseInt(window.innerHeight/2)
+        })
+
+    });
+}
+
+setInterval(function(){
+    drawCircles();
+},1)
+
 //обработка нажатия на круг (куча анимаций)
 function clickWheel(el){
     var dom = $(el);
 
     var deg = parseFloat(dom.attr('deg'));
-    
 
-    $('.wheel').css({
-        'transform':'rotate('+(oldDeg-deg)+'deg)'
-    })
-    dom.css({
-        'transform':'rotate('+-(oldDeg-deg)+'deg)'
+    //смещение на которое должен уехать каждый круг
+    var delta = oldDeg - deg;
+    var wheels = $('.wheel_dom');
+    wheels.each(function(i){
+        var wheel = wheels[i];
+        
+        for(var i=0; i<Math.abs(delta); i++){
+            setTimeout(function(){
+                var nowDeg = parseInt($(wheel).attr('deg'));
+                if(delta<0){
+                    $(wheel).attr('deg', nowDeg - 1);
+                }else{
+                    $(wheel).attr('deg', nowDeg + 1);
+                }
+
+                /*var nowDeg = parseInt($(wheel).attr('deg'));
+                if(nowDeg==0){
+                    nowDeg = 180;
+                }
+                if(nowDeg==180){
+                    nowDeg = 0;
+                }*/
+            }, i)
+            
+           
+        }
     })
 
 
