@@ -119,14 +119,14 @@ function clickWheel(el){
                     $(wheel).attr('deg', nowDeg + 1);
                 }
 
-                /*var nowDeg = parseInt($(wheel).attr('deg'));
-                if(nowDeg==0){
-                    nowDeg = 180;
+                if($(wheel).attr('deg') == 0){
+                     $(wheel).attr('deg', 179)
                 }
-                if(nowDeg==180){
-                    nowDeg = 0;
-                }*/
-            }, i)//проблема в том что SetTimeout работает но через 1 сек пролетает сразу все циклы ахахх. Нужно чтобы каждый цикл проходил через deltaTime
+                if($(wheel).attr('deg') == 180){
+                     $(wheel).attr('deg', 1)
+                }
+
+            }, i*3)
             
            
         }
