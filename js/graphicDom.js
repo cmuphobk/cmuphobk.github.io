@@ -1,7 +1,7 @@
 var zIndexPhoto = 0;
 var oldDeg = 90;
 var isScrolled = false;
-
+var stepG = 0;
 $(document).ready(function(){
 
     $(window).resize(function(){
@@ -35,11 +35,11 @@ $(document).ready(function(){
 
 
 function initWheels(){
-    var step = 180 / ($('.wheel_dom').length + 1);
+    stepG = 180 / ($('.wheel_dom').length + 1);
     var wheels = $('.wheel_dom');
     wheels.each(function(i){
         var wheel = wheels[i];
-        $(wheel).attr('deg', step * (i+1))
+        $(wheel).attr('deg', stepG * (i+1))
     })
     drawCircles();
     //массив кругов на колесе
@@ -120,13 +120,13 @@ function clickWheel(el){
                 }
 
                 if($(wheel).attr('deg') == 0){
-                     $(wheel).attr('deg', 179)
+                     $(wheel).attr('deg', 180-stepG)
                 }
                 if($(wheel).attr('deg') == 180){
-                     $(wheel).attr('deg', 1)
+                     $(wheel).attr('deg', stepG)
                 }
 
-            }, i*3)
+            }, i*5)
             
            
         }
