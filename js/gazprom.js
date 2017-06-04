@@ -44,7 +44,64 @@ function getQueryParams( name, url ) {
     return results == null ? null : results[1];
 }
 
+//ApiKey:0uSqawSFlM35OUbC9svTxA
+function sendEmail(req){
+    emailjs.send("gmail","gazprom",req).then(function(response) {
+        console.log("SUCCESS", response);
+    }, 
+    function(error) {
+        console.log("FAILED", error);
+    });
+}
 
+var req = {
+    reply_to: '',
+    copy_to: 'sifika90@gmail.com'
+}
+$('.sendRu').click(function(){
+    Object.assign(req,{
+       Name: $('#name_ru').val(),
+       Country: $('#country_ru').val(),
+       City: $('#city_ru').val(),
+       Workplace: $('#workplace_ru').val(),
+       Position: $('#position_ru').val(),
+       Experience: $('#experience_ru').val(),
+       AcDeg: $('#ac_deg_ru').val(),
+       AcRank: $('#ac_rank_ru').val(),
+       Email: $('#email_ru').val(),
+       Phone: $('#phone_ru').val(),
+       Fax: $('#fax_ru').val(),
+       Index: $('#index_ru').val(),
+       Date: $('#date_ar_ru').val() + '/' + $('#date_d_ru').val(),
+       Time: $('#time_ar_ru').val() + '/' + $('#time_d_ru').val(),
+       AviaTrain: $('#avia_ar_ru').val() + '/' + $('#avia_d_ru').val(),
+       Placement: $('#place_ru').val(),
+       DOC: $('#date_ru').val()
+    })
+    sendEmail(req);
+})
+$('.sendEn').click(function(){  
+    Object.assign(req,{
+       Name: $('#name_en').val(),
+       Country: $('#country_en').val(),
+       City: $('#city_en').val(),
+       Workplace: $('#workplace_en').val(),
+       Position: $('#position_en').val(),
+       Experience: $('#experience_en').val(),
+       AcDeg: $('#ac_deg_en').val(),
+       AcRank: $('#ac_rank_en').val(),
+       Email: $('#email_en').val(),
+       Phone: $('#phone_en').val(),
+       Fax: $('#fax_en').val(),
+       Index: $('#index_en').val(),
+       Date: $('#date_ar_en').val() + '/' + $('#date_d_en').val(),
+       Time: $('#time_ar_en').val() + '/' + $('#time_d_en').val(),
+       AviaTrain: $('#avia_ar_en').val() + '/' + $('#avia_d_en').val(),
+       Placement: $('#place_en').val(),
+       DOC: $('#date_en').val()
+    })
+    sendEmail(req);
+})
 
 });
 
