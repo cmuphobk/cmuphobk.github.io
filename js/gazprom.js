@@ -47,10 +47,10 @@ function getQueryParams( name, url ) {
 //ApiKey:0uSqawSFlM35OUbC9svTxA
 function sendEmail(req){
     emailjs.send("gmail","gazprom",req).then(function(response) {
-        console.log("SUCCESS", response);
+        alert(isRu?'Регистрация прошла успешно. Спасибо за регистрацию.':'Registration has been successful. Thank you for registration.')
     }, 
     function(error) {
-        console.log("FAILED", error);
+        alert(isRu?'Ошибка связи с сервером. Пожалуйста повторите попытку позже.':'Network error. Please try again later.')
     });
 }
 
