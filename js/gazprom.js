@@ -55,7 +55,7 @@ function sendEmail(req){
 }
 
 var req = {
-    reply_to: '',
+    reply_to: 'sifika90@gmail.com',
     copy_to: 'sifika90@gmail.com'
 }
 $('.sendRu').click(function(){

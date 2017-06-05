@@ -120,10 +120,22 @@ function clickWheel(el){
                 }
 
                 if($(wheel).attr('deg') == 0){
-                     $(wheel).attr('deg', 180-stepG)
+                    for(var j = 1; j <= stepG; j++){
+                        var selfJ = j;
+                        setTimeout(function(){
+                            $(wheel).attr('deg', 180-selfJ)
+                        }, selfJ*5)
+                    }
+                    
+                     
                 }
                 if($(wheel).attr('deg') == 180){
-                     $(wheel).attr('deg', stepG)
+                    for(var j = 1; j <= stepG; j++){
+                        var selfJ = j;
+                        setTimeout(function(){
+                            $(wheel).attr('deg', selfJ)
+                        }, selfJ*5)
+                    }
                 }
 
             }, i*5)
