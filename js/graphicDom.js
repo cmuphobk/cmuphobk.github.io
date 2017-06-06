@@ -279,6 +279,7 @@ function getRotationDegrees(obj) {
     element.isClick = false;
     element.clickX = null;
     element.clickY = null;
+    
     $(element).off('mousedown')
     $(element).off('touchmove')
 
@@ -359,6 +360,9 @@ function addWheel(dom){
         })
 
         element.addEventListener('touchend', function(e){
+            oldLengthHeight = null;
+            oldLengthWidth = null;
+            oldRad = null;
             removeDraggableHandle(element);
         });
         
