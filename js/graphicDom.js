@@ -241,7 +241,7 @@ function addResizeHandler(arrTouches, element){
         if(oldLengthHeight != null){
             var delta = oldLengthHeight - lengthByHeight;
             if(delta != 0){
-                var otn = $(element).height()/$(element).width();           
+                var otn = $(element).width()/$(element).height();           
                 $(element).css('height', height - delta)
                 $(element).css('width', $(element).height() * otn)
             }   
@@ -254,7 +254,7 @@ function addResizeHandler(arrTouches, element){
         if(oldLengthWidth != null){
             var delta = oldLengthWidth - lengthByWidth;
             if(delta != 0){
-                var otn = $(element).width()/$(element).height(); 
+                var otn = $(element).height()/$(element).width(); 
                 $(element).css('width', width - delta)
                 $(element).css('height', $(element).width() * otn)
             }   
