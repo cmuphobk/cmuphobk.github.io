@@ -92,7 +92,14 @@ function clickTimeline1(){
     video.play();
     $(video).removeClass('hidden_type')
     video.addEventListener('timeupdate', sec13)
-
-    window.initFirstPage();
+    //проверяем существует ли функция инициализации первого экрана 
+    if(typeof(window.initFirstPage) == 'function'){
+        window.initFirstPage();
+    }else{
+        setTimeout(function(){
+            clickTimeline1()
+        }, 300)
+    }
 }
+
 

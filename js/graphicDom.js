@@ -9,56 +9,56 @@ var oldLengthWidth = null;
 var oldRad = null;
 
 $(document).ready(function(){
-
-    window.initFirstPage = function (){
-        zIndexPhoto = 0;
-        oldDeg = 90;
-        isScrolled = false;
-        stepG = 0;
-        //при ресайзе окна перерисоываваем колесо, если надо
-        $(window).resize(function(){
-            setTimeout(function(){
-                initWheels();
-            }, 1500);
-        })
-
-        //обрыв обработки евента при попадании на документ
-        document.body.addEventListener('touchmove', function(event) {
-            event.preventDefault();
-        }, false); 
-
-        //попытка залочить нативное перетягивание картинки (неудача, нереально)
-        document.getElementsByTagName('img').ondragstart = function() { return false; };
-
-        //клик по кнопке "Выход" - режим колеса
-        $('.exit').click(function(e){  
-            $('.wheel_dom .image').css({
-                'display':'none',
-            })
-            $('.card').remove();
-            
-            $('.wheel').css({
-                'margin-left': '-100vw'
-            })
-            setTimeout(function(){
-                $('.video_body').removeClass('blur');
-                $('.wheel_body').addClass('hidden_type');
-            }, 1000)
-            
-            $(window).off('mousemove');
-        })
-        
-        initWheels();
-        //в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
-        var interval = setInterval(function(){
-            drawCircles();
-        },1)
-        window.allIntervals.push(interval);
-    }
-
-    window.initFirstPage();
+ 
+    initFirstPage();
     
 });
+
+function initFirstPage(){
+    zIndexPhoto = 0;
+    oldDeg = 90;
+    isScrolled = false;
+    stepG = 0;
+    //при ресайзе окна перерисоываваем колесо, если надо
+    $(window).resize(function(){
+        setTimeout(function(){
+            initWheels();
+        }, 1500);
+    })
+
+    //обрыв обработки евента при попадании на документ
+    document.body.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, false); 
+
+    //попытка залочить нативное перетягивание картинки (неудача, нереально)
+    document.getElementsByTagName('img').ondragstart = function() { return false; };
+
+    //клик по кнопке "Выход" - режим колеса
+    $('.exit').click(function(e){  
+        $('.wheel_dom .image').css({
+            'display':'none',
+        })
+        $('.card').remove();
+        
+        $('.wheel').css({
+            'margin-left': '-100vw'
+        })
+        setTimeout(function(){
+            $('.video_body').removeClass('blur');
+            $('.wheel_body').addClass('hidden_type');
+        }, 1000)
+        
+        $(window).off('mousemove');
+    })
+    
+    initWheels();
+    //в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
+    var interval = setInterval(function(){
+        drawCircles();
+    },1)
+    window.allIntervals.push(interval);
+}
 
 //рисуем шарики по заданному углу, навешиваем обработчики кликов по шарикам
 function initWheels(){
