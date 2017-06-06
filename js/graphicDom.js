@@ -246,8 +246,12 @@ function addResizeHandler(arrTouches, element){
     //TODO: rotate?
     if(oldRad != null){
         var deltaRad = (oldRad - rad);
-        var deltaUgol = deltaRad*57.2958
-        console.log(deltaUgol)
+        var deltaUgol = deltaRad*57.2958;
+        $(element).css({
+            transform: 'rotate('+deltaUgol+')'
+        })
+        /*var deltaUgol = deltaRad*57.2958
+        console.log(deltaUgol)*/
     }
     
 
