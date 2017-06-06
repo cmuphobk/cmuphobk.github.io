@@ -119,25 +119,20 @@ function clickWheel(el){
                     $(wheel).attr('deg', nowDeg + 1);
                 }
 
-                if($(wheel).attr('deg') == 0){
-                    for(var j = 1; j <= stepG; j++){
-                        var selfJ = j;
-                        setTimeout(function(){
-                            $(wheel).attr('deg', 180-selfJ)
-                        }, selfJ*5)
-                    }
+                function setTimeoutDeg(j, isTop){
                     
-                     
-                }
-                if($(wheel).attr('deg') == 180){
-                    for(var j = 1; j <= stepG; j++){
-                        var selfJ = j;
-                        setTimeout(function(){
-                            $(wheel).attr('deg', selfJ)
-                        }, selfJ*5)
-                    }
+                    setTimeout(function(){
+                        $(wheel).attr('deg', isTop?180-j:j)
+                    }, j*5)
+                    if(j < stepG) setTimeoutDeg(j+1, isTop)
                 }
 
+                if($(wheel).attr('deg') == 0){
+                    setTimeoutDeg(1, true);
+                }
+                if($(wheel).attr('deg') == 180){
+                    setTimeoutDeg(1, false)
+                }
             }, i*5)
             
            
@@ -212,6 +207,7 @@ function addDraggableHandler(e, element){
 //обработчик мультитач
 var oldLengthHeight = null;
 var oldLengthWidth = null;
+var oldRad = null;
 function addResizeHandler(arrTouches, element){
     var width = $(element).width();
     var height = $(element).height();
@@ -241,6 +237,19 @@ function addResizeHandler(arrTouches, element){
         }
         oldLengthWidth = lengthByWidth;
     }
+
+    
+    var fTop = Math.abs(secondTouch.pageY - firstTouch.pageY);
+    var fBot = Math.pow(Math.pow(secondTouch.pageX - firstTouch.pageX, 2) + Math.pow(secondTouch.pageY - firstTouch.pageY), 0.5);
+    var f = fTop/fBot;
+    var rad = Math.asin(f);
+    //TODO: rotate?
+    if(oldRad != null){
+        var deltaRad = oldRad - rad;
+    }
+    
+
+    oldRad = rad;
 }
 
 //просто ансетит кастомные параметры и удаляет листенер mousemove с окна
@@ -315,6 +324,7 @@ function addWheel(dom){
                                 addDraggableHandler(e, element);
                                 oldLengthHeight = null;
                                 oldLengthWidth = null;
+                                oldRad = null;
                             }else if(arrTouches.length == 2){
                                 addResizeHandler(arrTouches, element)
                             }
