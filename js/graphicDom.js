@@ -2,42 +2,61 @@ var zIndexPhoto = 0;
 var oldDeg = 90;
 var isScrolled = false;
 var stepG = 0;
+
+//обработчик мультитач
+var oldLengthHeight = null;
+var oldLengthWidth = null;
+var oldRad = null;
+
 $(document).ready(function(){
 
-    //при ресайзе окна перерисоываваем колесо, если надо
-    $(window).resize(function(){
-        setTimeout(function(){
-            initWheels();
-        }, 1500);
-    })
-
-    //обрыв обработки евента при попадании на документ
-    document.body.addEventListener('touchmove', function(event) {
-        event.preventDefault();
-    }, false); 
-
-    //попытка залочить нативное перетягивание картинки (неудача, нереально)
-    document.getElementsByTagName('img').ondragstart = function() { return false; };
-
-    //клик по кнопке "Выход" - режим колеса
-    $('.exit').click(function(e){  
-        $('.wheel_dom .image').css({
-            'display':'none',
+    window.initFirstPage = function (){
+        zIndexPhoto = 0;
+        oldDeg = 90;
+        isScrolled = false;
+        stepG = 0;
+        //при ресайзе окна перерисоываваем колесо, если надо
+        $(window).resize(function(){
+            setTimeout(function(){
+                initWheels();
+            }, 1500);
         })
-        $('.card').remove();
-        
-        $('.wheel').css({
-            'margin-left': '-100vw'
+
+        //обрыв обработки евента при попадании на документ
+        document.body.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+        }, false); 
+
+        //попытка залочить нативное перетягивание картинки (неудача, нереально)
+        document.getElementsByTagName('img').ondragstart = function() { return false; };
+
+        //клик по кнопке "Выход" - режим колеса
+        $('.exit').click(function(e){  
+            $('.wheel_dom .image').css({
+                'display':'none',
+            })
+            $('.card').remove();
+            
+            $('.wheel').css({
+                'margin-left': '-100vw'
+            })
+            setTimeout(function(){
+                $('.video_body').removeClass('blur');
+                $('.wheel_body').addClass('hidden_type');
+            }, 1000)
+            
+            $(window).off('mousemove');
         })
-        setTimeout(function(){
-            $('.video_body').removeClass('blur');
-            $('.wheel_body').addClass('hidden_type');
-        }, 1000)
         
-        $(window).off('mousemove');
-    })
-    
-    initWheels();
+        initWheels();
+        //в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
+        var interval = setInterval(function(){
+            drawCircles();
+        },1)
+        window.allIntervals.push(interval);
+    }
+
+    window.initFirstPage();
     
 });
 
@@ -118,10 +137,7 @@ function drawCircles(){
     });
 }
 
-//в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
-setInterval(function(){
-    drawCircles();
-},1)
+
 
 //обработка нажатия на круг (куча анимаций)
 function clickWheel(el){
@@ -230,9 +246,6 @@ function addDraggableHandler(e, element){
 }
 
 //обработчик мультитач
-var oldLengthHeight = null;
-var oldLengthWidth = null;
-var oldRad = null;
 function addResizeHandler(arrTouches, element){
     var width = $(element).width();
     var height = $(element).height();
@@ -317,6 +330,10 @@ function getRotationDeg(obj) {
     element.clickX = null;
     element.clickY = null;
     
+    oldLengthHeight = null;
+    oldLengthWidth = null;
+    oldRad = null;
+    
     $(element).off('mousedown')
     $(element).off('touchmove')
 
@@ -385,9 +402,6 @@ function addWheel(dom){
                             if(arrTouches.length <= 1){
                                 e = e.changedTouches[0];
                                 addDraggableHandler(e, element);
-                                oldLengthHeight = null;
-                                oldLengthWidth = null;
-                                oldRad = null;
                             }else if(arrTouches.length == 2){
                                 addResizeHandler(arrTouches, element)
                             }
@@ -399,10 +413,7 @@ function addWheel(dom){
                 
         })
         //обрубаем листенеры
-        element.addEventListener('touchend', function(e){
-            oldLengthHeight = null;
-            oldLengthWidth = null;
-            oldRad = null;
+        element.addEventListener('touchend', function(e){          
             removeDraggableHandle(element);
         });
         
