@@ -338,7 +338,7 @@ function addWheel(dom){
                 setTimeout(function(){
                     if(element.isClick == false){
                         //TODO: openCard
-                        //openCard(element);
+                        openCard(element);
                     }else{
                         element.addEventListener('touchmove', function(e){
                             var arrTouches = e.targetTouches;
