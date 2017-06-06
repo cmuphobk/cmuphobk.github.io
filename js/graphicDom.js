@@ -8,8 +8,6 @@ var oldLengthHeight = null;
 var oldLengthWidth = null;
 var oldRad = null;
 
-
-
 //Объект первой страницы
 function FirstPage(){
     if (FirstPage.self) {
@@ -18,8 +16,71 @@ function FirstPage(){
     FirstPage.self = this;
     var self = this;
     
+    self.video = null;
+    self.videoSrc = null;
+    self.buttons = null;
+    self.seconds = null;
+
+    //функция вызываемая когда видео проигрывается до заданной секунды
     
-    self.initFirstPage = function(){
+    self.secN = function(){
+        $('.video_body').children('button').remove();
+        var buttonsHtml = self.buttons.map(function(el){
+            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.firstPage.readyForWheel(\''+el.html+'\')"></button>'
+        })
+        for(var i in buttonsHtml){
+            $('.video_body').append(
+                buttonsHtml[i]
+            );     
+        }
+         
+    }
+
+    //функция для построения колеса, вызывается при нажатии на кнопку
+    self.readyForWheel = function(url){
+        $('.wheel').children().remove();
+        var data = appInstance.getContentFromFile(url)
+        $('.wheel').html(data);
+
+        self.video.pause();
+        $('.video_body').addClass('blur');
+        $('.wheel_body').removeClass('hidden_type');
+        setTimeout(function(){
+            $('.wheel').css({
+                'margin-left': '0px'
+            })
+        }, 100)
+
+        self.initWheels();
+
+        appInstance.clearIntervalsAll();
+        //в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
+        var interval = setInterval(function(){
+            self.drawCircles();
+        },1)
+        appInstance.allIntervals.push(interval);
+    } 
+    
+    
+    self.initFirstPage = function(videoUrl, buttons, seconds){
+        
+        self.buttons = buttons;
+        self.seconds = seconds;
+
+        self.video = document.getElementById('video');
+        self.videoSrc = document.createElement('source');
+        self.videoSrc.setAttribute('id', 'videoSrc')
+        self.video.appendChild(self.videoSrc);
+        self.videoSrc.setAttribute('src', videoUrl);
+        self.video.play();
+        $(self.video).removeClass('hidden_type');
+        self.video.addEventListener('timeupdate', function(e){
+            if(e.currentTarget.currentTime >= self.seconds){
+                self.secN();
+                $(self.video).unbind('timeupdate');
+            }
+        })
+
         zIndexPhoto = 0;
         oldDeg = 90;
         isScrolled = false;
@@ -39,31 +100,7 @@ function FirstPage(){
 
         //попытка залочить нативное перетягивание картинки (неудача, нереально)
         document.getElementsByTagName('img').ondragstart = function() { return false; };
-
-        //клик по кнопке "Выход" - режим колеса
-        $('.exit').off('click').click(function(e){  
-            $('.wheel_dom .image').css({
-                'display':'none',
-            })
-            $('.card').remove();
-            
-            $('.wheel').css({
-                'margin-left': '-100vw'
-            })
-            setTimeout(function(){
-                $('.video_body').removeClass('blur');
-                $('.wheel_body').addClass('hidden_type');
-            }, 1000)
-            
-            $(window).off('mousemove');
-        })
         
-        self.initWheels();
-        //в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
-        var interval = setInterval(function(){
-            self.drawCircles();
-        },1)
-        window.allIntervals.push(interval);
     }
 
     //рисуем шарики по заданному углу, навешиваем обработчики кликов по шарикам

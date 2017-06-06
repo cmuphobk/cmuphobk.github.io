@@ -5,7 +5,7 @@
     border: none;
     outline: none;
 }
-.button1{
+/*.button1{
     height: 100px;
     width: 340px;
     top: 40px;
@@ -35,7 +35,7 @@
     width: 420px;
     top: 525px;
     left: 580px;
-}
+}*/
 .timeline .back{
     background-image: url(../img/rzhdtimeline.png);
     background-size: 100% 100%;
