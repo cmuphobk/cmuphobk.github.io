@@ -264,7 +264,7 @@ function addResizeHandler(arrTouches, element){
 
     
     var ft = firstTouch.pageX<secondTouch.pageX?firstTouch:secondTouch;
-    var st = firstTouch.pageX>secondTouch.pageX?firstTouch:secondTouch;
+    var st = firstTouch.pageX<secondTouch.pageX?secondTouch:firstTouch;
     var fTop = Math.abs(st.pageY - ft.pageY);
     var fBot = Math.pow(Math.pow(st.pageX - ft.pageX, 2) + Math.pow(st.pageY - ft.pageY, 2), 0.5);
     var f = fTop/fBot;
