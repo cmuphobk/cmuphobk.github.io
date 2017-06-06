@@ -321,7 +321,7 @@ function addWheel(dom){
                 setTimeout(function(){
                     if(element.isClick == false){
                         //TODO: openCard
-                        openCard(element);
+                        //openCard(element);
                     }else{
                         element.addEventListener('touchmove', function(e){
                             var arrTouches = e.targetTouches;
@@ -349,10 +349,7 @@ function addWheel(dom){
     })
 }
 
-function openCardMouse(element, callback){
-    openCard(element)
-    typeof(callback)=='function'&&callback();
-}
+
 function openCard(element){
     $('.card').remove();
     var srcCard = $(element).attr('card');
