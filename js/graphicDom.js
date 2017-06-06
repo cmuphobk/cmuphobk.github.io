@@ -21,11 +21,15 @@ $(document).ready(function(){
             'display':'none',
         })
         $('.card').remove();
-        $('.wheel_body').addClass('hidden_type');
+        
         $('.wheel').css({
             'margin-left': '-100vw'
         })
-        $('.video_body').removeClass('blur');
+        setTimeout(function(){
+            $('.video_body').removeClass('blur');
+            $('.wheel_body').addClass('hidden_type');
+        }, 1000)
+        
         $(window).off('mousemove');
     })
     
