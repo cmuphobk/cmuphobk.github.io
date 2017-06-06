@@ -86,6 +86,22 @@ function drawCircles(){
             X = -X;
         }
 
+        if(parseFloat($(elementWheel).attr('deg')) >= 70 && parseFloat($(elementWheel).attr('deg')) <= 110){
+            var deltaDeg = Math.abs(90 - parseFloat($(elementWheel).attr('deg')));
+            var koeff = 1+Math.abs(deltaDeg - 20)/90;
+            var sizeOld = 15;
+            var newSize = sizeOld * koeff;
+            $(elementWheel).css({
+                width: newSize + 'vh',
+                height: newSize + 'vh'
+            });
+        }else{
+            $(elementWheel).css({
+                width: '15vh',
+                height: '15vh'
+            });
+        }
+
         $(elementWheel).css({
             top:Y - parseInt($(elementWheel).height()/2),
             left:X - parseInt($(elementWheel).width()/2) + parseInt(window.innerHeight/2)
