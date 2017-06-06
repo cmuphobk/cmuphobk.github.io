@@ -265,8 +265,8 @@ function addResizeHandler(arrTouches, element){
     
     var ft = firstTouch.pageX<secondTouch.pageX?firstTouch:secondTouch;
     var st = firstTouch.pageX>secondTouch.pageX?firstTouch:secondTouch;
-    var fTop = Math.abs(secondTouch.pageY - firstTouch.pageY);
-    var fBot = Math.pow(Math.pow(secondTouch.pageX - firstTouch.pageX, 2) + Math.pow(secondTouch.pageY - firstTouch.pageY, 2), 0.5);
+    var fTop = Math.abs(st.pageY - ft.pageY);
+    var fBot = Math.pow(Math.pow(st.pageX - ft.pageX, 2) + Math.pow(st.pageY - ft.pageY, 2), 0.5);
     var f = fTop/fBot;
     var rad = Math.asin(f);
     //TODO: rotate?
