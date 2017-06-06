@@ -243,7 +243,7 @@ function addResizeHandler(arrTouches, element){
             if(delta != 0){
                 var otn = $(element).width()/$(element).height();
                 var newH = height - delta;
-                if(newH >= 20 && newH <= 800){
+                if(newH >= 60 && newH <= 800){
                     $(element).css('height', newH)
                 }           
             }   
@@ -258,7 +258,7 @@ function addResizeHandler(arrTouches, element){
             if(delta != 0){
                 var otn = $(element).height()/$(element).width();
                 var newH = (width - delta) * otn;
-                 if(newH >= 20 && newH <= 800){ 
+                 if(newH >= 60 && newH <= 800){ 
                     $(element).css('height', newH)
                  }
             }   
