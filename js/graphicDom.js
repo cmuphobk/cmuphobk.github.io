@@ -4,18 +4,22 @@ var isScrolled = false;
 var stepG = 0;
 $(document).ready(function(){
 
+    //при ресайзе окна перерисоываваем колесо, если надо
     $(window).resize(function(){
         setTimeout(function(){
             initWheels();
         }, 1500);
     })
 
+    //обрыв обработки евента при попадании на документ
     document.body.addEventListener('touchmove', function(event) {
         event.preventDefault();
     }, false); 
 
+    //попытка залочить нативное перетягивание картинки (неудача, нереально)
     document.getElementsByTagName('img').ondragstart = function() { return false; };
 
+    //клик по кнопке "Выход" - режим колеса
     $('.exit').click(function(e){  
         $('.wheel_dom .image').css({
             'display':'none',
@@ -37,7 +41,7 @@ $(document).ready(function(){
     
 });
 
-
+//рисуем шарики по заданному углу, навешиваем обработчики кликов по шарикам
 function initWheels(){
     stepG = 180 / ($('.wheel_dom').length + 1);
     var wheels = $('.wheel_dom');
@@ -45,13 +49,13 @@ function initWheels(){
         var wheel = wheels[i];
         $(wheel).attr('deg', stepG * (i+1))
     })
+    //отрисовка
     drawCircles();
     //массив кругов на колесе
     var arrWheels = $('.wheel_dom');
     arrWheels.each(function(i){
         //круг
         var elementWheel = arrWheels[i];
-
         //клик по шарику
         elementWheel.addEventListener('mousedown', function(e){
             if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
@@ -89,7 +93,7 @@ function drawCircles(){
         if(parseFloat($(elementWheel).attr('deg')) > 180){
             X = -X;
         }
-
+        //Если приближаемся к 90deg, считаем коеффициент приближени и увеличиваем шарик
         if(parseFloat($(elementWheel).attr('deg')) >= 70 && parseFloat($(elementWheel).attr('deg')) <= 110){
             var deltaDeg = Math.abs(90 - parseFloat($(elementWheel).attr('deg')));
             var koeff = 1+Math.abs(deltaDeg - 20)/90;
@@ -114,6 +118,7 @@ function drawCircles(){
     });
 }
 
+//в интервале перерисоываем шарики, чтобы можно было менять атрибуты рилтайм
 setInterval(function(){
     drawCircles();
 },1)
@@ -237,6 +242,7 @@ function addResizeHandler(arrTouches, element){
     var lengthByHeight = Math.abs(firstTouch.pageY - secondTouch.pageY);
     var lengthByWidth = Math.abs(firstTouch.pageX - secondTouch.pageX);
       
+    //ресайз по высоте
     if(lengthByHeight > lengthByWidth)  {
         if(oldLengthHeight != null){
             var delta = oldLengthHeight - lengthByHeight;
@@ -251,7 +257,7 @@ function addResizeHandler(arrTouches, element){
         oldLengthHeight = lengthByHeight;
     }
     
-    
+    //ресайз по ширине
     if(lengthByWidth > lengthByHeight)  {
         if(oldLengthWidth != null){
             var delta = oldLengthWidth - lengthByWidth;
@@ -266,19 +272,19 @@ function addResizeHandler(arrTouches, element){
         oldLengthWidth = lengthByWidth;
     }
 
-    
+    //rotate - вычисляем угол между тачами, высчитываем delta и поворачиваем
     var ft = firstTouch.pageX<secondTouch.pageX?firstTouch:secondTouch;
     var st = firstTouch.pageX<secondTouch.pageX?secondTouch:firstTouch;
     var fTop = Math.abs(st.pageY - ft.pageY);
     var fBot = Math.pow(Math.pow(st.pageX - ft.pageX, 2) + Math.pow(st.pageY - ft.pageY, 2), 0.5);
     var f = fTop/fBot;
     var rad = Math.asin(f);
-    //TODO: rotate?
+    
     if(oldRad != null){
         var deltaRad = (oldRad - rad);
         var deltaUgol = deltaRad*57.2958;
         if(deltaRad != 0){
-            var elRot = getRotationDegrees($(element));
+            var elRot = getRotationDeg($(element));
             $(element).css({
                 transform: 'rotate('+(elRot+deltaUgol)+'deg)'
             })
@@ -289,7 +295,8 @@ function addResizeHandler(arrTouches, element){
     oldRad = rad;
 }
 
-function getRotationDegrees(obj) {
+//получить поворот элемента по элементу
+function getRotationDeg(obj) {
     var matrix = obj.css("-webkit-transform") ||
     obj.css("-moz-transform")    ||
     obj.css("-ms-transform")     ||
@@ -331,6 +338,7 @@ function addWheel(dom){
         element.startPosY = null;
 
         $(element).off('mousedown')
+        //события мыши по картинкам - выключил ибо пересекаются с тач событиями на стенде
         /*element.addEventListener('mousedown', function(e){
 
                 if(!element.isClick){
@@ -354,7 +362,7 @@ function addWheel(dom){
 
         }, false);*/
         
-
+        //навешиваем обработку тач событий
         element.addEventListener('touchstart', function(e){
                 e = e.changedTouches[0];
                 element.isClick = true;
@@ -365,13 +373,15 @@ function addWheel(dom){
                 zIndexPhoto++;
                 $(element).css('z-index', zIndexPhoto);
 
+                //если после клика прошло 300ms и уже отжат - показываем карточку иначе двигаем или ресайзим
                 setTimeout(function(){
                     if(element.isClick == false){
-                        //TODO: openCard
+                        // openCard  - открываем карточку
                         openCard(element);
                     }else{
                         element.addEventListener('touchmove', function(e){
                             var arrTouches = e.targetTouches;
+                            //если тач один - двигаем, если два ресайзим или поворачиваем
                             if(arrTouches.length <= 1){
                                 e = e.changedTouches[0];
                                 addDraggableHandler(e, element);
@@ -384,11 +394,11 @@ function addWheel(dom){
                             
                         }, false);
                     }
-                },500)
+                },200)
 
                 
         })
-
+        //обрубаем листенеры
         element.addEventListener('touchend', function(e){
             oldLengthHeight = null;
             oldLengthWidth = null;
@@ -399,7 +409,7 @@ function addWheel(dom){
     })
 }
 
-
+//открываем карточку из фотографии
 function openCard(element){
     $('.card').remove();
     var srcCard = $(element).attr('card');
