@@ -245,8 +245,9 @@ function addResizeHandler(arrTouches, element){
     var rad = Math.asin(f);
     //TODO: rotate?
     if(oldRad != null){
-        var deltaRad = (oldRad - rad)*57.2958;
-        console.log(deltaRad)
+        var deltaRad = (oldRad - rad);
+        var deltaUgol = deltaRad*57.2958
+        console.log(deltaUgol)
     }
     
 
