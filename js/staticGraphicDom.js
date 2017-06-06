@@ -37,6 +37,8 @@ $(document).ready(function(){
         })     
     })
     $('.timeline1').click();
+
+    
 })
 
 //функция обработчик клика на первую кнопку (1837год)
@@ -93,13 +95,8 @@ function clickTimeline1(){
     $(video).removeClass('hidden_type')
     video.addEventListener('timeupdate', sec13)
     //проверяем существует ли функция инициализации первого экрана 
-    if(typeof(window.initFirstPage) == 'function'){
-        window.initFirstPage();
-    }else{
-        setTimeout(function(){
-            clickTimeline1()
-        }, 300)
-    }
+    var firstPage = new FirstPage();
+    firstPage.initFirstPage();
 }
 
 
