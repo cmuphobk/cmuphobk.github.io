@@ -42,7 +42,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 70px;
+    height: 60px;
     width: 100%;
     z-index: 4;
     cursor: pointer;
@@ -50,7 +50,7 @@
 .timeline button{
     position: fixed;
     bottom: 0;
-    height: 70px;
+    height: 60px;
     border: none;
     background: none;
     outline: none;
