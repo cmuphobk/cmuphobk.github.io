@@ -152,6 +152,10 @@ function FirstPage(){
     }
 
     self.wheelMove = function(el){
+        var d = Math.abs(el.startSwipeY - el.endSwipeY);
+        if(el.endSwipeY == null || d < 15){
+            return;
+        }
         var newWheel;
         //свайп вниз: колесо против часовой
         if(el.startSwipeY < el.endSwipeY){
