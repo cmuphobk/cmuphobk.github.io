@@ -160,7 +160,7 @@ function FirstPage(){
         //свайп вниз: колесо против часовой
         if(el.startSwipeY < el.endSwipeY){
             if(self.currentWheel){
-                newWheel = self.currentWheel.after();
+                newWheel = self.currentWheel.nextElementSibling;
             }else{
                 var wheels = $('.wheel_dom');
                 var minWheel = null;
@@ -182,7 +182,7 @@ function FirstPage(){
         //свайп вверх: колесо по часовой
         else if(el.startSwipeY > el.endSwipeY){
             if(self.currentWheel){
-                newWheel = self.currentWheel.before();   
+                newWheel = self.currentWheel.previousElementSibling;   
             }else{
                 var wheels = $('.wheel_dom');
                 var minWheel = null;
