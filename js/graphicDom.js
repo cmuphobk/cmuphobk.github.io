@@ -127,7 +127,7 @@ function FirstPage(){
                     self.clickWheel(this);
                 }
             })
-            document.getElementsByClassName('wheel')[0].lastSwipeY = null;
+            
             document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){
                 this.startSwipeY = null;
                 this.endSwipeY = null;
@@ -154,7 +154,7 @@ function FirstPage(){
     self.wheelMove = function(el){
         var newWheel;
         //свайп вниз: колесо против часовой
-        if(this.startSwipeY < this.endSwipeY){
+        if(el.startSwipeY < el.endSwipeY){
             if(self.currentWheel){
                 newWheel = self.currentWheel.after();
             }else{
@@ -176,7 +176,7 @@ function FirstPage(){
             }
         }
         //свайп вверх: колесо по часовой
-        else if(this.startSwipeY > this.endSwipeY){
+        else if(el.startSwipeY > el.endSwipeY){
             if(self.currentWheel){
                 newWheel = self.currentWheel.before();   
             }else{
