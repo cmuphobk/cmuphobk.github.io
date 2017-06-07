@@ -125,9 +125,17 @@ function FirstPage(){
                     self.clickWheel(this);
                 }
             })
+            document.getElementsByClassName('wheel')[0].addEventListener('touchmove', function(e){
+                self.wheelMove(e);
+            })
+
             //мутим на все картинки dragging
             self.addWheel($(elementWheel));
         });
+    }
+
+    self.wheelMove = function(e){
+        
     }
 
     self.drawCircles = function(){
