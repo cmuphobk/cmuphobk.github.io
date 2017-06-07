@@ -21,6 +21,8 @@ function FirstPage(){
     self.buttons = null;
     self.seconds = null;
 
+    self.currentWheel = null;
+
     //функция вызываемая когда видео проигрывается до заданной секунды
     
     self.secN = function(){
@@ -125,8 +127,16 @@ function FirstPage(){
                     self.clickWheel(this);
                 }
             })
-            document.getElementsByClassName('wheel')[0].addEventListener('touchmove', function(e){
-                self.wheelMove(e);
+            document.getElementsByClassName('wheel')[0].lastSwipeY = null;
+            document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){
+                var touch = e.touches[0];
+                this.startSwipeY = touch.pageY;
+            })
+            
+            document.getElementsByClassName('wheel')[0].addEventListener('touchend', function(e){
+                var touch = e.touches[0];
+                this.endSwipeY = touch.pageY;
+                self.wheelMove(this);
             })
 
             //мутим на все картинки dragging
@@ -134,8 +144,53 @@ function FirstPage(){
         });
     }
 
-    self.wheelMove = function(e){
-        
+    self.wheelMove = function(el){
+        var newWheel;
+        //свайп вниз: колесо против часовой
+        if(this.startSwipeY < this.endSwipeY){
+            if(self.currentWheel){
+                newWheel = self.currentWheel.after();
+            }else{
+                var wheels = $('.wheel_dom');
+                var minWheel = null;
+                var minDiff = null;
+                wheels.each(function(el){
+                    var wheel = wheels[el];
+                    var deg = parseInt($(wheel).attr('deg'));
+                    var diff = deg - 90;
+                    if(diff < 0){
+                        if(minDiff == null || minDiff > diff){
+                            minDiff = diff;
+                            minWheel = wheel;
+                        }
+                    }
+                })
+                newWheel = minWheel;
+            }
+        }
+        //свайп вверх: колесо по часовой
+        else if(this.startSwipeY > this.endSwipeY){
+            if(self.currentWheel){
+                newWheel = self.currentWheel.before();   
+            }else{
+                var wheels = $('.wheel_dom');
+                var minWheel = null;
+                var minDiff = null;
+                wheels.each(function(el){
+                    var wheel = wheels[el];
+                    var deg = parseInt($(wheel).attr('deg'));
+                    var diff = deg - 90;
+                    if(diff > 0){
+                        if(minDiff == null || minDiff > diff){
+                            minDiff = diff;
+                            minWheel = wheel;
+                        }
+                    }
+                })
+                newWheel = minWheel;
+            }
+        }
+        self.clickWheel(newWheel);
     }
 
     self.drawCircles = function(){
@@ -193,6 +248,8 @@ function FirstPage(){
     //обработка нажатия на круг (куча анимаций)
     self.clickWheel = function(el){
         var dom = $(el);
+
+        self.currentWheel = el;
 
         var deg = parseFloat(dom.attr('deg'));
 
