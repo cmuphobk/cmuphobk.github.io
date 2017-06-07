@@ -6,6 +6,7 @@ $(document).ready(function(){
 
 })
 
+//объект приложения - синглтон
  function StartApp(){
     if(StartApp.self){
         return StartApp.self;
@@ -141,7 +142,7 @@ $(document).ready(function(){
             $(video).parent().children('button').remove();
         }
     }
-
+    //чистим все интервалы а приложении, чтобы не занимали память
     self.clearIntervalsAll = function(){
         for(var i in self.allIntervals){
             var interval = self.allIntervals[i];

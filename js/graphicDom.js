@@ -8,7 +8,7 @@ var oldLengthHeight = null;
 var oldLengthWidth = null;
 var oldRad = null;
 
-//Объект первой страницы
+//Объект первой страницы - Синглтон
 function FirstPage(){
     if (FirstPage.self) {
 		return FirstPage.self
@@ -63,7 +63,11 @@ function FirstPage(){
         appInstance.allIntervals.push(interval);
     } 
     
-    
+    //инициализация карты
+    //videoUrl - урл к видео
+    //buttons массив кнопок, которые расположаться на видео
+        //{x:координата Х, у: координата Y, h: высота кнопки, w: ширина кнопки, html: путь к шаблону колеса}
+    //seconds - секунда на видео на которой нужно отрисовать кнопки
     self.initFirstPage = function(videoUrl, buttons, seconds){
         
         self.buttons = buttons;
@@ -127,7 +131,7 @@ function FirstPage(){
                     self.clickWheel(this);
                 }
             })
-            
+            //листенеры для свайпа
             document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){
                 this.startSwipeY = null;
                 this.endSwipeY = null;
@@ -151,6 +155,8 @@ function FirstPage(){
         });
     }
 
+
+    //обработка свайпа
     self.wheelMove = function(el){
         var d = Math.abs(el.startSwipeY - el.endSwipeY);
         if(el.endSwipeY == null || d < 15){
