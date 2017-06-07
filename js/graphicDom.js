@@ -159,9 +159,9 @@ function FirstPage(){
         var newWheel;
         //свайп вниз: колесо против часовой
         if(el.startSwipeY < el.endSwipeY){
-            if(self.currentWheel){
+            /*if(self.currentWheel){
                 newWheel = self.currentWheel.nextElementSibling;
-            }else{
+            }else{*/
                 var wheels = $('.wheel_dom');
                 var minWheel = null;
                 var minDiff = null;
@@ -177,13 +177,13 @@ function FirstPage(){
                     }
                 })
                 newWheel = minWheel;
-            }
+            //}
         }
         //свайп вверх: колесо по часовой
         else if(el.startSwipeY > el.endSwipeY){
-            if(self.currentWheel){
+            /*if(self.currentWheel){
                 newWheel = self.currentWheel.previousElementSibling;   
-            }else{
+            }else{*/
                 var wheels = $('.wheel_dom');
                 var minWheel = null;
                 var minDiff = null;
@@ -199,7 +199,7 @@ function FirstPage(){
                     }
                 })
                 newWheel = minWheel;
-            }
+            //}
         }
         self.clickWheel(newWheel);
     }
