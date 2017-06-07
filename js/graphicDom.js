@@ -129,14 +129,21 @@ function FirstPage(){
             })
             document.getElementsByClassName('wheel')[0].lastSwipeY = null;
             document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){
+                this.startSwipeY = null;
+                this.endSwipeY = null;
                 var touch = e.touches[0];
                 this.startSwipeY = touch.pageY;
             })
             
-            document.getElementsByClassName('wheel')[0].addEventListener('touchend', function(e){
+            document.getElementsByClassName('wheel')[0].addEventListener('touchmove', function(e){
                 var touch = e.touches[0];
                 this.endSwipeY = touch.pageY;
+            })
+
+            document.getElementsByClassName('wheel')[0].addEventListener('touchend', function(e){
                 self.wheelMove(this);
+                this.startSwipeY = null;
+                this.endSwipeY = null;
             })
 
             //мутим на все картинки dragging
