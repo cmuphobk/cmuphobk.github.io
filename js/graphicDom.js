@@ -122,8 +122,8 @@ function FirstPage(){
             var elementWheel = arrWheels[i];
             //клик по шарику
             elementWheel.addEventListener('mousedown', function(e){
-                if($(e.srcElement).hasClass('wheel_dom') && !isScrolled){
-                    isScrolled = true;
+                if($(e.srcElement).hasClass('wheel_dom')){
+                    
                     self.clickWheel(this);
                 }
             })
@@ -254,6 +254,10 @@ function FirstPage(){
 
     //обработка нажатия на круг (куча анимаций)
     self.clickWheel = function(el){
+        if(isScrolled){
+            return;
+        }
+        isScrolled = true;
         var dom = $(el);
 
         self.currentWheel = el;
