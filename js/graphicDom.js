@@ -1,7 +1,8 @@
-var zIndexPhoto = 0;
+var zIndexPhoto = -99999999;
 var oldDeg = 90;
 var isScrolled = false;
 var stepG = 0;
+var speedG = 3;
 
 //обработчик мультитач
 var oldLengthHeight = null;
@@ -43,6 +44,7 @@ function FirstPage(){
         $('.wheel').children().remove();
         var data = appInstance.getContentFromFile(url)
         $('.wheel').html(data);
+        $('.wheel').append('<span></span>')
 
         self.video.pause();
         $('.video_body').addClass('blur');
@@ -87,7 +89,7 @@ function FirstPage(){
             }
         })
 
-        zIndexPhoto = 0;
+        zIndexPhoto = -99999999;
         oldDeg = 90;
         isScrolled = false;
         stepG = 0;
@@ -280,6 +282,17 @@ function FirstPage(){
         //смещение на которое должен уехать каждый круг
         var delta = oldDeg - deg;
         var wheels = $('.wheel_dom');
+
+        var oldDegSpan = self.getRotationDeg($('.wheel span'));
+
+        var sum = (delta-1)*speedG;
+        
+        $('.wheel span').css({
+            'transition': 'transform '+(sum/1000)+'s ease-in-out',
+            'transform': 'rotate('+(oldDegSpan+delta)+'deg)'
+        })
+       
+        
         wheels.each(function(i){
             var wheel = wheels[i];
             
@@ -296,7 +309,8 @@ function FirstPage(){
                         
                         setTimeout(function(){
                             $(wheel).attr('deg', isTop?180-j:j)
-                        }, j*3)
+                        }, j*speedG)
+
                         var d = $('.wheel_dom').length%2==0?stepG:stepG/2;
                         if(j < d) setTimeoutDeg(j+1, isTop)
                     }
@@ -307,7 +321,7 @@ function FirstPage(){
                     if($(wheel).attr('deg') == 180+p){
                         setTimeoutDeg(1, false)
                     }
-                }, i*3)
+                }, i*speedG)
                 
             
             }
@@ -316,8 +330,8 @@ function FirstPage(){
 
         $('.wheel_dom .image').css({
             'transition':'none',
-            'left':'0px',
-            'top':'0px',
+            'left':'50%',
+            'top':'50%',
             'height':'0px',
             'width':'auto',
             'transform':'rotate(0deg)'
@@ -328,7 +342,7 @@ function FirstPage(){
             el.each(function(i){
                 var element = el[i];
                 $(element).css({
-                    'transition': 'all 1s ease-in',
+                    'transition': 'all 1s ease-in-out',
                     'top' : $(el[i]).attr('lastTop')+'px',
                     'left': $(el[i]).attr('lastLeft')+'px',
                     'height': $(el[i]).attr('lastHeight')+'px',
