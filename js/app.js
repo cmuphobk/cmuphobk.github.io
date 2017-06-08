@@ -55,7 +55,7 @@ $(document).ready(function(){
         $('.timeline').append(
             '<div class="back"></div>'+
             '<button class="timeline1" onclick="appInstance.clickTimeline1()"></button>'+
-            '<button class="timeline2" onclick="appInstance.clickTimeline2()"></button>'+
+            '<button class="timeline2"></button>'+
             '<button class="timeline3"></button>'+
             '<button class="timeline4"></button>'+
             '<button class="timeline5"></button>'
@@ -73,17 +73,21 @@ $(document).ready(function(){
             
             $('.timeline button').each(function(i){
                 var btn = $('.timeline button')[i];
-                var xB = $(btn).offset().left;
-                var yB = $(btn).offset().top;
-                var hB = 70;
-                var wB = window.innerWidth/5;
-
-                if(x>xB && y>yB && x<xB+wB && y<yB+hB){
+                var jBtn = $(btn);
+                if(!(jBtn.hasClass('timeline2')||jBtn.hasClass('timeline3')||jBtn.hasClass('timeline4')||jBtn.hasClass('timeline5'))){
                     
-                    appInstance.allTimelineClick();
-                    $('.timeline button').removeClass('active_btn');
-                    $(btn).addClass('active_btn');
-                    $(btn).click();
+                    var xB = $(btn).offset().left;
+                    var yB = $(btn).offset().top;
+                    var hB = 70;
+                    var wB = window.innerWidth/5;
+
+                    if(x>xB && y>yB && x<xB+wB && y<yB+hB){
+                        
+                        appInstance.allTimelineClick();
+                        $('.timeline button').removeClass('active_btn');
+                        $(btn).addClass('active_btn');
+                        $(btn).click();
+                    }
                 }
             })     
         })
@@ -106,6 +110,13 @@ $(document).ready(function(){
             h:100,
             w:420,
             html:'templates/wheel2.html'
+        },
+        {
+            x:595,
+            y:215,
+            h:105,
+            w:425,
+            html:'templates/wheel3.html'
         }]
        
         //инициализируем экран

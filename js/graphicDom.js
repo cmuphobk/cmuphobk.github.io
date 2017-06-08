@@ -111,11 +111,13 @@ function FirstPage(){
 
     //рисуем шарики по заданному углу, навешиваем обработчики кликов по шарикам
     self.initWheels = function(){
-        stepG = 180 / ($('.wheel_dom').length + 1);
+        var d = $('.wheel_dom').length;
+        stepG = 180 / (d);
         var wheels = $('.wheel_dom');
         wheels.each(function(i){
             var wheel = wheels[i];
-            $(wheel).attr('deg', stepG * (i+1))
+            var deg = $('.wheel_dom').length%2==0?stepG * i:stepG * i + stepG / 2;
+            $(wheel).attr('deg', deg)
         })
         //отрисовка
         self.drawCircles();
@@ -132,16 +134,21 @@ function FirstPage(){
                 }
             })
             //листенеры для свайпа
-            document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){
+            document.getElementsByClassName('wheel')[0].addEventListener('touchstart', function(e){        
                 this.startSwipeY = null;
                 this.endSwipeY = null;
                 var touch = e.touches[0];
-                this.startSwipeY = touch.pageY;
+                if(touch.pageX <= $('.wheel').width()/2 && touch.pageY <= $('.wheel').height()){
+                    this.startSwipeY = touch.pageY;
+                }
+                
             })
             
             document.getElementsByClassName('wheel')[0].addEventListener('touchmove', function(e){
                 var touch = e.touches[0];
-                this.endSwipeY = touch.pageY;
+                if(touch.pageX <= $('.wheel').width()/2 && touch.pageY <= $('.wheel').height()){
+                    this.endSwipeY = touch.pageY;
+                }
             })
 
             document.getElementsByClassName('wheel')[0].addEventListener('touchend', function(e){
@@ -159,7 +166,7 @@ function FirstPage(){
     //обработка свайпа
     self.wheelMove = function(el){
         var d = Math.abs(el.startSwipeY - el.endSwipeY);
-        if(el.endSwipeY == null || d < 15){
+        if(el.startSwipeY == null || el.endSwipeY == null || d < 15){
             return;
         }
         var newWheel;
@@ -289,17 +296,18 @@ function FirstPage(){
                         
                         setTimeout(function(){
                             $(wheel).attr('deg', isTop?180-j:j)
-                        }, j*5)
-                        if(j < stepG) setTimeoutDeg(j+1, isTop)
+                        }, j*3)
+                        var d = $('.wheel_dom').length%2==0?stepG:stepG/2;
+                        if(j < d) setTimeoutDeg(j+1, isTop)
                     }
-
-                    if($(wheel).attr('deg') == 0){
+                    var p = $('.wheel_dom').length%2==0?1:0;
+                    if($(wheel).attr('deg') == 0-p){
                         setTimeoutDeg(1, true);
                     }
-                    if($(wheel).attr('deg') == 180){
+                    if($(wheel).attr('deg') == 180+p){
                         setTimeoutDeg(1, false)
                     }
-                }, i*5)
+                }, i*3)
                 
             
             }
@@ -307,32 +315,25 @@ function FirstPage(){
 
 
         $('.wheel_dom .image').css({
-            'display':'none',
+            'transition':'none',
+            'left':'0px',
+            'top':'0px',
+            'height':'0px',
+            'width':'auto',
+            'transform':'rotate(0deg)'
         })
         setTimeout(function(){
-            
-            dom.children('.image').css({
-                'display':'block',
-                'left':'0px',
-                'top':'0px',
-                'height':'0px',
-                'width':'auto',
-                'transition':'transform 1.2s, top 1s, left 1s',
-                'transform':'rotate(0deg)'
-            })
 
             var el = dom.children('.image');
             el.each(function(i){
                 var element = el[i];
-                $(element).animate({
+                $(element).css({
+                    'transition': 'all 1s ease-in',
                     'top' : $(el[i]).attr('lastTop')+'px',
                     'left': $(el[i]).attr('lastLeft')+'px',
                     'height': $(el[i]).attr('lastHeight')+'px',
-                    'width': 'auto'//$(el[i]).attr('lastWidth')+'px',
-                }, { 
-                    step: function(){
-                        $(el[i]).css('transform', 'rotate('+$(el[i]).attr('rotate')+'deg)');                    
-                    } 
+                    'width': 'auto',
+                    'transform': 'rotate('+$(el[i]).attr('rotate')+'deg)'
                 })
                 setTimeout(function(){
                     $(element).css({
@@ -549,9 +550,9 @@ function FirstPage(){
     self.openCard = function(element){
         $('.card').remove();
         var srcCard = $(element).attr('card');
-        var x = $(element).offset().left + $(element).width();
-        var y = $(element).offset().top; + $(element).height()
-        var image = '<img class="card" src="'+srcCard+'" style="left:'+x+'px; top:'+y+'px;"/>';
+        /*var x = $(element).offset().left + $(element).width();
+        var y = $(element).offset().top; + $(element).height()*/
+        var image = '<img class="card" src="'+srcCard+'" />';
         $('body').append(image);
 
         $('.card').click(function(e){
@@ -567,8 +568,6 @@ function FirstPage(){
         
         setTimeout(function(){
             $('.card').css({
-                top: 100,
-                left: 200,
                 width: window.innerWidth-400,
                 height: 'auto',
             })

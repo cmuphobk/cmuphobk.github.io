@@ -2,40 +2,9 @@
     position: fixed;
     background: transparent;
     cursor: pointer;
-    border: none;
+    border:2px solid lightgray;
     outline: none;
 }
-/*.button1{
-    height: 100px;
-    width: 340px;
-    top: 40px;
-    left: 190px;
-    
-}
-.button2{    
-    height: 100px;
-    width: 420px;
-    top: 85px;
-    left: 880px;
-}
-.button3{
-    height: 100px;
-    width: 415px;
-    top: 220px;
-    left: 600px;
-}
-.button4{
-    height: 145px;
-    width: 390px;
-    top: 320px;
-    left: 85px;
-}
-.button5{
-    height: 100px;
-    width: 420px;
-    top: 525px;
-    left: 580px;
-}*/
 .timeline .back{
     background-image: url(../img/rzhdtimeline.png);
     background-size: 100% 100%;
