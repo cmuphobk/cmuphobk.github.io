@@ -388,6 +388,9 @@ function FirstPage(){
         }
     }
 
+
+    var lastFirstTouch = null;
+    var lastSecondTouch = null;
     //обработчик мультитач
     self.addResizeHandler = function(arrTouches, element){
         var width = $(element).width();
@@ -429,16 +432,19 @@ function FirstPage(){
         }
 
         //rotate - вычисляем угол между тачами, высчитываем delta и поворачиваем
-        var ft = /*firstTouch.pageX<secondTouch.pageX?*/firstTouch/*:secondTouch*/;
-        var st = /*firstTouch.pageX<secondTouch.pageX?*/secondTouch/*:firstTouch*/;
-        var fTop = Math.abs(st.pageY - ft.pageY);
-        var fBot = Math.pow(Math.pow(st.pageX - ft.pageX, 2) + Math.pow(st.pageY - ft.pageY, 2), 0.5);
-        var f = fTop/fBot;
-        var rad = Math.asin(f);
+
+        var dx = secondTouch.pageX - firstTouch.pageX;
+        var dy = secondTouch.pageY - firstTouch.pageY;
+
+        var touchAngle=Math.atan2(dy,dx);
         
         if(oldRad != null){
-            var deltaRad = (oldRad - rad);
-            var deltaUgol = deltaRad*57.2958;
+            var deltaRad = (touchAngle - oldRad);
+            var deltaUgol;
+            
+            deltaUgol = (deltaRad*57.2958);
+            
+            console.log(deltaUgol)
             if(deltaRad != 0){
                 var elRot = self.getRotationDeg($(element));
                 $(element).css({
@@ -447,8 +453,9 @@ function FirstPage(){
             }
         }
         
-
-        oldRad = rad;
+        lastFirstTouch = firstTouch;
+        lastSecondTouch = secondTouch;
+        oldRad = touchAngle;
     }
 
     //получить поворот элемента по элементу
