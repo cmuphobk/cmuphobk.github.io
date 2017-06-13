@@ -44,6 +44,10 @@ function getQueryParams( name, url ) {
     return results == null ? null : results[1];
 }
 
+$('.circle_sm').click(function(){
+    $('#myModal').modal('show')
+})
+
 //ApiKey:0uSqawSFlM35OUbC9svTxA
 function sendEmail(req){
     emailjs.send("gmail","gazprom",req).then(function(response) {
