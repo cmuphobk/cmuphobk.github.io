@@ -76,10 +76,12 @@ function FirstPage(){
         self.seconds = seconds;
 
         self.video = document.getElementById('video');
-        self.videoSrc = document.createElement('source');
+        self.video.setAttribute('src', videoUrl);
+        self.video.setAttribute('type', 'video/mp4');
+        /*self.videoSrc = document.createElement('source');
         self.videoSrc.setAttribute('id', 'videoSrc')
         self.video.appendChild(self.videoSrc);
-        self.videoSrc.setAttribute('src', videoUrl);
+        self.videoSrc.setAttribute('src', videoUrl);*/
 
         self.video.oncanplay = function() {
             self.video.play();
