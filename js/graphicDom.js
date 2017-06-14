@@ -22,11 +22,14 @@ function FirstPage(){
     self.buttons = null;
     self.seconds = null;
 
+    self.isShowButtons = false;
+
     self.currentWheel = null;
 
     //функция вызываемая когда видео проигрывается до заданной секунды
     
     self.secN = function(){
+        self.isShowButtons = true;
         $('.video_body').children('button').remove();
         var buttonsHtml = self.buttons.map(function(el){
             return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.firstPage.readyForWheel(\''+el.html+'\')"></button>'
@@ -41,6 +44,7 @@ function FirstPage(){
 
     //функция для построения колеса, вызывается при нажатии на кнопку
     self.readyForWheel = function(url){
+
         $('.wheel').children().remove();
         var data = appInstance.getContentFromFile(url)
         $('.wheel').html(data);
@@ -48,6 +52,7 @@ function FirstPage(){
 
         self.video.pause();
         $('.video_body').addClass('blur');
+
         $('.wheel_body').removeClass('hidden_type');
         setTimeout(function(){
             $('.wheel').css({
@@ -75,6 +80,8 @@ function FirstPage(){
         self.buttons = buttons;
         self.seconds = seconds;
 
+        self.isShowButtons = false;
+
         self.video = document.getElementById('video');
         self.video.setAttribute('src', videoUrl);
         self.video.setAttribute('type', 'video/mp4');
@@ -88,7 +95,7 @@ function FirstPage(){
         }
         $(self.video).removeClass('hidden_type');
         self.video.addEventListener('timeupdate', function(e){
-            if(e.currentTarget.currentTime >= self.seconds){
+            if(e.currentTarget.currentTime >= self.seconds && !self.isShowButtons){
                 self.secN();
                 $(self.video).unbind('timeupdate');
             }

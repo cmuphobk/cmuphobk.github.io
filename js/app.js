@@ -45,6 +45,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 $('.video_body').removeClass('blur');
                 $('.wheel_body').addClass('hidden_type');
+                self.firstPage.video.play();
             }, 1000)
             
             $(window).off('mousemove');

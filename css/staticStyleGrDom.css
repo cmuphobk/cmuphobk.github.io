@@ -1,6 +1,6 @@
 .video_body button{
     position: fixed;
-    background: transparent;
+    background: rgba(0,0,0,0);
     cursor: pointer;
     border:2px solid lightgray;
     outline: none;
