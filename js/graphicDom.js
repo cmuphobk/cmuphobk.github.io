@@ -80,7 +80,10 @@ function FirstPage(){
         self.videoSrc.setAttribute('id', 'videoSrc')
         self.video.appendChild(self.videoSrc);
         self.videoSrc.setAttribute('src', videoUrl);
-        self.video.play();
+
+        self.video.oncanplay = function() {
+            self.video.play();
+        }
         $(self.video).removeClass('hidden_type');
         self.video.addEventListener('timeupdate', function(e){
             if(e.currentTarget.currentTime >= self.seconds){
