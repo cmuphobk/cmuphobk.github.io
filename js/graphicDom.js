@@ -26,13 +26,17 @@ function FirstPage(){
 
     self.currentWheel = null;
 
+    self.unsetPage = function(){
+        self.video.removeEventListener('timeupdate', self.timeUpdate)
+    }
+
     //функция вызываемая когда видео проигрывается до заданной секунды
     
     self.secN = function(){
         self.isShowButtons = true;
         $('.video_body').children('button').remove();
         var buttonsHtml = self.buttons.map(function(el){
-            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.firstPage.readyForWheel(\''+el.html+'\')"></button>'
+            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.page.readyForWheel(\''+el.html+'\')"></button>'
         })
         for(var i in buttonsHtml){
             $('.video_body').append(
@@ -45,13 +49,15 @@ function FirstPage(){
     //функция для построения колеса, вызывается при нажатии на кнопку
     self.readyForWheel = function(url){
 
+        $('.timeline').css('display','none');
+
         $('.wheel').children().remove();
         var data = appInstance.getContentFromFile(url)
         $('.wheel').html(data);
         $('.wheel').append('<span></span>')
 
         self.video.pause();
-        $('.video_body').addClass('blur');
+        $('#video').addClass('blur');
 
         $('.wheel_body').removeClass('hidden_type');
         setTimeout(function(){
@@ -75,8 +81,12 @@ function FirstPage(){
     //buttons массив кнопок, которые расположаться на видео
         //{x:координата Х, у: координата Y, h: высота кнопки, w: ширина кнопки, html: путь к шаблону колеса}
     //seconds - секунда на видео на которой нужно отрисовать кнопки
-    self.initFirstPage = function(videoUrl, buttons, seconds){
-        
+    self.initPage = function(videoUrl, buttons, seconds){
+
+        var data = appInstance.getContentFromFile('templates/first.html');
+
+        $('.video_body').html(data);
+                
         self.buttons = buttons;
         self.seconds = seconds;
 
@@ -94,12 +104,7 @@ function FirstPage(){
             self.video.play();
         }
         $(self.video).removeClass('hidden_type');
-        self.video.addEventListener('timeupdate', function(e){
-            if(e.currentTarget.currentTime >= self.seconds && !self.isShowButtons){
-                self.secN();
-                $(self.video).unbind('timeupdate');
-            }
-        })
+        self.video.addEventListener('timeupdate', self.timeUpdate)
 
         zIndexPhoto = -99999999;
         oldDeg = 90;
@@ -120,7 +125,37 @@ function FirstPage(){
 
         //попытка залочить нативное перетягивание картинки (неудача, нереально)
         document.getElementsByTagName('img').ondragstart = function() { return false; };
+
+        //клик по кнопке "Выход" - режим колеса
+        $('.exit').off('click').click(function(e){  
+            $('.wheel_dom .image').css({
+                'display':'none',
+            })
+            $('.card').remove();
+            
+            $('.wheel').css({
+                'margin-left': '-100vw'
+            })
+            setTimeout(function(){
+                $('#video').removeClass('blur');
+                $('.wheel_body').addClass('hidden_type');
+                if(self.video.currentTime != self.video.duration){
+                    self.video.play();
+                }
+                
+                $('.timeline').css('display','block');
+            }, 1000)
+            
+            $(window).off('mousemove');
+        })
         
+    }
+
+    self.timeUpdate = function(e){
+        if(e.currentTarget.currentTime >= self.seconds && !self.isShowButtons){
+            self.secN();
+            $(self.video).unbind('timeupdate');
+        }
     }
 
     //рисуем шарики по заданному углу, навешиваем обработчики кликов по шарикам

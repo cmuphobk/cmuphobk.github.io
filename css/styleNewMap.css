@@ -1,0 +1,16 @@
+.map{
+    position: fixed;
+    top:0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    image-rendering:optimizeSpeed;
+    z-index: -1;
+}
+.mapDiv{
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%; 
+}

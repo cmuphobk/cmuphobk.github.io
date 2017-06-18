@@ -1,3 +1,4 @@
+//todo: timeline on global, another to template????
 var appInstance = new StartApp();
 
 $(document).ready(function(){
@@ -14,7 +15,7 @@ $(document).ready(function(){
     StartApp.self = this;
     var self = this;
     
-    self.firstPage = null;
+    self.page = null;
 
     self.allIntervals = [];
 
@@ -31,26 +32,7 @@ $(document).ready(function(){
     }
 
     self.initApp = function(){
-
-        //клик по кнопке "Выход" - режим колеса
-        $('.exit').off('click').click(function(e){  
-            $('.wheel_dom .image').css({
-                'display':'none',
-            })
-            $('.card').remove();
-            
-            $('.wheel').css({
-                'margin-left': '-100vw'
-            })
-            setTimeout(function(){
-                $('.video_body').removeClass('blur');
-                $('.wheel_body').addClass('hidden_type');
-                self.firstPage.video.play();
-            }, 1000)
-            
-            $(window).off('mousemove');
-        })
-
+        
         $('.timeline').children().remove();
         //добавляем кнопки в таймлайн
         $('.timeline').append(
@@ -59,7 +41,7 @@ $(document).ready(function(){
             '<button class="timeline2"></button>'+
             '<button class="timeline3"></button>'+
             '<button class="timeline4"></button>'+
-            '<button class="timeline5"></button>'
+            '<button class="timeline5" onclick="appInstance.clickTimeline5()"></button>'
         )
 
         //клик на первый таймлайн
@@ -75,7 +57,7 @@ $(document).ready(function(){
             $('.timeline button').each(function(i){
                 var btn = $('.timeline button')[i];
                 var jBtn = $(btn);
-                if(!(jBtn.hasClass('timeline2')||jBtn.hasClass('timeline3')||jBtn.hasClass('timeline4')||jBtn.hasClass('timeline5'))){
+                if(!(jBtn.hasClass('timeline2')||jBtn.hasClass('timeline3')||jBtn.hasClass('timeline4'))){
                     
                     var xB = $(btn).offset().left;
                     var yB = $(btn).offset().top;
@@ -124,8 +106,8 @@ $(document).ready(function(){
         //1. путь к видео
         //2. массив кнопок на видео
         //3. секунда с которой появляются кнопочки
-        self.firstPage = new FirstPage();
-        self.firstPage.initFirstPage('img/rzhdMap.mp4', buttons, 13);
+        self.page = new FirstPage();
+        self.page.initPage('img/rzhdMap.mp4', buttons, 13);
     }
     //функция обработчик клика во второй таймлайн
     self.clickTimeline2 = function(){
@@ -138,12 +120,20 @@ $(document).ready(function(){
         }]
        
          //проверяем существует ли функция инициализации первого экрана 
-        self.firstPage = new FirstPage();
-        self.firstPage.initFirstPage('img/rzhdMap.mp4', buttons, 13);
+        self.page = new FirstPage();
+        self.page.initPage('img/rzhdMap.mp4', buttons, 13);
+    }
+
+    self.clickTimeline5 = function(){
+        self.page = new SecondPage();
+        self.page.initPage();
     }
 
     //клик на любой таймлайн - постаноа всех видосов в паузу, чистка интервалов
     self.allTimelineClick = function(){
+        if(self.page){
+            self.page.unsetPage();
+        }
         var videos = document.getElementsByTagName('video');
         self.clearIntervalsAll();
         for(var i=0; i<videos.length; i++){
