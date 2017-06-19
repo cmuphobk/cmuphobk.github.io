@@ -38,9 +38,10 @@ $(document).ready(function(){
 
             if(deltaTimeStamp <= 200 && deltaX > 100 && !isSwiped){
                 //свайп вперед
-                isSwiped = true;
+                video.currentTime = pointR * (video.duration/4);
                 if(video.currentTime != video.duration){
-                    video.currentTime = pointR * (video.duration/4);
+                    isSwiped = true;
+                    
                     $(video).css('display','block');
                     $(abortVideo).css('display','none');
                     pointR+=1;
@@ -51,7 +52,9 @@ $(document).ready(function(){
                         if(video.currentTime - time >= video.duration/4){
                             video.pause();
                             isSwiped = false;
+                            video.ontimeupdate = null;
                         }
+                        
                     }
                     
                 }
@@ -59,9 +62,10 @@ $(document).ready(function(){
             }
             if(deltaTimeStamp <= 200 && deltaX < -100 && !isSwiped){
                 //свайп назад  
-                isSwiped = true;
-                if(video.currentTime != 0){
-                    abortVideo.currentTime = (4-pointR) * (abortVideo.duration/4);
+                abortVideo.currentTime = (4-pointR) * (abortVideo.duration/4);
+                if(abortVideo.currentTime != abortVideo.duration){
+                    isSwiped = true;
+                    
                     $(video).css('display','none');
                     $(abortVideo).css('display','block');
                     pointR-=1;
@@ -72,7 +76,9 @@ $(document).ready(function(){
                         if(abortVideo.currentTime - time >= abortVideo.duration/4){
                             abortVideo.pause();
                             isSwiped = false;
+                            video.ontimeupdate = null;
                         }
+                        
                     }
                 }
             }
