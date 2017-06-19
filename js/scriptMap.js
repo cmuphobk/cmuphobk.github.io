@@ -65,9 +65,8 @@ $(document).ready(function(){
                 abortVideo.currentTime = (4-pointR) * (abortVideo.duration/4);
                 if(abortVideo.currentTime != abortVideo.duration){
                     isSwiped = true;
-                    
-                    $(video).css('display','none');
                     $(abortVideo).css('display','block');
+                    $(video).css('display','none');
                     pointR-=1;
                     console.log(pointR);
                     abortVideo.play();
