@@ -130,6 +130,19 @@ function SecondPage(){
             if(self.currentFrame != newFrame){
                 self.currentFrame = newFrame;
                 self.video.currentTime = currentTime;
+                /*var deltaTimestamp = deltaSec*1000;
+                var id = setInterval(function(){
+                    if(deltaTimestamp<0){
+                        self.video.currentTime = self.video.currentTime-0.001;
+                        deltaTimestamp++;
+                    }else if (deltaTimestamp>0){
+                        self.video.currentTime = self.video.currentTime+0.001
+                        deltaTimestamp--;
+                    }else{
+                        clearInterval(id);
+                    }
+                    
+                },1)*/
             }
             if(self.video.currentTime == self.video.duration){
                 if($(canvas).width()>1920){
@@ -146,7 +159,10 @@ function SecondPage(){
             if(self.video.currentTime == 0){
                 if($(canvas).width()>1920 && $(canvas).offset().left != 0){
                     if(delta<0){
-                        console.log(delta);
+                        $(canvas).css({
+                            'left': 0
+                        })
+                        
                     }
                 }
             }

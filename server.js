@@ -21,7 +21,7 @@ app.get('/graphicDom', function(req, res) {
   res.sendfile('graphicDom.html');
 });
 
-// запускаем сервер на порту 8081
-app.listen(8081);
+// запускаем сервер на порту 8083
+app.listen(8083);
 // отправляем сообщение
 console.log('Сервер стартовал!');
