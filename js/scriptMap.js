@@ -4,8 +4,13 @@ $(document).ready(function(){
     var startX = null;
     var startY = null;
     var timestampStart = null;
-    var NFrame = 39;
-    document.getElementById('mapDiv').addEventListener('mousedown', function(e){
+
+    var pointR = 0;
+    var video = document.getElementById('video');
+    var abortVideo = document.getElementById('abortvideo');
+    var isSwiped = false;
+    document.getElementById('mapDiv').addEventListener('touchstart', function(e){
+        var e = e.touches[0];
         lastX = e.pageX;
         lastY = e.pageY;
 
@@ -15,7 +20,7 @@ $(document).ready(function(){
         timestampStart = new Date().getTime();
     })
 
-    document.getElementById('mapDiv').addEventListener('mouseup', function(e){
+    document.getElementById('mapDiv').addEventListener('touchend', function(e){
         lastX = null;
         lastY = null;
 
@@ -23,42 +28,52 @@ $(document).ready(function(){
         startY = null;
     })
     
-    document.getElementById('mapDiv').addEventListener('mousemove', function(e){    
+    document.getElementById('mapDiv').addEventListener('touchmove', function(e){   
+        var e = e.touches[0]; 
         if(startX && startY){
-            var deltaY = e.pageY - startY;
-            var deltaX = e.pageX - startX;
+            var deltaY = startY - e.pageY;
+            var deltaX = startX - e.pageX;
 
             deltaTimeStamp = new Date().getTime() - timestampStart;
 
-            if(deltaTimeStamp >= 200 && Math.abs(deltaX) > 100){
-                var speed = -deltaX/(deltaTimeStamp/1000); //px/sec
+            if(deltaTimeStamp <= 200 && deltaX > 100 && !isSwiped){
+                //свайп вперед
+                isSwiped = true;
+                if(video.currentTime != video.duration){
+                    video.currentTime = pointR * (video.duration/4);
+                    $(video).css('display','block');
+                    $(abortVideo).css('display','none');
+                    pointR+=1;
+                    console.log(pointR);
+                    video.play();
+                    var time = video.currentTime;
+                    video.ontimeupdate = function(){
+                        if(video.currentTime - time >= video.duration/4){
+                            video.pause();
+                            isSwiped = false;
+                        }
+                    }
+                    
+                }
                 
-                var speedFrame = parseInt(speed/1000);
-
-                showNewPage(speedFrame)
-
-                function showNewPage(speedFrame){
-
-                    var url = $('#map').attr('src');
-                    var imageN = parseFloat(url.split('/')[2]);
-
-                    if(speedFrame<0){
-                        imageN--;
-                    }else if(speedFrame>0){
-                        imageN++;
-                    }else{
-                        return;
+            }
+            if(deltaTimeStamp <= 200 && deltaX < -100 && !isSwiped){
+                //свайп назад  
+                isSwiped = true;
+                if(video.currentTime != 0){
+                    abortVideo.currentTime = (4-pointR) * (abortVideo.duration/4);
+                    $(video).css('display','none');
+                    $(abortVideo).css('display','block');
+                    pointR-=1;
+                    console.log(pointR);
+                    abortVideo.play();
+                    var time = abortVideo.currentTime;
+                    abortVideo.ontimeupdate = function(){
+                        if(abortVideo.currentTime - time >= abortVideo.duration/4){
+                            abortVideo.pause();
+                            isSwiped = false;
+                        }
                     }
-                    if(imageN == 0 && speedFrame<0){
-                        return;
-                    }
-
-                    if(imageN == NFrame && speedFrame>0){
-                        return;
-                    }
-
-                    $('#map').attr('src', 'img/map/'+imageN+'.png');
-                    setTimeout(showNewPage, 200);
                 }
             }
 

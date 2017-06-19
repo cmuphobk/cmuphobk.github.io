@@ -2,7 +2,7 @@
     position: fixed;
     top:0;
     left: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
     image-rendering:optimizeSpeed;
     /*background-size: 100% auto;
