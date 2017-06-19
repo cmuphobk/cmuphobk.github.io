@@ -50,6 +50,7 @@ function SecondPage(){
                 self.startFirstTouch = ft.pageX<st.pageX?ft:st;
                 self.startSecondTouch = ft.pageX<st.pageX?st:ft;
                 self.startResizeDelta = Math.pow(Math.pow(self.startSecondTouch.pageX - self.startFirstTouch.pageX, 2) + Math.pow(self.startSecondTouch.pageY - self.startFirstTouch.pageY, 2), 0.5);
+                
             } 
         })
 
@@ -82,15 +83,28 @@ function SecondPage(){
     self.resize = function(firstTouch, secondTouch){
         var delta = Math.pow(Math.pow(secondTouch.pageX - firstTouch.pageX, 2) + Math.pow(secondTouch.pageY - firstTouch.pageY, 2), 0.5);
         var timestamp = new Date().getTime();
-        if(timestamp - self.startResizeTimestamp > 300){
+
+        var centerX = (secondTouch.pageX + firstTouch.pageX)/2;
+        var centerY = (secondTouch.pageY + firstTouch.pageY)/2;
+
+        if(delta < 900){
             var dDelta = delta - self.startResizeDelta;
-            if (dDelta > 50){
-                //приближение
-            }else if(dDelta < -50){
-                //удаление
+            var zoom = dDelta/10;
+            
+            var canvas = document.getElementById('canvas');
+            var wh = 1920/1080;
+            var h =  $(canvas).height() + zoom;
+            
+            if(h >= 1080){
+                $(canvas).height(h);
+                $(canvas).width(h * wh);
             }
+                
         }
+           
     }
+
+    
 
     self.mover = function(e){
         if(self.startX && self.NSec){
