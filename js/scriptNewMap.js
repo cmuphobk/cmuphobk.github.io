@@ -105,8 +105,8 @@ function SecondPage(){
                 $(canvas).height(h);
                 $(canvas).width(w);
                 $(canvas).css({
-                    'top':-dh,
-                    'left':-dw
+                    'top':0,
+                    'left':0
                 })
 
             }
@@ -118,6 +118,7 @@ function SecondPage(){
     
 
     self.mover = function(e){
+        var canvas = document.getElementById('canvas');
         if(self.startX && self.NSec){
             var nowX = e.pageX;
             var delta = self.startX - nowX;
@@ -130,8 +131,27 @@ function SecondPage(){
                 self.currentFrame = newFrame;
                 self.video.currentTime = currentTime;
             }
+            if(self.video.currentTime == self.video.duration){
+                if($(canvas).width()>1920){
+                    var maxLeft = $(canvas).width() - 1920;
+                    var left = $(canvas).offset().left;
+                    var newLeft = left-delta;
+                    if(Math.abs(newLeft) <= maxLeft){
+                        $(canvas).css({
+                            'left': newLeft
+                        })
+                    } 
+                }    
+            }
+            if(self.video.currentTime == 0){
+                if($(canvas).width()>1920 && $(canvas).offset().left != 0){
+                    if(delta<0){
+                        console.log(delta);
+                    }
+                }
+            }
         }  
-        var canvas = document.getElementById('canvas');
+        
         if(self.startY && $(canvas).height() > 1080){
             var nowY = e.pageY;
             var delta = self.startY - nowY;
