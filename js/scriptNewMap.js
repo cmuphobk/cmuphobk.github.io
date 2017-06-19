@@ -20,6 +20,7 @@ function SecondPage(){
         $('.video_body').html(data);
 
         self.startX = null;
+        self.startY = null;
         self.startSec = null;
         self.video = document.getElementById('map');
 
@@ -42,6 +43,7 @@ function SecondPage(){
                 var touch = e.touches[0];
                 self.NSec = self.video.duration;
                 self.startX = touch.pageX;
+                self.startY = touch.pageY;
                 self.startSec = self.video.currentTime;
             }else if(e.touches.length == 2){
                 self.startResizeTimestamp = new Date().getTime();
@@ -57,6 +59,7 @@ function SecondPage(){
         document.getElementById('mapDiv').addEventListener('touchend', function(e){
             if(e.touches.length == 1){
                 self.startX = null;
+                self.startY = null;
             }else if(e.touches.length == 2){
                 self.startFirstTouch = null;
                 self.startSecondTouch = null;
@@ -96,8 +99,16 @@ function SecondPage(){
             var h =  $(canvas).height() + zoom;
             
             if(h >= 1080){
+                var w = h * wh;
+                var dh = (h - 1080)/2;
+                var dw = (w - 1920)/2;
                 $(canvas).height(h);
-                $(canvas).width(h * wh);
+                $(canvas).width(w);
+                $(canvas).css({
+                    'top':-dh,
+                    'left':-dw
+                })
+
             }
                 
         }
@@ -120,6 +131,16 @@ function SecondPage(){
                 self.video.currentTime = currentTime;
             }
         }  
+        var canvas = document.getElementById('canvas');
+        if(self.startY && $(canvas).height() > 1080){
+            var nowY = e.pageY;
+            var delta = self.startY - nowY;
+            var newTop = $(canvas).offset().top - (delta/100);
+            if(newTop < 0 && newTop > -($(canvas).height()-1080)){
+                $(canvas).css('top',newTop)
+            }
+            
+        }
     }
 
 }
