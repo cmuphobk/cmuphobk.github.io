@@ -20,6 +20,9 @@ app.get('/gazprom', function(req, res) {
 app.get('/graphicDom', function(req, res) {
   res.sendfile('graphicDom.html');
 });
+app.get('/map', function(req, res) {
+  res.sendfile('map.html');
+});
 
 // запускаем сервер на порту 8083
 app.listen(8083);
