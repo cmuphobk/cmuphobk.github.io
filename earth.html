@@ -20,19 +20,18 @@
         self.prevX = null;
         self.prevY = null;
 
-        self.tilt = 0;
+        self.tilt = 15;
 
         self.initPage = function(){
           self.earth = new WE.map('earth_div', {
             sky:true,
             atmosphere:true,
             dragging: false,
+            minAltitude: 500000,
+            maxAltitude: 3000000
             /*zooming:false,
             scrollWheelZoom: false*/
           });
-          self.earth.setView([46.8011, 8.2266], 2);
-          
-          
 
           WE.tileLayer('img/earth/{z}/{x}/{y}.jpg', {
             tileSize: 256,
@@ -65,18 +64,7 @@
             self.prevX = null;
             self.prevY = null;
           })
-          requestAnimationFrame(function animate(){
-            if(self.earth.getZoom() >= 7){
-              lastNormZom = 7;
-            }else if(self.earth.getZoom() <= 5){
-              lastNormZom = 5;
-            }else{
-              lastNormZom = self.earth.getZoom();
-            }
-            self.earth.setZoom(lastNormZom);
-            
-            requestAnimationFrame(animate);
-          })
+          
         }
           
         self.mover = function(touch){
