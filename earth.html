@@ -27,10 +27,8 @@
             sky:true,
             atmosphere:true,
             dragging: false,
-            minAltitude: 500000,
+            minAltitude: 700000,
             maxAltitude: 3000000
-            /*zooming:false,
-            scrollWheelZoom: false*/
           });
 
           WE.tileLayer('img/earth/{z}/{x}/{y}.jpg', {
@@ -42,7 +40,7 @@
             tms: true
           }).addTo(self.earth);
           
-          self.earth.setView([45.309059, 34.473423],7)
+          self.earth.setView([45.309059, 34.473423],6)
 
           self.earth.setTilt(self.tilt);
 
