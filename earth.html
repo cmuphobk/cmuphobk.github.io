@@ -20,7 +20,7 @@
         self.prevX = null;
         self.prevY = null;
 
-        self.tilt = 15;
+        self.tilt = 0;
 
         self.initPage = function(){
           self.earth = new WE.map('earth_div', {
@@ -96,7 +96,7 @@
               newEarthY = earthY;
             }
 
-            if(newEarthX < 32.300275 && newEarthX > -171.876830){
+            if(newEarthX < 32.300275 || newEarthX > 155.416406){
               newEarthX = earthX;
             }
 
