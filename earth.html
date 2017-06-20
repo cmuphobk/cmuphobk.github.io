@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="js/v2/api.js"></script>
+    <script>
+
+      function EarthPage(){
+        if(EarthPage.self){
+          return EarthPage.self;
+        }else{
+          EarthPage.self = this;
+        }
+
+        var self = this;
+        self.earth = null;
+        
+        self.startX = null;
+        self.startY = null;
+
+        self.prevX = null;
+        self.prevY = null;
+
+        self.tilt = 15;
+
+        self.initPage = function(){
+          self.earth = new WE.map('earth_div', {
+            sky:true,
+            atmosphere:true,
+            dragging: false,
+            /*zooming:false,
+            scrollWheelZoom: false*/
+          });
+          self.earth.setView([46.8011, 8.2266], 2);
+          
+          
+
+          WE.tileLayer('img/earth/{z}/{x}/{y}.jpg', {
+            tileSize: 256,
+            bounds: [[-85, -180], [85, 180]],
+            minZoom: 0,
+            maxZoom: 7,
+            attribution: 'WebGLEarth example',
+            tms: true
+          }).addTo(self.earth);
+          
+          self.earth.setView([45.309059, 34.473423],7)
+
+          self.earth.setTilt(self.tilt);
+
+          document.getElementById('earth_div').addEventListener('touchstart', function(e){
+            var touch = e.touches[0];
+            self.startX = touch.pageX;
+            self.startY = touch.pageY;
+
+            self.prevX = touch.pageX;
+            self.prevY = touch.pageY;
+          })
+          document.getElementById('earth_div').addEventListener('touchmove', function(e){
+            var touch = e.touches[0];
+            self.mover(touch);
+          })
+          document.getElementById('earth_div').addEventListener('touchend', function(e){
+            self.startX = null;
+            self.startY = null;
+            self.prevX = null;
+            self.prevY = null;
+          })
+          requestAnimationFrame(function animate(){
+            if(self.earth.getZoom() >= 7){
+              lastNormZom = 7;
+            }else if(self.earth.getZoom() <= 5){
+              lastNormZom = 5;
+            }else{
+              lastNormZom = self.earth.getZoom();
+            }
+            self.earth.setZoom(lastNormZom);
+            
+            requestAnimationFrame(animate);
+          })
+        }
+          
+        self.mover = function(touch){
+          if(self.startX && self.startY){
+            var center = self.earth.getCenter();
+
+            var deltaX = self.prevX - touch.pageX;
+            var deltaY = touch.pageY - self.prevY;
+
+            var earthX = center[1];
+            var earthY = center[0];
+
+            var newEarthX = earthX + deltaX/100;
+            var newEarthY = earthY + deltaY/100;
+
+            if(newEarthY > 75.970263 || newEarthY < 41.498412){
+              newEarthY = earthY;
+            }
+
+            if(newEarthX < 32.300275 && newEarthX > -171.876830){
+              newEarthX = earthX;
+            }
+
+            self.earth.setCenter([newEarthY, newEarthX]);
+            self.earth.setTilt(self.tilt);
+
+            self.prevX = touch.pageX;
+            self.prevY = touch.pageY;
+
+          }
+        }
+        
+      }
+       
+      function initialize(){
+        var earthPage = new EarthPage();
+        earthPage.initPage()
+      }
+      
+    
+      
+    </script>
+    <style type="text/css">
+      html, body{
+        padding: 0; 
+        margin: 0;
+      }
+      #earth_div{
+        top: 0; 
+        right: 0; 
+        bottom: 0; 
+        left: 0;       
+        position: absolute !important;          
+      }
+    </style>
+    <title>Russia Rzhd</title>
+  </head>
+  <body onload="initialize()">
+    <div id="earth_div"></div>
+  </body>
+</html>
