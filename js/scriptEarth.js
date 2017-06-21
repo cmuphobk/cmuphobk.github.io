@@ -13,6 +13,8 @@ function EarthPage(){
         $('#earth_div').off('touchmove');
     }
     
+    //bounds
+    //[[y1,x1],[y2,x2]]
     self.initPage = function(){
 
         self.earth = null;
@@ -33,7 +35,7 @@ function EarthPage(){
             sky:true,
             //atmosphere:true,
             dragging: false,
-            minAltitude: 700000,
+            minAltitude: 50000,
             maxAltitude: 2000000
         });
         
@@ -47,21 +49,13 @@ function EarthPage(){
         map.addTo(self.earth);
 
 
-        var bounds = [[37.42778716, 71.05544435], [66.50241156, 93.15782288]];
-        var layer = WE.tileLayer('img/earth/newtile/{z}/{x}/{y}.png', {
+        var bounds = [[45.12109165, 42.21535043], [48.02684804, 46.89989511]];
+        self.layer = WE.tileLayer('img/earth/tile/{z}/{x}/{y}.png', {
             bounds:bounds,
-            minZoom: 4,
-            maxZoom: 4
-        });
-        layer.addTo(self.earth);
-
-        var bounds1 = [[45.12109165, 42.21535043], [48.02684804, 46.89989511]];
-        var layer1 = WE.tileLayer('img/earth/tile/{z}/{x}/{y}.png', {
-            bounds:bounds1,
             minZoom: 6,
             maxZoom: 6
         });
-        layer1.addTo(self.earth);
+        self.layer.addTo(self.earth);
         
         
         self.earth.setView([45.309059, 34.473423],6)
@@ -94,7 +88,21 @@ function EarthPage(){
                 self.prevY = null;
             }
         })
-        
+
+        var interval = setInterval(function(){
+            self.makeTiles();
+        },50)
+        appInstance.allIntervals.push(interval);
+
+    }
+
+    self.makeTiles = function(){
+        var earth = self.earth;
+        if(earth.getAltitude() >= 1500000){
+            self.layer.setOpacity(0);
+        }else{
+            self.layer.setOpacity(1);
+        }
     }
     
     self.mover = function(touch){
