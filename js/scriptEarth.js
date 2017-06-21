@@ -25,7 +25,9 @@ function EarthPage(){
         self.prevX = null;
         self.prevY = null;
 
-        self.tilt = 0;
+        self.layers = [];
+
+        self.tilt = 15;
 
         var data = appInstance.getContentFromFile('templates/earth.html');
 
@@ -33,9 +35,9 @@ function EarthPage(){
 
         self.earth = new WE.map('earth_div', {
             sky:true,
-            //atmosphere:true,
+            atmosphere:true,
             dragging: false,
-            minAltitude: 50000,
+            minAltitude: 700000,
             maxAltitude: 2000000
         });
         
@@ -50,12 +52,15 @@ function EarthPage(){
 
 
         var bounds = [[45.12109165, 42.21535043], [48.02684804, 46.89989511]];
-        self.layer = WE.tileLayer('img/earth/tile/{z}/{x}/{y}.png', {
+        var layer = WE.tileLayer('img/earth/tile/{z}/{x}/{y}.png', {
             bounds:bounds,
             minZoom: 6,
             maxZoom: 6
         });
-        self.layer.addTo(self.earth);
+        layer.maxAlt = 1500000;
+        layer.minAlt = 1000000;
+        layer.addTo(self.earth);
+        self.layers.push(layer);
         
         
         self.earth.setView([45.309059, 34.473423],6)
@@ -98,10 +103,21 @@ function EarthPage(){
 
     self.makeTiles = function(){
         var earth = self.earth;
-        if(earth.getAltitude() >= 1500000){
-            self.layer.setOpacity(0);
-        }else{
-            self.layer.setOpacity(1);
+        var alt = earth.getAltitude()
+        for(var i in self.layers){
+            var layer = self.layers[i];
+            var isVisible = true;
+            if(layer.minAlt){
+                if(alt < layer.minAlt){
+                    isVisible = false;
+                }
+            }
+            if(layer.maxAlt){
+                if(alt > layer.maxAlt){
+                    isVisible = false;
+                }
+            }
+            layer.setOpacity(isVisible?1:0);
         }
     }
     
