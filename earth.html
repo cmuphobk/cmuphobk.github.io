@@ -66,22 +66,29 @@
           self.earth.setTilt(self.tilt);
 
           document.getElementById('earth_div').addEventListener('touchstart', function(e){
-            var touch = e.touches[0];
-            self.startX = touch.pageX;
-            self.startY = touch.pageY;
+            if(e.touches.length == 1){
+              var touch = e.touches[0];
+              self.startX = touch.pageX;
+              self.startY = touch.pageY;
 
-            self.prevX = touch.pageX;
-            self.prevY = touch.pageY;
+              self.prevX = touch.pageX;
+              self.prevY = touch.pageY;
+            }
+            
           })
           document.getElementById('earth_div').addEventListener('touchmove', function(e){
-            var touch = e.touches[0];
-            self.mover(touch);
+             if(e.touches.length == 1){
+              var touch = e.touches[0];
+              self.mover(touch);
+             }
           })
           document.getElementById('earth_div').addEventListener('touchend', function(e){
-            self.startX = null;
-            self.startY = null;
-            self.prevX = null;
-            self.prevY = null;
+             if(e.touches.length == 1){
+              self.startX = null;
+              self.startY = null;
+              self.prevX = null;
+              self.prevY = null;
+             }
           })
           
         }
