@@ -125,7 +125,7 @@ $(document).ready(function(){
     }
 
     self.clickTimeline5 = function(){
-        self.page = new SecondPage();
+        self.page = new EarthPage();
         self.page.initPage();
     }
 
