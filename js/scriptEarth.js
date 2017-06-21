@@ -27,7 +27,7 @@ function EarthPage(){
 
         self.layers = [];
 
-        self.tilt = 15;
+        self.tilt = 0;
 
         var data = appInstance.getContentFromFile('templates/earth.html');
 
@@ -57,8 +57,8 @@ function EarthPage(){
             minZoom: 6,
             maxZoom: 6
         });
-        layer.maxAlt = 1500000;
         layer.minAlt = 1000000;
+        layer.maxAlt = 1500000;       
         layer.addTo(self.earth);
         self.layers.push(layer);
         
