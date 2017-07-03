@@ -136,6 +136,7 @@ function FirstPage(){
             'display':'none',
         })
         $('.card').remove();
+        $('.album').remove();
         
         $('.wheel').css({
             'margin-left': '-100vw'
@@ -739,11 +740,13 @@ function FirstPage(){
         })
         setTimeout(function(){
             $('.card').remove();
+            $('.album').remove();
         }, 400) 
     }
     //открываем карточку из фотографии
     self.openCard = function(element){
         $('.card').remove();
+        $('.album').remove();
         var srcCard = $(element).attr('card');
         var x = $(element).offset().left + $(element).width()/2;
         var y = $(element).offset().top + $(element).height()/2;
