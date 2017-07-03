@@ -702,6 +702,27 @@ function FirstPage(){
             
         })
     }
+    self.changeAlbumPage = function(el){
+        $('.card .img').attr('style', 'background-image:url('+$(el).attr('src')+'); display:inline-block;')
+        $('.card .div .card_header').html($(el).attr('header'))
+        $('.card .div div').html($(el).attr('body'))
+    }
+    self.closeAlbum = function(){
+        $('.card .img, .card .div, .card button').css({
+            display: 'none'
+        })
+        $('.card').css({
+            transition: '.4s linear',
+            width: 0,
+            height: 0,
+            left:'auto',
+            top:'auto'
+        })
+        setTimeout(function(){
+            $('.card').remove();
+            $('.album').remove();
+        }, 400) 
+    }
     self.closeCard = function(){
         
         $('.card .img, .card .div, .card button').css({
@@ -725,14 +746,22 @@ function FirstPage(){
         var x = $(element).offset().left + $(element).width()/2;
         var y = $(element).offset().top + $(element).height()/2;
         var card = '';
-        card += '<div class="card" style="left:'+x+'px;top:'+y+'px;width:0;height:0">';
-            card += '<div class="img" style="background-image:url('+srcCard+')"/>'
-            card += '<div class="div">'
-                card += '<label class="card_header">'+ $(element).attr('header')+'</label>'
-                card += '<div>'+ $(element).attr('body')+'</div>'
-            card += '</div>'
-            card += '<button onclick="appInstance.page.closeCard()"></button>'
-        card += '</div>';
+        var lHeight;
+        if($(element).attr('type')!='album'){
+            card += '<div class="card" style="left:'+x+'px;top:'+y+'px;width:0;height:0">';
+                card += '<div class="img" style="background-image:url('+srcCard+')"/>'
+                card += '<div class="div">'
+                    card += '<label class="card_header">'+ $(element).attr('header')+'</label>'
+                    card += '<div>'+ $(element).attr('body')+'</div>'
+                card += '</div>'
+                card += '<button onclick="appInstance.page.closeCard()"></button>'
+            card += '</div>';
+            lHeight = window.innerHeight-200
+        }else{
+            lHeight = window.innerHeight-400
+            card = appInstance.getContentFromFile(srcCard);
+        }
+        
         $('body').append(card);
 
         $('.card').css({
@@ -741,7 +770,7 @@ function FirstPage(){
         
         $('.card').animate({
             width: window.innerWidth-400,
-            height: window.innerHeight-200,
+            height: lHeight,
             left: 130,
             top: 80
         }, 400, function(){
@@ -752,6 +781,10 @@ function FirstPage(){
                 display: 'flex'
             })
         })
+
+        if($(element).attr('type')=='album'){
+            self.changeAlbumPage($('.album').children()[0])
+        }
         
     }
 }
