@@ -85,21 +85,24 @@ $(document).ready(function(){
             y:40,
             h:100,
             w:340,
-            html:'templates/wheel1.html'
+            html:'templates/wheel1.html', 
+            json:'json/per1but1.json'
         },
         {
             x:880,
             y:85,
             h:100,
             w:420,
-            html:'templates/wheel2.html'
+            html:'templates/wheel2.html', 
+            json:'json/per1but1.json'
         },
         {
             x:595,
             y:215,
             h:105,
             w:425,
-            html:'templates/wheel3.html'
+            html:'templates/wheel3.html', 
+            json:'json/per1but1.json'
         }]
        
         //инициализируем экран
@@ -116,7 +119,8 @@ $(document).ready(function(){
             y:40,
             h:100,
             w:340,
-            html:'templates/wheel1.html'
+            html:'templates/wheel1.html', 
+            json:''
         }]
        
          //проверяем существует ли функция инициализации первого экрана 

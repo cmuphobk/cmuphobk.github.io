@@ -2,7 +2,7 @@
     position: fixed;
     background: rgba(0,0,0,0);
     cursor: pointer;
-    border:2px solid lightgray;
+    border:none;
     outline: none;
 }
 .timeline .back{

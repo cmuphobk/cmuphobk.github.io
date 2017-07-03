@@ -22,6 +22,9 @@ function FirstPage(){
     self.buttons = null;
     self.seconds = null;
 
+    self.urlForWheel = null;
+    self.jsonForCard = null;
+
     self.isShowButtons = false;
 
     self.currentWheel = null;
@@ -36,7 +39,7 @@ function FirstPage(){
         self.isShowButtons = true;
         $('.video_body').children('button').remove();
         var buttonsHtml = self.buttons.map(function(el){
-            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.page.readyForWheel(\''+el.html+'\')"></button>'
+            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.page.clickOnButton(\''+el.html+'\',\''+el.json+'\')"></button>'
         })
         for(var i in buttonsHtml){
             $('.video_body').append(
@@ -46,20 +49,121 @@ function FirstPage(){
          
     }
 
-    //функция для построения колеса, вызывается при нажатии на кнопку
-    self.readyForWheel = function(url){
-
+    self.clickOnButton = function(url, urlJson){
         $('.timeline').css('display','none');
-
-        $('.wheel').children().remove();
-        var data = appInstance.getContentFromFile(url)
-        $('.wheel').html(data);
-        $('.wheel').append('<span></span>')
 
         self.video.pause();
         $('#video').addClass('blur');
 
         $('.wheel_body').removeClass('hidden_type');
+        
+        self.urlForWheel = url;
+        self.jsonForCard = appInstance.getContentFromFile(urlJson);
+
+        var cardsHtml = '';
+        cardsHtml += '<div class="layout_wheel" style="width:'+self.jsonForCard.width+';">';
+            cardsHtml += '<label class="text_top" >'+self.jsonForCard.topText+'</label>';
+            cardsHtml += '<label class="text_name">'+self.jsonForCard.topName+'</label>';
+            
+        cardsHtml += '</div>';
+        cardsHtml += '<div class="description_body">';
+        for(var i in self.jsonForCard.data){
+            var card = self.jsonForCard.data[i];
+            var cardHtml = '';
+            cardHtml += '<div class="desc_item">';
+                cardHtml += '<div class="desc_header">';   
+                    if(i == 0){
+                        cardHtml += '<label onclick="appInstance.page.clickOnYear()" class="text_year">'+self.jsonForCard.year+'</label>';
+                        cardHtml += '<label class="text_header">'+card.headerText+'</label>';
+                    }else{
+                        cardHtml += '<label class="text_header fullW">'+card.headerText+'</label>';
+                    }
+                    
+                    if(i == 0){
+                        cardHtml += '<button onclick="appInstance.page.clickOnExitCard()" class="exit_card" ></button>';
+                    }
+                    var classBody = '';
+                    if(i==1){
+                        //reverse
+                        classBody = 'reverse';
+                    }
+                cardHtml += '</div>';
+                cardHtml += '<div class="desc_body '+classBody+'">';
+                    cardHtml += '<div style="background-image:url('+card.imgUrl+');" class="desc_image"></div>';
+                    cardHtml += '<div class="text_body">'+card.bodyText+'</div>';
+                cardHtml += '</div>';
+            cardHtml += '</div>';
+            cardsHtml += cardHtml;
+        }
+        cardsHtml += '</div>';
+        $('.wheel_body').append(cardsHtml)
+        $('.description_body').css({
+            'bottom' : 0
+        })
+        
+    }
+
+    self.clickOnYear = function(){
+        $('.description_body').css({
+            'bottom' : '-70%'
+        })
+        self.readyForWheel();
+    }
+    self.clickOnYearWheel = function(){
+        $('.description_body').css({
+            'bottom' : '0'
+        })
+        $('.wheel').css({
+            'margin-left': '-100vw'
+        })
+    }
+
+    self.clickOnExitCard = function(){
+        $('.timeline').css('display','block');
+
+        self.video.play();
+        $('#video').removeClass('blur');
+
+        $('.wheel_body').addClass('hidden_type');
+
+        $('.layout_wheel, .description_body').remove();
+    }
+
+    self.clickOnExit = function(){
+        $('.wheel_dom .image').css({
+            'display':'none',
+        })
+        $('.card').remove();
+        
+        $('.wheel').css({
+            'margin-left': '-100vw'
+        })
+        setTimeout(function(){
+            $('#video').removeClass('blur');
+            $('.wheel_body').addClass('hidden_type');
+            if(self.video.currentTime != self.video.duration){
+                self.video.play();
+            }
+            
+            $('.timeline').css('display','block');
+        }, 1000)
+
+        $('.description_body').css('display', 'none');
+        
+        $(window).off('mousemove');
+    }
+
+    //функция для построения колеса, вызывается при нажатии на кнопку
+    self.readyForWheel = function(){
+        
+        //$('.wheel_body').append('<button class="exit" onclick="appInstance.page.clickOnExit()">x</button>');
+
+        $('.wheel').children().remove();
+        var data = appInstance.getContentFromFile(self.urlForWheel)
+        $('.wheel').html(data);
+        $('.wheel').append('<span class="wheel_span"><label onclick="appInstance.page.clickOnYearWheel()">'+self.jsonForCard.year+'</label></span>')
+      
+        
         setTimeout(function(){
             $('.wheel').css({
                 'margin-left': '0px'
@@ -127,27 +231,9 @@ function FirstPage(){
         document.getElementsByTagName('img').ondragstart = function() { return false; };
 
         //клик по кнопке "Выход" - режим колеса
-        $('.exit').off('click').click(function(e){  
-            $('.wheel_dom .image').css({
-                'display':'none',
-            })
-            $('.card').remove();
+        /*$('.exit').off('click').click(function(e){  
             
-            $('.wheel').css({
-                'margin-left': '-100vw'
-            })
-            setTimeout(function(){
-                $('#video').removeClass('blur');
-                $('.wheel_body').addClass('hidden_type');
-                if(self.video.currentTime != self.video.duration){
-                    self.video.play();
-                }
-                
-                $('.timeline').css('display','block');
-            }, 1000)
-            
-            $(window).off('mousemove');
-        })
+        })*/
         
     }
 
@@ -291,7 +377,7 @@ function FirstPage(){
             if(parseFloat($(elementWheel).attr('deg')) >= 70 && parseFloat($(elementWheel).attr('deg')) <= 110){
                 var deltaDeg = Math.abs(90 - parseFloat($(elementWheel).attr('deg')));
                 var koeff = 1+Math.abs(deltaDeg - 20)/90;
-                var sizeOld = 15;
+                var sizeOld = 23;
                 var newSize = sizeOld * koeff;
                 $(elementWheel).css({
                     width: newSize + 'vh',
@@ -299,14 +385,14 @@ function FirstPage(){
                 });
             }else{
                 $(elementWheel).css({
-                    width: '15vh',
-                    height: '15vh'
+                    width: '23vh',
+                    height: '23vh'
                 });
             }
 
             $(elementWheel).css({
-                top:Y - parseInt($(elementWheel).height()/2),
-                left:X - parseInt($(elementWheel).width()/2) + parseInt(window.innerHeight/2)
+                top:Y - parseInt($(elementWheel).height()/2) + window.innerHeight*0.05,
+                left:X - parseInt($(elementWheel).width()/2) + parseInt(window.innerHeight/2) - window.innerHeight*0.05
             })
 
         });
@@ -336,7 +422,7 @@ function FirstPage(){
         
         $('.wheel span').css({
             'transition': 'transform '+(sum/1000)+'s ease-in-out',
-            'transform': 'rotate('+(oldDegSpan+delta)+'deg)'
+            //'transform': 'rotate('+(oldDegSpan+delta)+'deg)'
         })
        
         
@@ -623,13 +709,24 @@ function FirstPage(){
         var srcCard = $(element).attr('card');
         /*var x = $(element).offset().left + $(element).width();
         var y = $(element).offset().top; + $(element).height()*/
-        var image = '<img class="card" src="'+srcCard+'" />';
-        $('body').append(image);
+        var card = '';
+        card += '<div class="card" >';
+            card += '<div class="img" style="background-image:url('+srcCard+')"/>'
+            card += '<div class="div">'
+                card += '<label class="card_header">'+ $(element).attr('header')+'</label>'
+                card += '<div>'+ $(element).attr('body')+'</div>'
+            card += '</div>'
+            card += '<button></button>'
+        card += '</div>';
+        $('body').append(card);
 
-        $('.card').click(function(e){
+        $('.card button').click(function(e){
+            $('.card .img, .card .div, .card button').css({
+                display: 'none'
+            })
             $('.card').css({
                 width: 0,
-                height: 'auto',
+                height: 0,
             })
             setTimeout(function(){
                 $('.card').remove();
@@ -640,8 +737,16 @@ function FirstPage(){
         setTimeout(function(){
             $('.card').css({
                 width: window.innerWidth-400,
-                height: 'auto',
+                height: window.innerHeight-200,
             })
+            setTimeout(function(){
+                $('.card .img, .card button').css({
+                    display: 'inline-block'
+                })
+                $('.card .div').css({
+                    display: 'flex'
+                })
+            },1000)
         }, 300)
         
     }
