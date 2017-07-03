@@ -80,7 +80,7 @@ function FirstPage(){
                     }
                     
                     if(i == 0){
-                        cardHtml += '<button onclick="appInstance.page.clickOnExitCard()" class="exit_card" ></button>';
+                        cardHtml += '<button onclick="appInstance.page.clickOnYear()" class="exit_card" ></button>';
                     }
                     var classBody = '';
                     if(i==1){
@@ -121,7 +121,9 @@ function FirstPage(){
     self.clickOnExitCard = function(){
         $('.timeline').css('display','block');
 
-        self.video.play();
+        if(self.video.currentTime != self.video.duration){
+            self.video.play();
+        }
         $('#video').removeClass('blur');
 
         $('.wheel_body').addClass('hidden_type');
@@ -391,7 +393,7 @@ function FirstPage(){
             }
 
             $(elementWheel).css({
-                top:Y - parseInt($(elementWheel).height()/2) + window.innerHeight*0.05,
+                top:Y - parseInt($(elementWheel).height()/2),
                 left:X - parseInt($(elementWheel).width()/2) + parseInt(window.innerHeight/2) - window.innerHeight*0.05
             })
 
