@@ -702,52 +702,56 @@ function FirstPage(){
             
         })
     }
-
+    self.closeCard = function(){
+        
+        $('.card .img, .card .div, .card button').css({
+            display: 'none'
+        })
+        $('.card').css({
+            transition: '.4s linear',
+            width: 0,
+            height: 0,
+            left:'auto',
+            top:'auto'
+        })
+        setTimeout(function(){
+            $('.card').remove();
+        }, 400) 
+    }
     //открываем карточку из фотографии
     self.openCard = function(element){
         $('.card').remove();
         var srcCard = $(element).attr('card');
-        /*var x = $(element).offset().left + $(element).width();
-        var y = $(element).offset().top; + $(element).height()*/
+        var x = $(element).offset().left + $(element).width()/2;
+        var y = $(element).offset().top + $(element).height()/2;
         var card = '';
-        card += '<div class="card" >';
+        card += '<div class="card" style="left:'+x+'px;top:'+y+'px;width:0;height:0">';
             card += '<div class="img" style="background-image:url('+srcCard+')"/>'
             card += '<div class="div">'
                 card += '<label class="card_header">'+ $(element).attr('header')+'</label>'
                 card += '<div>'+ $(element).attr('body')+'</div>'
             card += '</div>'
-            card += '<button></button>'
+            card += '<button onclick="appInstance.page.closeCard()"></button>'
         card += '</div>';
         $('body').append(card);
 
-        $('.card button').click(function(e){
-            $('.card .img, .card .div, .card button').css({
-                display: 'none'
-            })
-            $('.card').css({
-                width: 0,
-                height: 0,
-            })
-            setTimeout(function(){
-                $('.card').remove();
-            }, 1000)
-            
+        $('.card').css({
+            transition: 'none'
         })
         
-        setTimeout(function(){
-            $('.card').css({
-                width: window.innerWidth-400,
-                height: window.innerHeight-200,
+        $('.card').animate({
+            width: window.innerWidth-400,
+            height: window.innerHeight-200,
+            left: 130,
+            top: 80
+        }, 400, function(){
+            $('.card .img, .card button').css({
+                display: 'inline-block'
             })
-            setTimeout(function(){
-                $('.card .img, .card button').css({
-                    display: 'inline-block'
-                })
-                $('.card .div').css({
-                    display: 'flex'
-                })
-            },1000)
-        }, 300)
+            $('.card .div').css({
+                display: 'flex'
+            })
+        })
         
     }
 }

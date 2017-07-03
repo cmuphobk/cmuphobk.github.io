@@ -85,7 +85,7 @@ $(document).ready(function(){
             y:40,
             h:100,
             w:340,
-            html:'templates/wheel1.html', 
+            html:'templatesWheel/wheel1.html', 
             json:'json/per1but1.json'
         },
         {
@@ -93,7 +93,7 @@ $(document).ready(function(){
             y:85,
             h:100,
             w:420,
-            html:'templates/wheel2.html', 
+            html:'templatesWheel/wheel2.html', 
             json:'json/per1but1.json'
         },
         {
@@ -101,7 +101,7 @@ $(document).ready(function(){
             y:215,
             h:105,
             w:425,
-            html:'templates/wheel3.html', 
+            html:'templatesWheel/wheel3.html', 
             json:'json/per1but1.json'
         }]
        
@@ -119,7 +119,7 @@ $(document).ready(function(){
             y:40,
             h:100,
             w:340,
-            html:'templates/wheel1.html', 
+            html:'templatesWheel/wheel1.html', 
             json:''
         }]
        
