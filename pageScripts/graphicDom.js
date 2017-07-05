@@ -17,16 +17,16 @@ var hardcodeImages = {
         rotate:-12
     }],
     2:[{
-        lastHeight:500,
+        lastHeight:400,
         lastLeft:300,
         lastTop:-100,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:400,
+        lastLeft:800,
+        lastTop:90,
+        rotate:20
     }],
     3:[{
         lastHeight:468,
@@ -47,58 +47,58 @@ var hardcodeImages = {
         rotate:-15
     }],
     4:[{
-        lastHeight:500,
-        lastLeft:300,
+        lastHeight:300,
+        lastLeft:250,
+        lastTop:-100,
+        rotate:20
+    },
+    {
+        lastHeight:300,
+        lastLeft:450,
+        lastTop:250,
+        rotate:-10
+    },
+    {
+        lastHeight:300,
+        lastLeft:750,
         lastTop:-100,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:300,
+        lastLeft:950,
+        lastTop:130,
+        rotate:-35
     }],
     5:[{
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:200,
+        lastLeft:388,
+        lastTop:3,
+        rotate:20
+    },
+    {
+        lastHeight:200,
+        lastLeft:431,
+        lastTop:200,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:200,
+        lastLeft:728,
+        lastTop:-61,
+        rotate:20
+    },
+    {
+        lastHeight:300,
+        lastLeft:736,
+        lastTop:174,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:300,
+        lastLeft:1075,
+        lastTop:234,
+        rotate:20
     }],
     6:[{
         lastHeight:200,
@@ -119,7 +119,7 @@ var hardcodeImages = {
         rotate:-20
     },
     {
-        lastHeight:180,
+        lastHeight:240,
         lastLeft:721,
         lastTop:-142,
         rotate:-20
