@@ -137,94 +137,93 @@ var hardcodeImages = {
         rotate:20
     }],
     7:[{
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:200,
+        lastLeft:362,
+        lastTop:295,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:200,
+        lastLeft:388,
+        lastTop:3,
+        rotate:20
+    },
+    {
+        lastHeight:200,
+        lastLeft:431,
+        lastTop:200,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:300,
+        lastLeft:736,
+        lastTop:174,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:240,
+        lastLeft:721,
+        lastTop:-142,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:200,
+        lastLeft:942,
+        lastTop:23,
+        rotate:20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:300,
+        lastLeft:1075,
+        lastTop:234,
+        rotate:20
     }],
     8:[{
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:200,
+        lastLeft:362,
+        lastTop:295,
+        rotate:-20
+    },{
+        lastHeight:200,
+        lastLeft:388,
+        lastTop:3,
+        rotate:20
+    },
+    {
+        lastHeight:200,
+        lastLeft:431,
+        lastTop:200,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:300,
+        lastLeft:736,
+        lastTop:174,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
+        lastHeight:240,
+        lastLeft:721,
+        lastTop:-142,
         rotate:-20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:200,
+        lastLeft:942,
+        lastTop:23,
+        rotate:20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:300,
+        lastLeft:1075,
+        lastTop:234,
+        rotate:20
     },
     {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
-    },
-    {
-        lastHeight:500,
-        lastLeft:300,
-        lastTop:-100,
-        rotate:-20
+        lastHeight:250,
+        lastLeft:900,
+        lastTop:350,
+        rotate:20
     }],
 }
 
