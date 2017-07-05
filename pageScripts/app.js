@@ -85,24 +85,21 @@ $(document).ready(function(){
             y:40,
             h:100,
             w:340,
-            html:'templatesWheel/wheel1.html', 
-            json:'json/per1but1.json'
+            json:'json/1837.json'
         },
         {
             x:880,
             y:85,
             h:100,
             w:420,
-            html:'templatesWheel/wheel2.html', 
-            json:'json/per1but1.json'
+            json:'json/1837.json'
         },
         {
             x:595,
             y:215,
             h:105,
-            w:425,
-            html:'templatesWheel/wheel3.html', 
-            json:'json/per1but1.json'
+            w:425, 
+            json:'json/1837.json'
         }]
        
         //инициализируем экран

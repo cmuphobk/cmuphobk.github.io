@@ -9,6 +9,225 @@ var oldLengthHeight = null;
 var oldLengthWidth = null;
 var oldRad = null;
 
+var hardcodeImages = {
+    1:[{
+        lastHeight:470,
+        lastLeft:430,
+        lastTop:-100,
+        rotate:-12
+    }],
+    2:[{
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    }],
+    3:[{
+        lastHeight:468,
+        lastLeft:353,
+        lastTop:115,
+        rotate:-40
+    },
+    {
+        lastHeight:432,
+        lastLeft:666,
+        lastTop:-123,
+        rotate:23
+    },
+    {
+        lastHeight:414,
+        lastLeft:1115,
+        lastTop:77,
+        rotate:-15
+    }],
+    4:[{
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    }],
+    5:[{
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    }],
+    6:[{
+        lastHeight:200,
+        lastLeft:388,
+        lastTop:3,
+        rotate:20
+    },
+    {
+        lastHeight:200,
+        lastLeft:431,
+        lastTop:200,
+        rotate:-20
+    },
+    {
+        lastHeight:300,
+        lastLeft:736,
+        lastTop:174,
+        rotate:-20
+    },
+    {
+        lastHeight:180,
+        lastLeft:721,
+        lastTop:-142,
+        rotate:-20
+    },
+    {
+        lastHeight:200,
+        lastLeft:942,
+        lastTop:23,
+        rotate:20
+    },
+    {
+        lastHeight:300,
+        lastLeft:1075,
+        lastTop:234,
+        rotate:20
+    }],
+    7:[{
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    }],
+    8:[{
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    },
+    {
+        lastHeight:500,
+        lastLeft:300,
+        lastTop:-100,
+        rotate:-20
+    }],
+}
+
 //Объект первой страницы - Синглтон
 function FirstPage(){
     if (FirstPage.self) {
@@ -22,7 +241,7 @@ function FirstPage(){
     self.buttons = null;
     self.seconds = null;
 
-    self.urlForWheel = null;
+    self.htmlForWheel = null;
     self.jsonForCard = null;
 
     self.isShowButtons = false;
@@ -39,7 +258,7 @@ function FirstPage(){
         self.isShowButtons = true;
         $('.video_body').children('button').remove();
         var buttonsHtml = self.buttons.map(function(el){
-            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.page.clickOnButton(\''+el.html+'\',\''+el.json+'\')"></button>'
+            return '<button style="height:'+el.h+'px; width:'+el.w+'px; top:'+el.y+'px; left:'+el.x+'px;" onclick="appInstance.page.clickOnButton(\''+el.json+'\')"></button>'
         })
         for(var i in buttonsHtml){
             $('.video_body').append(
@@ -49,16 +268,24 @@ function FirstPage(){
          
     }
 
-    self.clickOnButton = function(url, urlJson){
+    self.clickOnButton = function(urlJson){
         $('.timeline').css('display','none');
 
         self.video.pause();
         $('#video').addClass('blur');
 
         $('.wheel_body').removeClass('hidden_type');
-        
-        self.urlForWheel = url;
+
         self.jsonForCard = appInstance.getContentFromFile(urlJson);
+        
+        $.ajax({
+            url:'/wheel?year='+self.jsonForCard.year,
+            type:'GET',
+            async:false,
+            success: function(res){
+                self.htmlForWheel = res;
+            }
+        })
 
         var cardsHtml = '';
         cardsHtml += '<div class="layout_wheel" style="width:'+self.jsonForCard.width+';">';
@@ -162,7 +389,7 @@ function FirstPage(){
         //$('.wheel_body').append('<button class="exit" onclick="appInstance.page.clickOnExit()">x</button>');
 
         $('.wheel').children().remove();
-        var data = appInstance.getContentFromFile(self.urlForWheel)
+        var data = self.htmlForWheel;
         $('.wheel').html(data);
         $('.wheel').append('<span class="wheel_span"><label onclick="appInstance.page.clickOnYearWheel()">'+self.jsonForCard.year+'</label></span>')
       
@@ -472,21 +699,21 @@ function FirstPage(){
             'width':'auto',
             'transform':'rotate(0deg)'
         })
-        $('.wheel_dom .image').load(function(){
-            
-        })
+        //TODO: подстановка атрибутов для картинок в зависимости от их количества
+        var hardcode = hardcodeImages[dom.children('.image').length];
         setTimeout(function(){
 
             var el = dom.children('.image');
             el.each(function(i){
                 var element = el[i];
+                var hard = hardcode[i]
                 $(element).css({
                     'transition': 'all 1s ease-in-out',
-                    'top' : $(el[i]).attr('lastTop')+'px',
-                    'left': $(el[i]).attr('lastLeft')+'px',
-                    'height': $(el[i]).attr('lastHeight')+'px',
+                    'top' : hard.lastTop+'px',
+                    'left': hard.lastLeft+'px',
+                    'height': hard.lastHeight +'px',
                     'width': 'auto',
-                    'transform': 'rotate('+$(el[i]).attr('rotate')+'deg)'
+                    'transform': 'rotate('+hard.rotate+'deg)'
                 })
                 setTimeout(function(){
                     $(element).css({
@@ -708,7 +935,9 @@ function FirstPage(){
     self.changeAlbumPage = function(el){
         $('.card .img').attr('style', 'background-image:url('+$(el).attr('src')+'); display:inline-block;')
         $('.card .div .card_header').html($(el).attr('header'))
-        $('.card .div div').html($(el).attr('body'))
+        var body = appInstance.getContentFromFile($(el).attr('body'));
+        var data = body?body.data:'';
+        $('.card .div div').html(data)
     }
     self.closeAlbum = function(){
         $('.card .img, .card .div, .card button').css({
@@ -753,18 +982,26 @@ function FirstPage(){
         var card = '';
         var lHeight;
         if($(element).attr('type')!='album'){
+            var body = appInstance.getContentFromFile($(element).attr('body'));
+            var data = body?body.data:'';
             card += '<div class="card" style="left:'+x+'px;top:'+y+'px;width:0;height:0">';
                 card += '<div class="img" style="background-image:url('+srcCard+')"/>'
                 card += '<div class="div">'
-                    card += '<label class="card_header">'+ $(element).attr('header')+'</label>'
-                    card += '<div>'+ $(element).attr('body')+'</div>'
+                    card += '<div>'+ data +'</div>'
                 card += '</div>'
                 card += '<button onclick="appInstance.page.closeCard()"></button>'
             card += '</div>';
             lHeight = window.innerHeight-200
         }else{
             lHeight = window.innerHeight-400
-            card = appInstance.getContentFromFile(srcCard);
+            $.ajax({
+                url:srcCard,
+                type:'GET',
+                async:false,
+                success:function(res){
+                    card = res;
+                }
+            });
         }
         
         $('body').append(card);
