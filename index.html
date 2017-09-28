@@ -9,23 +9,41 @@
         <link rel="icon" type="image/png" href="img/favicon.png">
         <title>cmuphobk</title>
 
-        <link rel="stylesheet" href="css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="lib/OwlCarousel2-2.2.1/dist/assets/owl.carousel.min.css">
+        <link rel="stylesheet" href="lib/OwlCarousel2-2.2.1/dist/assets/owl.theme.default.min.css">
         <link rel="stylesheet" href="css/style.css"></link>
     </head>
     <body>
         <div class="header">
-            <h3>Разработчик cmuphobk</h3>
+            <div class="header_logo">MetaRun</div>
+            <ul class="header_menu">
+                <li class="active"><a href="#main">Главная</a></li>
+                <li><a href="#items">Товары</a></li>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#contact">Контакты</a></li>
+              </ul>
         </div>
         <div class="body">
-            
+            <section id="main">
+                <div class="owl-carousel owl-theme">
+                    <div class="item_carousel item_carousel1"></div>
+                    <div class="item_carousel item_carousel2"></div>
+                    <div class="item_carousel item_carousel3"></div>
+                </div>
+            </section>
+            <section id="items"></section>
+            <section id="about"></section>
+            <section id="contact"></section>
         </div>
         <div class="footer">
-            <h4>2017</h4>
+            <h4 class="year">2017</h4>
         </div>
     </body>
 
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/jquery/jquery.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/bootstrap.min.js"></script>
+    <script src="lib/OwlCarousel2-2.2.1/dist/owl.carousel.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
 
     </body>
