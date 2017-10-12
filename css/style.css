@@ -125,7 +125,27 @@ h4{
 .shoes img{
     width: 20vw;
 }
-
+.controls{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    padding: 10px 40px;
+}
+.controls .left{
+    border: none;
+    background-color: transparent;
+}
+.controls .right{
+    border: none;
+    background-color: transparent;
+}
+#filters{
+    display: flex;
+    justify-content: center;
+}
+#filters a{
+    padding:5px 20px;
+}
 @media screen and (max-width:768px){
     .item_carousel{
         background-size: auto 100%;

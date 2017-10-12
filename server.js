@@ -37,15 +37,33 @@ var rmdir = function(dir) {
 
 function index(req, res) {
   var type = (req.query&&req.query.type?req.query.type:'muzhskaya');
-  var path = './shoes'+type+'/'+type+(req.query&&req.query.page?req.query.page:1)+'.json';
+  var page = (req.query&&req.query.page?req.query.page:1);
+  var path = './shoes'+type+'/'+type+page+'.json';
+  var pages = [];
   
-  if (fs.existsSync(path)){
-    fs.readFile(path, 'utf-8', function(err, result){
-      res.render('index', {
-          result: JSON.parse(result)
+  fs.readFile( './shoes'+type+'/'+type+'all.json','utf8',function(err, contents) {
+    var allRes = JSON.parse(contents);
+    for(var i=0; i<Math.round(allRes.length/20); i++){
+      pages.push({
+        number:i+1,
+        href:'?type='+type+'&page='+(i+1)
       });
+    }
+    var results = allRes.slice(page*20-20,page*20);
+    res.render('index', {
+      result: results,
+      pages: pages
     });
-  }
+    /*if (fs.existsSync(path)){
+      fs.readFile(path, 'utf-8', function(err, result){
+        res.render('index', {
+            result: JSON.parse(result),
+            pages: pages
+        });
+      });
+    }*/
+  });
+  
 }
 
 function shoesSync(URL, callbackShoes){

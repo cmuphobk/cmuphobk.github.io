@@ -1,14 +1,26 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-        <section id="items">
+        <div id="filters">
+            <a href="/?type=muzhskaya">Мужская обувь</a>
+            <a href="/?type=zhenskaya">Женская обувь</a>
+        </div>
+        <div id="items">
         @model.result.forEach(function(shoes){
             <div class="shoes">
                 <img src="@shoes.imgPrev"/>
                 <label>@shoes.name</label>
             </div>
         })
-        </section>
+        </div>
+        
+        <div class="controls">
+            <button class="left glyphicon glyphicon-chevron-left"></button>
+            @model.pages.forEach(function(page){
+                <a href="@page.href" page="@page.number">@page.number</a>
+            })
+            <button class="right glyphicon glyphicon-chevron-right"></button>
+        </div>
     })
 
 })
