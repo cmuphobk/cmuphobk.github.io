@@ -9,6 +9,10 @@
   "author": "ksmirnov@baccasoft.ru",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.2"
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.2",
+    "needle": "^2.0.1",
+    "tress": "^1.0.5",
+    "vash": "^0.12.3"
   }
 }

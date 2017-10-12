@@ -98,11 +98,67 @@ h4{
     display: none;
 }
 .item_carousel1{
-    background-image: url('../img/metarun/1.jpg')
+    background-image: url('../img/metarun/1.jpg');
 }
 .item_carousel2{
-    background-image: url('../img/metarun/2.jpg')
+    background-image: url('../img/metarun/2.jpg');
 }
 .item_carousel3{
-    background-image: url('../img/metarun/3.jpg')
+    background-image: url('../img/metarun/3.jpg');
+}
+#main{
+    padding-bottom: 40px;
+}
+#items{
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.shoes{
+    display: inline-flex;
+    flex-direction: column;  
+}
+.shoes img{
+    width: 20vw;
+}
+
+@media screen and (max-width:768px){
+    .item_carousel{
+        background-size: auto 100%;
+    }
+    .header_menu:before{
+        display: inline-block;
+        content: '';
+        height: 50px;
+        width: 40px;
+        position: fixed;
+        right: 10px;
+        top: 10px;
+        background-image: url('../img/metarun/menuBtn.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: 50%;
+    }
+    .header_menu{
+        position: fixed;
+        flex-direction: column;
+        width: 100%;
+        top: 70px;
+        z-index: 2;
+        background-color: black;
+        height: 0px;
+        overflow: hidden;
+        transition: 1s ease-in;
+        padding: 0;
+    }
+    .header_menu_active{
+        height: 170px;
+    }
+    .header_menu li{
+        padding: 10px 10px;
+    }
 }

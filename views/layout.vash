@@ -9,14 +9,15 @@
         <link rel="icon" type="image/png" href="img/favicon.png">
         <title>cmuphobk</title>
 
-        <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="lib/OwlCarousel2-2.2.1/dist/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="lib/OwlCarousel2-2.2.1/dist/assets/owl.theme.default.min.css">
-        <link rel="stylesheet" href="css/style.css"></link>
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <div class="header">
             <div class="header_logo">MetaRun</div>
+            
             <ul class="header_menu">
                 <li class="active"><a href="#main">Главная</a></li>
                 <li><a href="#items">Товары</a></li>
@@ -32,19 +33,19 @@
                     <div class="item_carousel item_carousel3"></div>
                 </div>
             </section>
-            <section id="items"></section>
-            <section id="about"></section>
-            <section id="contact"></section>
+            @html.block('content')
+            
         </div>
         <div class="footer">
             <h4 class="year">2017</h4>
         </div>
     </body>
 
+
     <script type="text/javascript" src="lib/jquery/jquery.js"></script>
     <script type="text/javascript" src="lib/bootstrap/bootstrap.min.js"></script>
     <script src="lib/OwlCarousel2-2.2.1/dist/owl.carousel.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-
+    
     </body>
 </html>

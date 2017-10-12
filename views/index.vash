@@ -1,0 +1,14 @@
+@html.extend('layout', function(model){
+
+    @html.block('content', function(model){
+        <section id="items">
+        @model.result.forEach(function(shoes){
+            <div class="shoes">
+                <img src="@shoes.imgPrev"/>
+                <label>@shoes.name</label>
+            </div>
+        })
+        </section>
+    })
+
+})
