@@ -4,12 +4,31 @@
         <div id="filters">
             <a href="/?type=muzhskaya">Мужская обувь</a>
             <a href="/?type=zhenskaya">Женская обувь</a>
+            <a href="/?type=skidki">Скидки</a>
         </div>
         <div id="items">
         @model.result.forEach(function(shoes){
-            <div class="shoes">
-                <img src="@shoes.imgPrev"/>
+            <div class="shoes @shoes.dibType">
+                <span class="left glyphicon glyphicon-chevron-left"></span>
+                @shoes.imgPrev.forEach(function(shoe, index){
+                    <img attrin="@index" src="@shoe"/>
+                })
+                <span class="right glyphicon glyphicon-chevron-right"></span>
+                <div class="blocks">
+                    @shoes.imgPrev.forEach(function(shoe, index){
+                        <span class="@index"></span>
+                    })
+                </div>
                 <label>@shoes.name</label>
+                @shoes.nameDiv.split('|').forEach(function(el, i){
+                    @if(i==1 && shoes.nameDiv.split('|').length == 4){
+                        <label style="text-decoration:line-through;" class="strings">@el</label>
+                    }else{
+                      <label class="strings">@el</label>  
+                    }
+                    
+                })
+                
             </div>
         })
         </div>

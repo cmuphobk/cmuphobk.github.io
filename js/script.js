@@ -20,8 +20,29 @@ $(document).ready(function(){
             }
         }
     });
-    $('.left').click(function(){
+
+    if(!parseQueryString()['type'] || parseQueryString()['type'] == "" || parseQueryString()['type'] == "muzhskaya"){
+        $($('#filters a')[0]).css({
+            'text-decoration':'underline',
+            'color': '#d62613',
+        })
+    }else if(parseQueryString()['type'] == "zhenskaya"){
+        $($('#filters a')[1]).css({
+            'text-decoration':'underline',
+            'color': '#d62613',
+        })
+    }else{
+        $($('#filters a')[2]).css({
+            'text-decoration':'underline',
+            'color': '#d62613',
+        })
+    }
+
+    $('.controls .left').click(function(){
        var page = parseQueryString()['page'];
+       if(!page){
+            page = 1;
+        }
        if(page == 1){
            return;
        }else{
@@ -29,15 +50,71 @@ $(document).ready(function(){
            window.location.href = setGetParameter('page', page);
        }
     });
-    $('.right').click(function(){
+    $('.controls .right').click(function(){
         var page = parseQueryString()['page'];
+        if(!page){
+            page = 1;
+        }
         if(page == $('.controls a').last().attr('page')){
             return;
-        }else{
+        }else{  
             page++;
             window.location.href = setGetParameter('page', page);
         }
     });
+    $('.0').addClass('active');
+    $('.shoes').each(function(el){
+        var shoe = $('.shoes')[el];
+        $(shoe).children('img').each(function(el){
+            var img = $(shoe).children('img')[el];
+            if(el == 0){
+                $(img).addClass('active');
+            }
+        })     
+    });
+    $('.blocks span')
+    $('.shoes .left').click(function(){
+        var parent = $(this).parent();
+        var th = parent.children('.active');
+        var prev = th.prev();
+        if(prev.is('span')){
+            var last = parent.children('img').last();
+            th.removeClass('active');
+            last.addClass('active');
+            parent.children('.blocks').children('.active').removeClass('active');
+            parent.children('.blocks').children('.'+last.attr('attrin')).addClass('active');
+            
+        }else{
+            th.removeClass('active');
+            prev.addClass('active');
+            parent.children('.blocks').children('.active').removeClass('active');
+            parent.children('.blocks').children('.'+prev.attr('attrin')).addClass('active');
+        }
+    });
+    $('.shoes .right').click(function(){
+        var parent = $(this).parent();
+        var th = parent.children('.active');
+        var next = th.next();
+        if(next.is('span')){
+            var first = parent.children('img').first();
+            th.removeClass('active');
+            first.addClass('active');
+            parent.children('.blocks').children('.active').removeClass('active');
+            parent.children('.blocks').children('.'+first.attr('attrin')).addClass('active');
+        }else{
+            th.removeClass('active');
+            next.addClass('active');
+            parent.children('.blocks').children('.active').removeClass('active');
+            parent.children('.blocks').children('.'+next.attr('attrin')).addClass('active');
+        }
+    });
+    $('.blocks span').hover(function(){
+        $(this).parent().parent().children('.active').removeClass('active');
+        $(this).parent().children('.active').removeClass('active');
+        $(this).addClass('active');
+        $(this).parent().parent().children('[attrin='+parseInt($(this).attr('class'))+']').addClass('active');
+    });
+    
 });
 
 

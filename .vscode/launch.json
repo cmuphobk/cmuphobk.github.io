@@ -9,7 +9,11 @@
                 "program": "${workspaceRoot}/server.js",
                 "restart": true,
                 "console": "integratedTerminal",
-                "internalConsoleOptions": "neverOpen"
+                "internalConsoleOptions": "neverOpen",
+                "skipFiles": [
+                    "${workspaceRoot}/shoesmuzhskaya",
+                    "${workspaceRoot}/shoeszhenskaya"
+                ]
             },
             {
                 "type": "node",

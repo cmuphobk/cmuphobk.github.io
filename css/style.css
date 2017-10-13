@@ -2,9 +2,17 @@
     font-family: 'reef';
     src: url('../fonts/reef/reef.otf');
 }
-
 body{
+    margin-top: 72px;
+    width: 100%;
+    background-color: rgba(26,46,71,0.95);
+}
+body, a, label{
     font-family: reef;
+    color:white;
+}
+a:hover{
+    color:#d62613;
 }
 h4{
     color: white;
@@ -15,6 +23,11 @@ h4{
     align-items: center;
     background-color: #1b2f48;
     border-bottom: 1px solid lightblue;
+    width: 100vw;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 .header_logo{
     color: white;
@@ -55,7 +68,7 @@ h4{
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: 50%;
-    height: 400px;
+    height: 500px;
     width: 100wh;
     background-color: rgba(0,0,0,0.1);
 }
@@ -119,34 +132,104 @@ h4{
     padding-right: 40px;
 }
 .shoes{
-    display: inline-flex;
-    flex-direction: column;  
+    display: inline-block;
+    flex-direction: column;
+    width: 310px;
+    height: 320px;
+    margin-bottom: 10px;
+    padding: 20px;
+    text-align: center;
 }
+.shoes:hover{
+    border: 3px solid #d62613;
+}
+
 .shoes img{
-    width: 20vw;
+    display: none;
+    width: 85%;
+    max-height: 180px;    
+}
+.shoes .active{
+    display: inline-block;
+}
+.shoes .left, .shoes .right{
+    display: inline-block;
+    color: white;
+}
+.blocks{
+    display: flex;
+    height: 20px;
+    justify-content: space-around;
+    padding: 5px 0;
+    margin-bottom: 10px;
+}
+.blocks span{
+    width: 56px;
+    height: 10px;
+    background: white;
+}
+.blocks .active, .blocks span:hover{
+    background: #d62613;
 }
 .controls{
     display: flex;
-    width: 100%;
+    width: 60%;
     justify-content: space-around;
-    padding: 10px 40px;
+    padding: 17px 40px;
+    margin-left: 20%;
+    border: 3px solid #d62613;
+    margin: 20px 20% 20px 20%;
+    background-color: transparent;
 }
 .controls .left{
     border: none;
     background-color: transparent;
+    color: white;
 }
 .controls .right{
     border: none;
     background-color: transparent;
+    color: white;
 }
 #filters{
     display: flex;
     justify-content: center;
 }
 #filters a{
-    padding:5px 20px;
+    padding: 0px 20px 35px 20px;
+    font-size: 20px;
+}
+.strings{
+    display: block;
+}
+
+.skidka_prew::before{
+    display: inline-block;
+    content: '';
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/metarun/icon_procent.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    margin-left: 216px;
+}
+.skidka_prew:hover::before{
+    margin-left: 210px;
 }
 @media screen and (max-width:768px){
+    .controls{
+        display: inline-flex;
+        flex-wrap: wrap;
+        padding: 5px;
+    }
+    .controls a{
+        padding: 0 3px;
+    }
+    #items{
+        padding: 0;
+    }
     .item_carousel{
         background-size: auto 100%;
     }
@@ -169,7 +252,7 @@ h4{
         width: 100%;
         top: 70px;
         z-index: 2;
-        background-color: black;
+        background-color: #1b2f48;
         height: 0px;
         overflow: hidden;
         transition: 1s ease-in;
