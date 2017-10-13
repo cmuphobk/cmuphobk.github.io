@@ -89,15 +89,32 @@ function shoesSync(URL, callbackShoes){
         bs.forEach(function(el){
           nameDiv += $(el).text()+"|";
         });
-        db.insert({
-          href:resolve(URL, item.attribs.href),
-          imgPrev:picArr,
-          name:pic.attribs.alt,
-          nameDiv:nameDiv,
-          dibType:divType?divType.attribs.class:null,
-          type:leftURL
-        });
-       
+        var detUrl = resolve(URL, item.attribs.href)
+        needle.get(detUrl, function (err, res) {
+          if (err) throw err;
+          var $ = cheerio.load(res.body);
+
+          description = $('.bl-good--sdesc').text().replace('\t','').replace('\n','');
+          razmers = [];
+          $('.ex-size li').each(function(el){
+            razmers.push($($('.ex-size li')[el]).text().replace('\t','').replace('\n',''));
+          });
+          articul = $('.article').text().replace('\t','').replace('\n','');
+          
+         
+          var obj = {
+            href:detUrl,
+            imgPrev:picArr,
+            name:pic.attribs.alt,
+            nameDiv:nameDiv,
+            dibType:divType?divType.attribs.class:null,
+            type:leftURL,
+            description:description,
+            razmers:razmers,
+            articul:articul
+          };
+          db.insert(obj);
+        })
       });
 
       //паджинатор
