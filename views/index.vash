@@ -8,7 +8,7 @@
         </div>
         <div id="items">
         @model.result.forEach(function(shoes){
-            <div class="shoes @shoes.dibType">
+            <div id="@shoes.id" class="shoes @shoes.dibType">
                 <span class="left glyphicon glyphicon-chevron-left"></span>
                 @shoes.imgPrev.forEach(function(shoe, index){
                     <img attrin="@index" src="@shoe"/>
@@ -28,7 +28,9 @@
                     }
                     
                 })
-                
+                <div style="display:none;" class="articul">@shoes.articul</div>
+                <div style="display:none;" class="razmers">@shoes.razmers</div>
+                <div style="display:none;" class="description">@shoes.description</div>
             </div>
         })
         </div>
@@ -39,6 +41,28 @@
                 <a href="@page.href" page="@page.number">@page.number</a>
             })
             <button class="right glyphicon glyphicon-chevron-right"></button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">          
+                    <div class="modal-body">
+                        <div class="shoe_detail">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <div class="img">
+                                <img/>
+                            </div>
+                            <label class="articul">
+                            </label>
+                            <label class="description">
+                            </label>
+                            <div class="razmers">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     })
 

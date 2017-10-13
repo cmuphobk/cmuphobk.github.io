@@ -94,7 +94,7 @@ function shoesSync(URL, callbackShoes){
           if (err) throw err;
           var $ = cheerio.load(res.body);
 
-          description = $('.bl-good--sdesc').text().replace('\t','').replace('\n','');
+          description = $('.bl-good--sdesc').text();
           razmers = [];
           $('.ex-size li').each(function(el){
             razmers.push($($('.ex-size li')[el]).text().replace('\t','').replace('\n',''));

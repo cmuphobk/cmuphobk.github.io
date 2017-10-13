@@ -114,7 +114,14 @@ $(document).ready(function(){
         $(this).addClass('active');
         $(this).parent().parent().children('[attrin='+parseInt($(this).attr('class'))+']').addClass('active');
     });
-    
+    $('.shoes img').click(function(){
+        var shoe = $(this).parent();
+        $('#myModal').modal('show');
+        $('#myModal .img img').attr('src',shoe.children('img')[0].getAttribute('src'));
+        $('#myModal .articul').text(shoe.children('.articul').text());
+        $('#myModal .description').text(shoe.children('.description').text());
+        $('#myModal .razmers').text(shoe.children('.razmers').text());
+    })
 });
 
 
