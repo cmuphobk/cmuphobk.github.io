@@ -119,7 +119,9 @@ $(document).ready(function(){
         $('#myModal').modal('show');
         $('#myModal .img img').attr('src',shoe.children('img')[0].getAttribute('src'));
         $('#myModal .articul').text(shoe.children('.articul').text());
-        $('#myModal .description').text(shoe.children('.description').text());
+        var table = shoe.children('.description').text().split('\n').slice(0,50);
+        var description = shoe.children('.description').text().split('\n')[51];
+        $('#myModal .description').text(description);
         $('#myModal .razmers').text(shoe.children('.razmers').text());
     })
 });

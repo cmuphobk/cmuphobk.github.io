@@ -4,6 +4,7 @@ var path = require('path')
 // создаём Express-приложение
 var app = express();
 var fs = require('fs');
+var process = require('process');
 //parse
 var tress = require('tress');
 var needle = require('needle');
@@ -18,6 +19,10 @@ app.set('view engine', 'vash');
 app.use(express.static(path.join(__dirname, '/')));
 // создаём маршрут для главной страницы
 // http://localhost:8085/
+
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+});
 
 function index(req, res) {
   var type = (req.query&&req.query.type?req.query.type:'muzhskaya');

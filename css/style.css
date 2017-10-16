@@ -11,6 +11,9 @@ body, a, label{
     font-family: reef;
     color:white;
 }
+a, button, input, select{
+    outline: none;
+}
 a:hover{
     color:#d62613;
 }
@@ -223,6 +226,10 @@ h4{
 }
 #myModal .img{
     text-align: center;
+}
+.close{
+    color: white;
+    opacity: .8;
 }
 @media screen and (max-width:768px){
     .controls{
