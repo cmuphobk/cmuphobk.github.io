@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '/')));
 // http://localhost:8085/
 
 process.on('uncaughtException', function (err) {
-  console.log('Caught exception: ' + err);
+  console.log('Caught exception: ' + err + ' ' +  new Date().toDateString());
 });
 
 function index(req, res) {
@@ -80,6 +80,8 @@ function shoesSync(URL, callbackShoes){
 
   var lastURL = URL.split('/')[5];
   var leftURL = lastURL.split('?')[0];
+
+  var dbCache = [];
   
   var q = tress(function (url, callback) {
     needle.get(url, function (err, res) {
@@ -121,7 +123,10 @@ function shoesSync(URL, callbackShoes){
         });
         var detUrl = resolve(URL, item.attribs.href)
         needle.get(detUrl, function (err, res) {
-          if (err) throw err;
+          if (err) {
+            console.log( err );
+            return;
+          }
           var $ = cheerio.load(res.body);
 
           description = $('.bl-good--sdesc').text();
@@ -146,7 +151,7 @@ function shoesSync(URL, callbackShoes){
             razmers:razmers,
             articul:articul
           };
-          db.insert(obj);
+          dbCache.push(obj);
         })
       });
 
@@ -161,7 +166,7 @@ function shoesSync(URL, callbackShoes){
   }, 10); // запускаем 10 параллельных потоков
 
   q.drain = function () {
-    typeof(callbackShoes)=='function'&&callbackShoes('true');
+    typeof(callbackShoes)=='function'&&callbackShoes('true', dbCache);
   }
 
   q.push(URL);
@@ -181,27 +186,93 @@ app.get('/getShoeByArt', function(req, res){
 app.get('/shoesSynch', function(req, res) {
   var URL = 'http://fireboxshop.com/catalogue/obuv/muzhskaya?show=1';
   var res1 = null, res2 = null;
-
-  db.remove({}, { multi: true }, function (err, numRemoved) {
-    shoesSync(URL, function(result){
-      res1 = result;
-      if(res1 && res2){
-        res.send('true');
-      }
-    });
-    URL = 'http://fireboxshop.com/catalogue/obuv/zhenskaya?show=1';
-    shoesSync(URL, function(result){
-      res2 = result;
-      if(res1 && res2){
-        res.send('true');
-      }
-    });
+  var dbC1 = null, dbC2 = null;
+  
+  shoesSync(URL, function(result, dbCache){
+    res1 = result;
+    dbC1 = dbCache;
+    if(res1 && res2){
+      
+      db.remove({}, { multi: true }, function (err, numRemoved) {
+        var arr = dbC1.concat(dbC2)
+        db.insert(arr, function (err, newDocs) {
+          res.send('true');
+          if(err){
+            console.log(err + ' '  + new Date().toDateString());
+          }else{
+            console.log('synchSuccess ' + new Date().toDateString());
+          }
+        });
+      });
+    }
   });
+  URL = 'http://fireboxshop.com/catalogue/obuv/zhenskaya?show=1';
+  shoesSync(URL, function(result, dbCache){
+    res2 = result;
+    dbC2 = dbCache;
+    if(res1 && res2){
+     
+      db.remove({}, { multi: true }, function (err, numRemoved) {
+        var arr = dbC1.concat(dbC2)
+        db.insert(arr, function (err, newDocs) {
+          res.send('true');
+          if(err){
+            console.log(err + ' '  + new Date().toDateString());
+          }else{
+            console.log('synchSuccess '+ new Date().toDateString());
+          }
+        });
+      });
+    }
+  });
+  
 });
 
 String.prototype.replaceAll = function(search, replace){
   return this.split(search).join(replace);
 }
+
+setInterval(function(){
+  var URL = 'http://fireboxshop.com/catalogue/obuv/muzhskaya?show=1';
+  var res1 = null, res2 = null;
+  var dbC1 = null, dbC2 = null;
+  
+  shoesSync(URL, function(result, dbCache){
+    res1 = result;
+    dbC1 = dbCache;
+    if(res1 && res2){
+      
+      db.remove({}, { multi: true }, function (err, numRemoved) {
+        var arr = dbC1.concat(dbC2)
+        db.insert(arr, function (err, newDocs) {
+          if(err){
+            console.log(err + ' ' + new Date().toDateString());
+          }else{
+            console.log('synchSuccess '+ new Date().toDateString());
+          }
+        });
+      });
+    }
+  });
+  URL = 'http://fireboxshop.com/catalogue/obuv/zhenskaya?show=1';
+  shoesSync(URL, function(result, dbCache){
+    res2 = result;
+    dbC2 = dbCache;
+    if(res1 && res2){
+     
+      db.remove({}, { multi: true }, function (err, numRemoved) {
+        var arr = dbC1.concat(dbC2)
+        db.insert(arr, function (err, newDocs) {
+          if(err){
+            console.log(err + ' ' + new Date().toDateString());
+          }else{
+            console.log('synchSuccess '+ new Date().toDateString());
+          }
+        });
+      });
+    }
+  });
+}, 1000 * 60 * 60 * 24);
 
 // запускаем сервер на порту 8085
 app.listen(8085);

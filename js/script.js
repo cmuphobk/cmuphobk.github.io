@@ -25,7 +25,7 @@ $(document).ready(function(){
     }               
     brandsText += '<li class="button">Показать</li></ul></div>';
 
-    var searchText = '<input type="search" value="'+searchAlready+'" class="search" placeholder="Поиск"/><button class="search_btn glyphicon glyphicon-search"></button>';
+    var searchText = '<div><input type="search" value="'+searchAlready+'" class="search" placeholder="Поиск"/><button class="search_btn glyphicon glyphicon-search"></button></div>';
     $('#filters').html(searchText + brandsText)
 
     setBrands();
@@ -247,8 +247,18 @@ function updateCarts(){
                         '</div>';
         allhtml += htmlCart;      
     }
+    allhtml += '<button class="send_cart">Оформить покупку</button>';
     $('.cart_detail').html(allhtml);
+    $('.send_cart').click(sendCart);
 }
+
+function sendCart(){
+    window.localStorage.setItem('shoeCart', JSON.stringify([]));
+    cartCountUpdate();
+    $('#myModal1').modal('hide');
+    showMessage('Покупка успешно оформлена. Дождитесь звонка специалиста.', '#26d613');
+}
+
 
 function openCarts(){
     if($('.cart div').text() != '0'){

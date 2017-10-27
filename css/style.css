@@ -140,17 +140,22 @@ h4{
     width: 310px;
     height: 320px;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 20px 26px;
     text-align: center;
 }
 .shoes:hover{
-    border: 3px solid #d62613;
+    /*border: 3px solid #d62613;*/
+    border-radius: 5px;
+    background-color: rgba(161, 84, 84, 0.68);
 }
 
 .shoes img{
     display: none;
     width: 85%;
-    max-height: 180px;    
+    max-height: 180px;   
+    border-radius: 5px; 
+    margin-bottom: 20px;
+    height: 147px;
 }
 .shoes .active{
     display: inline-block;
@@ -167,9 +172,10 @@ h4{
     margin-bottom: 10px;
 }
 .blocks span{
-    width: 56px;
+    width: 85px;
     height: 10px;
     background: white;
+    border-radius: 3px;
 }
 .blocks .active, .blocks span:hover{
     background: #d62613;
@@ -202,6 +208,9 @@ h4{
     display: flex;
     justify-content: center;
 }
+#filters div{
+    display: flex;
+}
 #filterss a{
     padding: 0px 20px 35px 20px;
     font-size: 20px;
@@ -219,12 +228,13 @@ h4{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50%;
+    margin-left: 221px;
+    margin-top: -13px;
     position: absolute;
-    margin-left: 216px;
 }
-.skidka_prew:hover::before{
+/*.skidka_prew:hover::before{
     margin-left: 210px;
-}
+}*/
 .modal-content{
     background-color: #1b2f48;
 }
@@ -368,6 +378,7 @@ h4{
 }
 .search_btn{
     height: 30px;
+    width:30px;
     border: 2px solid white;
     margin-top: -1px;
     background: transparent;
@@ -387,11 +398,14 @@ h4{
     top: 18px;
     font-size: 30px;
 }
+.cart:hover{
+    opacity: .8;
+}
 .cart div{
     background: #d62613;
     border-radius: 60%;
-    height: 25px;
-    width: 25px;
+    height: 23px;
+    width: 23px;
     color: white;
     font-size: 15px;
     display: inline-flex;
@@ -401,6 +415,7 @@ h4{
     position: absolute;
     margin-left: -11px;
     margin-top: -10px;
+    font-family: reef;
 }
 .cart_item img{
     height: 100px;
@@ -424,6 +439,11 @@ h4{
     display: inline-block;
     margin-right: 5px;
 }
+.cart_item div .count_cart::before{
+    content: 'Количество: ';
+    display: inline-block;
+    margin-right: 5px;
+}
 .cart_item div .plus, .cart_item div .minus{
     background: none;
     border: 1px solid;
@@ -437,6 +457,7 @@ h4{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
 }
 .cart_item div{
     display: flex;
@@ -447,9 +468,64 @@ h4{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
+}
+.cart_detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.send_cart{
+    background: transparent;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 200px;
+    padding: 5px 0;
+}
+.send_cart:hover{
+    background: white;
+    color:#1b2f48;
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px #1b2f48;
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px #1b2f48;
+	background-color: #555;
 }
 
 @media screen and (max-width:768px){
+    #brands ul{
+        position: absolute;
+        left: 33%;
+        margin-top: 40px;
+        width: 50%;
+    }
+    #filters{
+        flex-direction: column;
+        align-items: center;
+    }
+    .shoe_detail .img img {
+        width: 270px;
+    }
+    .cart {
+        position: fixed;
+        right: 70px;
+        top: 22px;
+        font-size: 30px;
+    }
     .controls{
         display: inline-flex;
         flex-wrap: wrap;
