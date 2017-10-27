@@ -1,5 +1,55 @@
+var brands = ['Adidas', 'Adidas Porsche', 'Asics', 'Converse', 'Diadora', 'Jordan', 'New Balance',
+"Nike", 'Onitsuka Tiger', 'Puma', 'Reebok', 'Salomon', 'Saucony', 'Sprandi', 'Timberland', 'Under Armour', 'VANS'];
+
+var razmers = [];
+
+var strBrands = '';
 
 $(document).ready(function(){
+
+    cartCountUpdate();
+
+    $('.cart').click(openCarts);
+
+    var brandsText = '<div id="brands" tabindex="0"><span>Бренды</span><ul>';
+    var brandsAlready = decodeURI(parseQueryString()['brands']).split(',');
+    var searchAlready = decodeURI(parseQueryString()['search']?parseQueryString()['search']:'');
+    for(var i in brands){
+        var brand = brands[i];
+        if(brandsAlready.indexOf(brand)!==-1){
+            brandsText += '<li class="active">'+brands[i]+'</li>';
+            strBrands += brands[i]+' ';
+        }else{
+            brandsText += '<li>'+brands[i]+'</li>';
+        }  
+    }               
+    brandsText += '<li class="button">Показать</li></ul></div>';
+
+    var searchText = '<input type="search" value="'+searchAlready+'" class="search" placeholder="Поиск"/><button class="search_btn glyphicon glyphicon-search"></button>';
+    $('#filters').html(searchText + brandsText)
+
+    setBrands();
+
+    $('#brands ul li').click(function(){
+        if(!$(this).hasClass('button')){
+            if($(this).hasClass('active')){
+                $(this).removeClass('active'); 
+            }else{
+                $(this).addClass('active');
+            }
+        }
+    });
+
+    $('.search').keypress(function(e){
+        if(e.keyCode == 13){
+            sendFilters();
+        }   
+    });
+    $('#brands ul .button, .search_btn').click(function(){
+        sendFilters();
+    });
+
+
     $('.owl-carousel').owlCarousel({
         loop:true,
         nav:true,
@@ -22,17 +72,17 @@ $(document).ready(function(){
     });
 
     if(!parseQueryString()['type'] || parseQueryString()['type'] == "" || parseQueryString()['type'] == "muzhskaya"){
-        $($('#filters a')[0]).css({
+        $($('#filterss a')[0]).css({
             'text-decoration':'underline',
             'color': '#d62613',
         })
     }else if(parseQueryString()['type'] == "zhenskaya"){
-        $($('#filters a')[1]).css({
+        $($('#filterss a')[1]).css({
             'text-decoration':'underline',
             'color': '#d62613',
         })
     }else{
-        $($('#filters a')[2]).css({
+        $($('#filterss a')[2]).css({
             'text-decoration':'underline',
             'color': '#d62613',
         })
@@ -47,7 +97,7 @@ $(document).ready(function(){
            return;
        }else{
            page--;
-           window.location.href = setGetParameter('page', page);
+           window.location.href = setGetParameter(window.location.href, 'page', page);
        }
     });
     $('.controls .right').click(function(){
@@ -59,7 +109,7 @@ $(document).ready(function(){
             return;
         }else{  
             page++;
-            window.location.href = setGetParameter('page', page);
+            window.location.href = setGetParameter(window.location.href, 'page', page);
         }
     });
     $('.0').addClass('active');
@@ -122,44 +172,172 @@ $(document).ready(function(){
         var table = shoe.children('.description').text().split('\n').slice(0,50);
         var description = shoe.children('.description').text().split('\n')[51];
         $('#myModal .description').text(description);
-        $('#myModal .razmers').text(shoe.children('.razmers').text());
+        var arr = shoe.children('.razmers').text().split(',');
+        var razstr = '';
+        for(var i in arr){
+            var raz = arr[i];
+            razstr += '<span attrraz="'+raz.split('|')[0]+'" attrtxt="'+raz.split('|')[1]+'">'+raz+'; </span>';
+        }
+        $('#myModal .razmers').html(razstr);
+
+        $('#myModal .razmers span').click(function(){
+            var articul = $('#myModal .articul').text();
+            var razmer = $(this).attr('attrraz');
+            var razText = $(this).attr('attrtxt');
+            if(razText != 'нет вналичии'){
+                addToCart(articul, razmer);
+                $('#myModal').modal('hide');
+                showMessage('Товар добавлен в корзину', '#26d613');
+            }else{
+                showMessage('Этого размера нет в наличии', '#d62613');
+            }         
+        });
     })
 });
 
 
-var parseQueryString = function() {
-    var str = window.location.search;
-    var objURL = {};
-
-    str.replace(
-        new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
-        function( $0, $1, $2, $3 ){
-            objURL[ $1 ] = $3;
-        }
-    );
-    return objURL;
-};
-
-
-function setGetParameter(paramName, paramValue)
-{
-    var url = window.location.href;
-    var hash = location.hash;
-    url = url.replace(hash, '');
-    if (url.indexOf(paramName + "=") >= 0)
-    {
-        var prefix = url.substring(0, url.indexOf(paramName));
-        var suffix = url.substring(url.indexOf(paramName));
-        suffix = suffix.substring(suffix.indexOf("=") + 1);
-        suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
-        url = prefix + paramName + "=" + paramValue + suffix;
-    }
-    else
-    {
-    if (url.indexOf("?") < 0)
-        url += "?" + paramName + "=" + paramValue;
-    else
-        url += "&" + paramName + "=" + paramValue;
-    }
-    return url + hash;
+function showMessage(text, color){
+    var strM = '<div class="msgC"><div class="msg" style="background:'+color+';">'+text+'</div></div>' 
+    $('body').append(strM);
+    setTimeout(function(){
+        $('.msg').css({
+            opacity: 0
+        });
+        setTimeout(function(){
+            $('.msgC').remove();
+        }, 1000);
+    }, 1500);
 }
+
+
+
+function updateCarts(){
+    var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    var allhtml = '';
+    for(var i in carts){
+        var cart = carts[i];
+        var cartFromServ = null;
+        $.ajax({
+            url: '/getShoeByArt?art='+cart.articul,
+            async: false,
+            success: function(data){
+                cartFromServ = data;
+            },
+            error: function(e){
+                console.log(e);
+            }
+        })
+        if(cartFromServ == null){
+            continue;
+        }
+        var htmlCart = '<div class="cart_item">'+
+                            '<div>'+
+                                '<img src="'+cartFromServ.imgPrev[0]+'"/>'+
+                            '</div>'+
+                            '<div>'+
+                                '<label class="name_cart">'+cartFromServ.name+'</label>'+
+                                '<label class="articul_cart">'+cart.articul+'</label>'+
+                                '<label class="razmer_cart">'+cart.razmer+'</label>'+
+                                '<div>'+
+                                    '<button class="plus" onclick="addToCart('+cart.articul+','+cart.razmer+'); updateCarts();">+</button>'+
+                                    '<button class="minus" onclick="removeFromCart('+cart.articul+','+cart.razmer+'); updateCarts();">-</button>'+ 
+                                    '<label class="count_cart">'+cart.count+'</label>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+        allhtml += htmlCart;      
+    }
+    $('.cart_detail').html(allhtml);
+}
+
+function openCarts(){
+    if($('.cart div').text() != '0'){
+        updateCarts();
+        $('#myModal1').modal('show');
+    }    
+}
+
+function addToCart(articul, razmer){
+    var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    if(!carts || !Array.isArray(carts)){
+        carts = [];
+    }
+    var obj = {articul:articul, razmer:razmer};
+    var cartI = cartContain(obj);
+    if(cartI){
+        var cart = carts[cartI];
+        cart.count++;
+    }else{
+        carts.push({articul:articul, razmer:razmer, count: 1});
+    }
+    
+    window.localStorage.setItem('shoeCart', JSON.stringify(carts));
+    cartCountUpdate();
+}
+
+function removeFromCart(articul, razmer){
+    var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    if(!carts || !Array.isArray(carts)){
+        carts = [];
+    }
+    var obj = {articul:articul, razmer:razmer};
+    var cartI = cartContain(obj);
+    if(cartI){
+        var cart = carts[cartI];
+        cart.count--;
+        if(cart.count == 0){
+            carts.splice(cartI, 1);
+        }
+    }
+    
+    window.localStorage.setItem('shoeCart', JSON.stringify(carts));
+    cartCountUpdate();
+}
+
+function cartCountUpdate(){
+    var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    var count = 0;
+    for(var i in carts){
+        count += carts[i].count;
+    }
+    if(count == 0){
+        $('#myModal1').modal('hide');
+    }
+    $('.cart div').text(count);
+}
+
+function cartContain(obj){
+    var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    for(var i in carts){
+        var cart = carts[i];
+        if(cart.articul == obj.articul && cart.razmer == obj.razmer){
+            return i;
+        }
+    }
+    return null;
+}
+
+function setBrands(){
+    if(strBrands == ""){
+        strBrands = "Бренды";
+    }
+    if(strBrands != "Бренды"){
+        strBrands = strBrands.slice(0, strBrands.length-1);
+        $("#brands span").text(strBrands);
+    }else{
+        $("#brands span").text(strBrands);
+    }
+}
+
+function sendFilters(){
+    var activeBrands = $('#brands ul .active');
+    var arrBrands = [];
+    activeBrands.each(function(el){
+        var text = $(activeBrands[el]).text();
+        arrBrands.push(text);
+    })
+    var url = setGetParameter(window.location.href, 'brands',arrBrands);
+    url = setGetParameter(url, 'search', $('.search').val());
+    window.location.href = encodeURI(url);
+}
+

@@ -11,7 +11,7 @@ body, a, label{
     font-family: reef;
     color:white;
 }
-a, button, input, select{
+div, a, button, input, select, ul, li{
     outline: none;
 }
 a:hover{
@@ -194,11 +194,15 @@ h4{
     background-color: transparent;
     color: white;
 }
+#filterss{
+    display: flex;
+    justify-content: center;
+}
 #filters{
     display: flex;
     justify-content: center;
 }
-#filters a{
+#filterss a{
     padding: 0px 20px 35px 20px;
     font-size: 20px;
 }
@@ -231,6 +235,220 @@ h4{
     color: white;
     opacity: .8;
 }
+#brands{
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
+    border: 2px solid;
+    padding: 0px 10px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+}
+
+#brands ul{
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    display: none;
+    width: 280px;
+    border: 2px solid;
+    margin-left: -12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+#brands ul li{
+    list-style: none;
+    padding: 5px 10px;
+    width: 135px;
+}
+#brands:focus ul{
+    display: inline-flex;
+    background-color: rgba(26,46,71,0.95);
+}
+#brands:before{
+    content: '^';
+    display: inline;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    margin-top: 3px;
+    margin-left: 160px;
+    transform: rotate(-180deg);
+    transition: 0.2s ease;
+}
+#brands:focus:before{
+    margin-left: 168px;
+    transform: rotate(0deg);
+}
+#brands ul li:before{
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #d62613;
+    margin-right: 5px;
+}
+#brands ul .active:before{
+   background: #d62613;
+   padding: 2px;
+}
+#brands ul .button{
+    width: 280px;
+    border: none;
+    background: none;
+    padding: 5px 0;
+    text-align: center;
+    border-top: 1px solid white;
+}
+#brands ul .button:before{
+    display: none;
+}
+.articul, .razmers{
+    font-size: 18px;
+    color: lightgray;
+    padding: 20px 0 10px 0;
+}
+.articul::before{
+    content: 'артикул';
+    display: inline-block;
+    margin-right: 5px;
+}
+.razmers{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.razmers span{
+    display: block;
+    width: 170px;
+}
+.razmers span:hover{
+    color: #d62613;
+}
+.description{
+
+}
+.shoe_detail .img img{
+    width: 400px;
+}
+.msgC{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+.msg{
+    padding: 10px 0;
+    width: 300px;
+    border-radius: 6px;
+    opacity: .8;
+    color: white;
+    transition: 1s ease;
+    text-align: center;
+}
+.controls .active{
+    color: #d62613;
+}
+.search{
+    height: 30px;
+    background: transparent;
+    border: 2px solid white;
+    margin-left: 30px;
+    font-size: 20px;
+    padding: 0px 10px;
+    margin-bottom: 20px;
+}
+.search_btn{
+    height: 30px;
+    border: 2px solid white;
+    margin-top: -1px;
+    background: transparent;
+}
+.search_btn:hover{
+    background: white;
+    color: rgba(26,46,71,0.95);
+}
+::-webkit-input-placeholder {color:white;}
+::-moz-placeholder          {color:white;}/* Firefox 19+ */
+:-moz-placeholder           {color:white;}/* Firefox 18- */
+:-ms-input-placeholder      {color:white;}
+
+.cart{
+    position: fixed;
+    right: 35px;
+    top: 18px;
+    font-size: 30px;
+}
+.cart div{
+    background: #d62613;
+    border-radius: 60%;
+    height: 25px;
+    width: 25px;
+    color: white;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: end;
+    justify-content: center;
+    line-height: 20px;
+    position: absolute;
+    margin-left: -11px;
+    margin-top: -10px;
+}
+.cart_item img{
+    height: 100px;
+}
+.cart_item div .name_cart{
+    display: block;
+}
+.cart_item div .articul_cart{
+    display: block;
+}
+.cart_item div .articul_cart::before{
+    content: 'артикул';
+    display: inline-block;
+    margin-right: 5px;
+}
+.cart_item div  .razmer_cart{
+    display: block;
+}
+.cart_item div .razmer_cart::before{
+    content: 'размер';
+    display: inline-block;
+    margin-right: 5px;
+}
+.cart_item div .plus, .cart_item div .minus{
+    background: none;
+    border: 1px solid;
+    border-radius: 60%;
+    height: 30px;
+    width: 30px;
+    margin: 0 10px;
+    font-size: 20px;
+}
+.cart_item{ 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.cart_item div{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 5px;
+}
+.cart_item div div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 @media screen and (max-width:768px){
     .controls{
         display: inline-flex;

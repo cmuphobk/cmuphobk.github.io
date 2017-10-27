@@ -26,21 +26,39 @@ process.on('uncaughtException', function (err) {
 
 function index(req, res) {
   var type = (req.query&&req.query.type?req.query.type:'muzhskaya');
+  var brands = (req.query&&req.query.brands?req.query.brands.split(','):[]);
   var page = (req.query&&req.query.page?req.query.page:1);
+  var search = (req.query&&req.query.search?req.query.search:'');
 
   var pages = [];
   var allResults = [];
   var results = [];
 
+  var re = new RegExp(search, 'i');
+
   if(type!="skidki"){
-    db.find({type: type}, function (err, docs) {
-      send(docs);
-    }); 
+    if(brands.length){
+      db.find({type: type, brand:{ $in: brands }, name:re}, function (err, docs) {
+        send(docs);
+      });
+    }else{
+      db.find({type: type, name:re}, function (err, docs) {
+        send(docs);
+      });
+    }
   }else{
-    db.find({ dibType: /skidka_prew/ }, function (err, docs) {
-      send(docs);
-    });
+    if(brands.length){
+      db.find({dibType: /skidka_prew/, brand: { $in: brands } , name:re}, function (err, docs) {
+        send(docs);
+      });
+    }else{
+      db.find({dibType: /skidka_prew/, name:re}, function (err, docs) {
+        send(docs);
+      });
+    }
   }
+  
+
   function send(docs){
     allResults = docs;
     for(var i=0; i<Math.round(allResults.length/20); i++){
@@ -52,7 +70,8 @@ function index(req, res) {
     results = allResults.slice(page*20-20,page*20);
     res.render('index', {
       result: results,
-      pages: pages
+      pages: pages,
+      pageCur: page
     });
   }
 }
@@ -89,10 +108,16 @@ function shoesSync(URL, callbackShoes){
           picArr.push(resolve(URL, pic2.attribs.src));
         }
         var divType = $(item).children('.photos').children('div')[3];
+        var brand = '';
         var nameDiv = '';
         var bs = $(item).children('.name').children('b').toArray();
-        bs.forEach(function(el){
-          nameDiv += $(el).text()+"|";
+        bs.forEach(function(el, i){
+          if(i==0){
+            brand += $(el).text();
+          }else{
+            nameDiv += $(el).text()+"|";
+          }
+          
         });
         var detUrl = resolve(URL, item.attribs.href)
         needle.get(detUrl, function (err, res) {
@@ -102,15 +127,18 @@ function shoesSync(URL, callbackShoes){
           description = $('.bl-good--sdesc').text();
           razmers = [];
           $('.ex-size li').each(function(el){
-            razmers.push($($('.ex-size li')[el]).text().replace('\t','').replace('\n',''));
+            var allstr = $($('.ex-size li')[el]).text().replaceAll('\t','').replaceAll('\n','');
+            var retstr = allstr.substr(0,2) + '|' + allstr.substr(2,allstr.length).replaceAll(',','.');
+            razmers.push(retstr);
           });
-          articul = $('.article').text().replace('\t','').replace('\n','');
+          articul = $('.article').text().replaceAll('\t','').replaceAll('\n','').split(" ")[1];
           
          
           var obj = {
             href:detUrl,
             imgPrev:picArr,
             name:pic.attribs.alt,
+            brand:brand,
             nameDiv:nameDiv,
             dibType:divType?divType.attribs.class:null,
             type:leftURL,
@@ -143,6 +171,13 @@ app.get('/', function(req,res){
   index(req,res);
 });
 
+app.get('/getShoeByArt', function(req, res){
+  var art = req.query.art;
+  db.find({articul: art}, function (err, docs) {
+    res.send(docs[0]);
+  });
+})
+
 app.get('/shoesSynch', function(req, res) {
   var URL = 'http://fireboxshop.com/catalogue/obuv/muzhskaya?show=1';
   var res1 = null, res2 = null;
@@ -163,6 +198,10 @@ app.get('/shoesSynch', function(req, res) {
     });
   });
 });
+
+String.prototype.replaceAll = function(search, replace){
+  return this.split(search).join(replace);
+}
 
 // запускаем сервер на порту 8085
 app.listen(8085);

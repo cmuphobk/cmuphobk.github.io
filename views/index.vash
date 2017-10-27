@@ -1,11 +1,13 @@
 @html.extend('layout', function(model){
 
     @html.block('content', function(model){
-        <div id="filters">
+        <div id="filterss">
             <a href="/?type=muzhskaya">Мужская обувь</a>
             <a href="/?type=zhenskaya">Женская обувь</a>
             <a href="/?type=skidki">Скидки</a>
         </div>
+        <div id="filters"></div>
+        
         <div id="items">
         @model.result.forEach(function(shoes){
             <div id="@shoes.id" class="shoes @shoes.dibType">
@@ -20,8 +22,9 @@
                     })
                 </div>
                 <label>@shoes.name</label>
+                <label class="strings">@shoes.brand</label>
                 @shoes.nameDiv.split('|').forEach(function(el, i){
-                    @if(i==1 && shoes.nameDiv.split('|').length == 4){
+                    @if(i==0 && shoes.nameDiv.split('|').length == 3){
                         <label style="text-decoration:line-through;" class="strings">@el</label>
                     }else{
                       <label class="strings">@el</label>  
@@ -37,8 +40,12 @@
         
         <div class="controls">
             <button class="left glyphicon glyphicon-chevron-left"></button>
-            @model.pages.forEach(function(page){
-                <a href="@page.href" page="@page.number">@page.number</a>
+            @model.pages.forEach(function(pageI){
+                @if(pageI.number == model.pageCur){
+                    <a class="active" href="@pageI.href" page="@pageI.number">@pageI.number</a>
+                }else{
+                    <a href="@pageI.href" page="@pageI.number">@pageI.number</a>
+                }
             })
             <button class="right glyphicon glyphicon-chevron-right"></button>
         </div>
@@ -60,6 +67,20 @@
                             </label>
                             <div class="razmers">
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">          
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="cart_detail">
+                           
                         </div>
                     </div>
                 </div>
