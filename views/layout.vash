@@ -7,7 +7,7 @@
         <!--meta name="viewport" content="width=device-width, height=device-height"-->
         <meta name="description" content="">
         <link rel="icon" type="image/png" href="img/favicon.png">
-        <title>cmuphobk</title>
+        <title>MetaRun</title>
 
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="lib/OwlCarousel2-2.2.1/dist/assets/owl.carousel.min.css">
@@ -26,6 +26,8 @@
             </ul>
             <div class="cart glyphicon glyphicon-inbox">
                 <div>0</div>
+            </div>
+            <div class="account glyphicon glyphicon-user">
             </div>
         </div>
         <div class="body">
@@ -50,6 +52,8 @@
     <script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/OwlCarousel2-2.2.1/dist/owl.carousel.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="lib/autosize-master/dist/autosize.min.js"></script>
+    
     
     </body>
 </html>

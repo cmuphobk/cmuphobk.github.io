@@ -7,9 +7,16 @@ var strBrands = '';
 
 $(document).ready(function(){
 
+    autosize(document.querySelectorAll('textarea'));
+
     cartCountUpdate();
 
+    $('.acc_div .acc').click(authorize);
+    $('.reg_div .reg').click(register);
+
+
     $('.cart').click(openCarts);
+    $('.account').click(openAccount);
 
     var brandsText = '<div id="brands" tabindex="0"><span>Бренды</span><ul>';
     var brandsAlready = decodeURI(parseQueryString()['brands']).split(',');
@@ -25,7 +32,7 @@ $(document).ready(function(){
     }               
     brandsText += '<li class="button">Показать</li></ul></div>';
 
-    var searchText = '<div><input type="search" value="'+searchAlready+'" class="search" placeholder="Поиск"/><button class="search_btn glyphicon glyphicon-search"></button></div>';
+    var searchText = '<div><input type="search" value="'+searchAlready+'" class="search input" placeholder="Поиск"/><button class="search_btn glyphicon glyphicon-search"></button></div>';
     $('#filters').html(searchText + brandsText)
 
     setBrands();
@@ -165,9 +172,22 @@ $(document).ready(function(){
         $(this).parent().parent().children('[attrin='+parseInt($(this).attr('class'))+']').addClass('active');
     });
     $('.shoes img').click(function(){
+        var iImg=0;
         var shoe = $(this).parent();
         $('#myModal').modal('show');
-        $('#myModal .img img').attr('src',shoe.children('img')[0].getAttribute('src'));
+        $('#myModal .img img').attr('src',shoe.children('img')[iImg].getAttribute('src'));
+        $('#myModal .img').off().bind('click', function(){
+            iImg++;
+            var img = shoe.children('img')[iImg];
+            if(img){
+                $('#myModal .img img').attr('src', img.getAttribute('src'));
+            }else{
+                iImg=0;
+                $('#myModal .img img').attr('src',shoe.children('img')[iImg].getAttribute('src'));
+            }
+            
+        })
+        $('#myModal .price').text(shoe.children('.newPrice').text());
         $('#myModal .articul').text(shoe.children('.articul').text());
         var table = shoe.children('.description').text().split('\n').slice(0,50);
         var description = shoe.children('.description').text().split('\n')[51];
@@ -180,17 +200,35 @@ $(document).ready(function(){
         }
         $('#myModal .razmers').html(razstr);
 
+        $('#myModal .send_det_to_cart').click(function(){
+            var spans = $('#myModal .razmers .active_span');
+            spans.each(function(el){
+                el = spans[el];
+                var articul = $('#myModal .articul').text();
+                var razmer = $(el).attr('attrraz');
+                var razText = $(el).attr('attrtxt');
+                if(razText != 'нет вналичии'){
+                    addToCart(articul, razmer);
+                    $('#myModal').modal('hide');
+                    showMessage('Товар добавлен в корзину', '#26d613');
+                }else{
+                    showMessage('Этого размера нет в наличии', '#d62613');
+                }
+            })
+                     
+        });
+
         $('#myModal .razmers span').click(function(){
-            var articul = $('#myModal .articul').text();
-            var razmer = $(this).attr('attrraz');
             var razText = $(this).attr('attrtxt');
-            if(razText != 'нет вналичии'){
-                addToCart(articul, razmer);
-                $('#myModal').modal('hide');
-                showMessage('Товар добавлен в корзину', '#26d613');
-            }else{
+            if(razText == 'нет вналичии'){
                 showMessage('Этого размера нет в наличии', '#d62613');
-            }         
+            }else{
+                if($(this).hasClass('active_span')){
+                    $(this).removeClass('active_span')
+                }else{
+                    $(this).addClass('active_span')
+                }
+            }    
         });
     })
 });
@@ -209,7 +247,38 @@ function showMessage(text, color){
     }, 1500);
 }
 
+function authorize(){
+    var username = $('.acc_div .username').val();
+    var password = $('.acc_div .password').val();
+    $.ajax({
+        url: '/auth?username='+username+'&password='+password,
+        async: true,
+        success: function(data){
+            var isAuth = JSON.parse(data);
+            if(isAuth){
 
+            }else{
+
+            }
+        },
+        error: function(e){
+            console.log(e);
+        }
+    })
+}
+
+function register(){
+    $.ajax({
+        url: '/getShoeByArt?art='+cart.articul,
+        async: false,
+        success: function(data){
+            cartFromServ = data;
+        },
+        error: function(e){
+            console.log(e);
+        }
+    })
+}
 
 function updateCarts(){
     var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
@@ -227,7 +296,7 @@ function updateCarts(){
                 console.log(e);
             }
         })
-        if(cartFromServ == null){
+        if(cartFromServ == null || cartFromServ == ""){
             continue;
         }
         var htmlCart = '<div class="cart_item">'+
@@ -236,6 +305,7 @@ function updateCarts(){
                             '</div>'+
                             '<div>'+
                                 '<label class="name_cart">'+cartFromServ.name+'</label>'+
+                                '<label class="price_cart">'+cartFromServ.newPrice+'</label>'+
                                 '<label class="articul_cart">'+cart.articul+'</label>'+
                                 '<label class="razmer_cart">'+cart.razmer+'</label>'+
                                 '<div>'+
@@ -247,24 +317,63 @@ function updateCarts(){
                         '</div>';
         allhtml += htmlCart;      
     }
-    allhtml += '<button class="send_cart">Оформить покупку</button>';
+    allhtml += '<div><button class="send_cart btn">Оформить покупку</button>';
+    allhtml += '<button class="clear_cart btn">Очистить корзину</button><div>';
     $('.cart_detail').html(allhtml);
     $('.send_cart').click(sendCart);
+    $('.clear_cart').click(clearCart);
 }
 
 function sendCart(){
-    window.localStorage.setItem('shoeCart', JSON.stringify([]));
-    cartCountUpdate();
     $('#myModal1').modal('hide');
-    showMessage('Покупка успешно оформлена. Дождитесь звонка специалиста.', '#26d613');
+    $('#myModal2').modal('show');
+    $('.btn_cart_send').click(congratulationSendCart);
 }
 
+function clearCart(){
+    window.localStorage.setItem('shoeCart', '[]');
+    showMessage('Корзина очищена.', '#26d613');
+    $('#myModal1').modal('hide');
+    cartCountUpdate();
+}
+
+function congratulationSendCart(){
+    var objSend = {
+        name:$('.name_cart_send').val(),
+        email:$('.email_cart_send').val(),
+        phone:$('.phone_cart_send').val(),
+        desc:$('.description_cart_send').val(),
+        shoes:JSON.parse(window.localStorage.getItem('shoeCart'))
+    }
+    $('.cart_send input, .cart_send textarea').val('');
+    $.ajax({
+        url: '/sendCart',
+        type: 'POST',
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        data: JSON.stringify(objSend),
+        success: function(res){
+            window.localStorage.setItem('shoeCart', JSON.stringify([]));
+            cartCountUpdate();
+            $('#myModal2').modal('hide');
+            showMessage('Покупка успешно оформлена. Дождитесь звонка специалиста.', '#26d613');
+        },
+        error: function(err){
+            console.log(err);
+        }
+    });
+    
+}
 
 function openCarts(){
     if($('.cart div').text() != '0'){
         updateCarts();
         $('#myModal1').modal('show');
     }    
+}
+
+function openAccount(){
+    $('#myModal3').modal('show');
 }
 
 function addToCart(articul, razmer){
@@ -306,6 +415,25 @@ function removeFromCart(articul, razmer){
 
 function cartCountUpdate(){
     var carts = JSON.parse(window.localStorage.getItem('shoeCart'));
+    for(var i in carts){
+        var cart = carts[i];
+        var cartFromServ = null;
+        $.ajax({
+            url: '/getShoeByArt?art='+cart.articul,
+            async: false,
+            success: function(data){
+                cartFromServ = data;
+            },
+            error: function(e){
+                console.log(e);
+            }
+        })
+        if(cartFromServ == null || cartFromServ == ""){
+            carts.splice(i, 1);
+            window.localStorage.setItem('shoeCart', JSON.stringify(carts));
+            continue;
+        }
+    }
     var count = 0;
     for(var i in carts){
         count += carts[i].count;

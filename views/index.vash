@@ -23,14 +23,8 @@
                 </div>
                 <label>@shoes.name</label>
                 <label class="strings">@shoes.brand</label>
-                @shoes.nameDiv.split('|').forEach(function(el, i){
-                    @if(i==0 && shoes.nameDiv.split('|').length == 3){
-                        <label style="text-decoration:line-through;" class="strings">@el</label>
-                    }else{
-                      <label class="strings">@el</label>  
-                    }
-                    
-                })
+                <label style="text-decoration:line-through;" class="strings oldPrice">@shoes.oldPrice</label>
+                <label class="strings newPrice">@shoes.newPrice</label>  
                 <div style="display:none;" class="articul">@shoes.articul</div>
                 <div style="display:none;" class="razmers">@shoes.razmers</div>
                 <div style="display:none;" class="description">@shoes.description</div>
@@ -38,17 +32,20 @@
         })
         </div>
         
-        <div class="controls">
-            <button class="left glyphicon glyphicon-chevron-left"></button>
-            @model.pages.forEach(function(pageI){
-                @if(pageI.number == model.pageCur){
-                    <a class="active" href="@pageI.href" page="@pageI.number">@pageI.number</a>
-                }else{
-                    <a href="@pageI.href" page="@pageI.number">@pageI.number</a>
-                }
-            })
-            <button class="right glyphicon glyphicon-chevron-right"></button>
-        </div>
+        @if(model.pages.length){
+            <div class="controls">
+                <button class="left glyphicon glyphicon-chevron-left"></button>
+                @model.pages.forEach(function(pageI){
+                    @if(pageI.number == model.pageCur){
+                        <a class="active" href="@pageI.href" page="@pageI.number">@pageI.number</a>
+                    }else{
+                        <a href="@pageI.href" page="@pageI.number">@pageI.number</a>
+                    }
+                })
+                <button class="right glyphicon glyphicon-chevron-right"></button>
+            </div>
+        }
+        
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
@@ -60,13 +57,19 @@
                             <div class="img">
                                 <img/>
                             </div>
+                            <label class="price">
+                            </label>
+
                             <label class="articul">
                             </label>
                             
                             <label class="description">
                             </label>
+
+                            <label class="cart_det_info">Выберите размер обуви: </label>
                             <div class="razmers">
                             </div>
+                            <button class="send_det_to_cart btn">Отправить в корину</button>
                         </div>
                     </div>
                 </div>
@@ -78,9 +81,94 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">          
                     <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <div class="cart_detail">
                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">          
+                    <div class="modal-body">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="cart_send">
+                           <input class="name_cart_send input" placeholder="ФИО"/>
+                           <input class="email_cart_send input" placeholder="E-mail"/>
+                           <input class="phone_cart_send input" placeholder="Телефон"/>
+                           <textarea class="description_cart_send input" placeholder="Дополнительная информация"></textarea>
+                           <button class="btn btn_cart_send">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">          
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div class="account_detail">
+                            <div class="row">
+                                <div class="col-md-6 reg_div">
+                                    <div class="row">
+                                        <label>Регистрация</label>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input firstname"  placeholder="Фамилия"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input secondname"  placeholder="Имя"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input lastname"  placeholder="Отчество"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input username"  placeholder="Имя пользователя"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input email"  placeholder="E-mail"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input phone"  placeholder="Телефон"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input address"  placeholder="Адрес"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input index"  placeholder="Индекс"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input password"  placeholder="Пароль"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input r_password"  placeholder="Подтвердить пароль"/>
+                                    </div>
+                                    <div class="row">
+                                        <button class="reg btn">Регистрация</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 acc_div">
+                                    <div class="row">
+                                        <label>Авторизация</label>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input username"  placeholder="Имя пользователя"/>
+                                    </div>
+                                    <div class="row">
+                                        <input class="input password"  placeholder="Пароль"/>
+                                    </div>
+                                    <div class="row">
+                                        <button class="acc btn">Войти</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

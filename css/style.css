@@ -2,6 +2,9 @@
     font-family: 'reef';
     src: url('../fonts/reef/reef.otf');
 }
+img{
+    image-rendering: optimizeSpeed;
+}
 body{
     margin-top: 72px;
     width: 100%;
@@ -12,7 +15,7 @@ body, a, label{
     color:white;
 }
 div, a, button, input, select, ul, li{
-    outline: none;
+    outline: none !important;
 }
 a:hover{
     color:#d62613;
@@ -24,7 +27,7 @@ h4{
 .header{
     display: flex;
     align-items: center;
-    background-color: #1b2f48;
+    background-color: rgba(72,77,125,1);
     border-bottom: 1px solid lightblue;
     width: 100vw;
     z-index: 2;
@@ -54,7 +57,7 @@ h4{
     padding: 1px 8px;
     border-radius: 3px;
 }
-.header_menu li a:hover{
+.header_menu li a:hover, .header_menu li a:focus{
     color: #1b2f48;
     background-color: white;
 }
@@ -106,7 +109,7 @@ h4{
     top: 50%;
     background-color: transparent !important;
 }
-.owl-prev:hover, .owl-next:hover{
+.owl-prev:hover, .owl-next:hover, .owl-prev:focus, .owl-next:focus{
     color: #1b2f48 !important;
     background-color: white !important;
 }
@@ -138,7 +141,7 @@ h4{
     display: inline-block;
     flex-direction: column;
     width: 310px;
-    height: 320px;
+    height: 360px;
     margin-bottom: 10px;
     padding: 20px 26px;
     text-align: center;
@@ -232,18 +235,30 @@ h4{
     margin-top: -13px;
     position: absolute;
 }
-/*.skidka_prew:hover::before{
-    margin-left: 210px;
-}*/
+
 .modal-content{
     background-color: #1b2f48;
 }
 #myModal .img{
     text-align: center;
+    background-color: rgba(255,255,255,0.93);
+    margin-top: 30px;
+    margin-bottom: 35px;
+    border-radius: 6px;
 }
+#myModal .img img{
+    opacity: .9;
+}
+#myModal .img img:hover{
+    opacity: 1;
+}
+    
 .close{
+    position: absolute;
     color: white;
     opacity: .8;
+    right: 20px;
+    top: 15px;
 }
 #brands{
     width: 200px;
@@ -254,7 +269,12 @@ h4{
     margin-bottom: 20px;
     margin-left: 40px;
 }
-
+#brands span{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 170px;
+}
 #brands ul{
     font-size: 14px;
     list-style: none;
@@ -267,6 +287,7 @@ h4{
     margin-left: -12px;
     margin-top: 10px;
     flex-wrap: wrap;
+    height: 380px;
 }
 #brands ul li{
     list-style: none;
@@ -315,13 +336,22 @@ h4{
 #brands ul .button:before{
     display: none;
 }
-.articul, .razmers{
+.articul, .razmers, .cart_det_info{
     font-size: 18px;
     color: lightgray;
     padding: 20px 0 10px 0;
 }
+.price{
+    display: block;
+    margin-top: 25px;
+}
+.price::before{
+    content: 'Цена:';
+    display: inline-block;
+    margin-right: 5px;
+}
 .articul::before{
-    content: 'артикул';
+    content: 'Артикул';
     display: inline-block;
     margin-right: 5px;
 }
@@ -335,7 +365,7 @@ h4{
     display: block;
     width: 170px;
 }
-.razmers span:hover{
+.razmers span:hover, .razmers .active_span{
     color: #d62613;
 }
 .description{
@@ -367,7 +397,22 @@ h4{
 .controls .active{
     color: #d62613;
 }
-.search{
+.cart_send{
+    display: flex;
+    flex-direction: column;
+    padding: 25px 20px;
+    align-self: center;
+}
+.cart_send .input{
+    margin: 0 0 20px 0;
+}
+.cart_send textarea{
+    min-height: 50px;
+    overflow: hidden;
+    resize:none;
+    max-height:300px;
+}
+.input{
     height: 30px;
     background: transparent;
     border: 2px solid white;
@@ -376,6 +421,9 @@ h4{
     padding: 0px 10px;
     margin-bottom: 20px;
 }
+.search{
+    
+}
 .search_btn{
     height: 30px;
     width:30px;
@@ -383,7 +431,7 @@ h4{
     margin-top: -1px;
     background: transparent;
 }
-.search_btn:hover{
+.search_btn:hover, .search_btn:focus{
     background: white;
     color: rgba(26,46,71,0.95);
 }
@@ -392,6 +440,15 @@ h4{
 :-moz-placeholder           {color:white;}/* Firefox 18- */
 :-ms-input-placeholder      {color:white;}
 
+.account{
+    position: fixed;
+    right: 90px;
+    top: 18px;
+    font-size: 30px;
+}
+.account:hover{
+    opacity: .8;
+}
 .cart{
     position: fixed;
     right: 35px;
@@ -475,21 +532,22 @@ h4{
     flex-direction: column;
     align-items: center;
 }
-.send_cart{
+.btn{
     background: transparent;
     border: 2px solid;
     border-radius: 5px;
     width: 200px;
     padding: 5px 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
-.send_cart:hover{
+.btn:hover, .btn:focus{
     background: white;
     color:#1b2f48;
 }
 ::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px #1b2f48;
-	border-radius: 10px;
 	background-color: #F5F5F5;
 }
 
@@ -501,9 +559,28 @@ h4{
 
 ::-webkit-scrollbar-thumb
 {
-	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px #1b2f48;
-	background-color: #555;
+	background-color: #1b2f48;
+}
+
+.account_detail label{
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.account_detail input{
+    width: 100%;
+    margin: 0;
+    margin: 3px 0;
+}
+.account_detail .reg, .account_detail .acc{
+    margin-top:30px;
+}
+.reg_div, .acc_div{
+    padding: 0 25px;
+    text-align:center;
 }
 
 @media screen and (max-width:768px){
@@ -512,6 +589,7 @@ h4{
         left: 33%;
         margin-top: 40px;
         width: 50%;
+        height:auto;
     }
     #filters{
         flex-direction: column;
