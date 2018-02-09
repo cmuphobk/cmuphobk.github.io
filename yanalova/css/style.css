@@ -387,6 +387,9 @@ img{
     #clients .clients{
         justify-content: center;
     }
+    #menu .label{
+        display: none;
+    }
     #menu span{
         content: "";
         display: inline-block;
