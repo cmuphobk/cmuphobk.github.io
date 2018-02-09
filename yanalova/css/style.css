@@ -1,4 +1,14 @@
 @font-face {
+    font-family: 'HelveticaNeueCyrRoman';
+    src: url('../fonts/HelveticaNeueCyr-Roman.eot');
+    src: url('../fonts/HelveticaNeueCyr-Roman.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/HelveticaNeueCyr-Roman.woff') format('woff'),
+    url('../fonts/HelveticaNeueCyr-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'HelveticaNeueCyrThin';
     src: url('../fonts/HelveticaNeueCyr-Thin.eot');
     src: url('../fonts/HelveticaNeueCyr-Thin.eot?#iefix') format('embedded-opentype'),
@@ -29,7 +39,7 @@
 }
 
 body{
-    font-family: HelveticaNeueCyrMedium;
+    font-family: HelveticaNeueCyrRoman;
     color: rgba(30,45,60,1);
 }
 h1{
@@ -53,6 +63,8 @@ img{
 #menu .left_panel{
     display: flex;
     background-color: rgba(237,205,31,1);
+    padding-left: 65px;
+    padding-right: 20px;
 }
 
 #menu .right_panel{
@@ -66,11 +78,11 @@ img{
 }
 #menu .right_panel ul{
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     list-style: none;
     display: inline-block;
     font-family: HelveticaNeueCyrThin;
-    margin-right: 40px;
+    margin-right: 15%;
     margin-bottom: 0;
 }
 #menu .right_panel ul li{
@@ -83,6 +95,7 @@ img{
 }
 #menu h1, #menu img{
     display: inline-block;
+    font-size: 22px;
 }
 #menu .label{
     height: 100%;
@@ -90,12 +103,13 @@ img{
     flex-direction: column;
     justify-content: center;
     padding-right: 20px;
-    text-align: right;
+    text-align: left;
+    padding-top: 10px;
 }
 #menu h1{
     vertical-align: middle;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 6px;
     width: 100%;
 }
 #menu h2{
@@ -111,22 +125,24 @@ img{
     margin: 12px 30px 12px 20px;
 }
 #about .parallax{
+    display: inline-block;
     background-image: url('../img/about.jpg');
     width: 100%;
-    height: 100vh;
+    /*height: 100vh;*/
     background-attachment: fixed;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
 }
 #about .left_scene_block{
-    background-color: rgba(240,240,240,1);
+    background-color: rgba(248,248,248,1);
     font-size: 36px;
     display: inline-block;
     position: absolute;
+    visibility: hidden;
     width: 50%;
-    height: 100vh;
-    margin-top: -100vh;
+    /*height: 100vh;*/
+    /*margin-top: -100vh;*/
 }
 
 #header .header_img{
@@ -141,32 +157,39 @@ img{
 }
 #header h1{
     display: inline-block;
-    width: 35%;
+    width: 60%;
     text-align: center;
-    font-size: 45px;
+    font-size: 60px;
     margin-top: -80px;
+    font-family: HelveticaNeueCyrBold;
+    color: white;
+    letter-spacing: 1px;
+    line-height: 80px;
 }
-
+#header{
+    padding-top: 80px;
+}
 #about .left_scene_block{
-    padding: 0 8%;
-    display: inline-flex;
+    padding: 100px 8% 120px 8%;
+    /*display: inline-flex;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: column;*/
 }
 #about h2{
     font-family: HelveticaNeueCyrMedium;
     color: #C6C6C6;
-    font-size: 40px;
-    margin-top: -80px;
+    font-size: 56px;
     border-bottom: 8px solid rgba(237,205,31,1);
     width: fit-content;
-    letter-spacing: 2px;
+    margin-bottom: 60px;
+    letter-spacing: 4px;
 }
 #about h3{
-    font-family: HelveticaNeueCyrThin;
+    font-family: HelveticaNeueCyrRoman;
     color: #3B3A3A;
     font-size: 20px;
     width: 100%;
+    line-height: 30px;
 }
 #service{
     display: flex;
@@ -178,31 +201,37 @@ img{
 #service h2{
     font-family: HelveticaNeueCyrMedium;
     color: #C6C6C6;
-    font-size: 40px;
+    font-size: 56px;
     border-bottom: 8px solid rgba(237,205,31,1);
     width: fit-content;
     margin-bottom: 60px;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
 }
 #service .service{
     display: flex;
     justify-content: space-between;
 }
+#service h3{
+    font-family: HelveticaNeueCyrMedium;
+    margin-bottom: 20px;
+}
 #service h4{
-    font-family: HelveticaNeueCyrThin;
+    font-family: HelveticaNeueCyrRoman;
+    font-size: 17px;
+    line-height: 24px;
 }
 #service .item{
     width: 300px;
 }
 #service .image{
     background-image: url(./img/service.jpg);
-    height: 160px;
+    height: 210px;
     flex-basis: 80px;
     background-size: cover;
     background-position: 50%;
 }
 #service .text{
-    background-color: rgba(240,240,240,1);
+    background-color: rgba(248,248,248,1);
     padding: 10px 40px;
 }
 #stats{
@@ -216,12 +245,12 @@ img{
 }
 #stats .item{
     text-align: center;
-    padding: 10px 20px;
+    padding: 20px 20px;
     width: 280px;
 }
 #stats .bordered{
-    border-left: 1px white solid;
-    border-right: 1px white solid;
+    border-left: 3px white solid;
+    border-right: 3px white solid;
 }
 #stats .item h2{
     font-family: HelveticaNeueCyrBold;
@@ -231,7 +260,7 @@ img{
 }
 #stats .item h3{
     font-family: HelveticaNeueCyrMedium;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: bold;
     margin:0;
 }
@@ -241,16 +270,16 @@ img{
     align-items: center;
     padding-top: 80px;
     padding-bottom: 80px;
-    background-color: rgba(240,240,240,1);
+    background-color: rgba(248,248,248,1);
 }
 #clients h2{
     font-family: HelveticaNeueCyrMedium;
     color: #C6C6C6;
-    font-size: 40px;
+    font-size: 56px;
     border-bottom: 8px solid rgba(237,205,31,1);
     width: fit-content;
-    margin-bottom: 0px;
-    letter-spacing: 2px;
+    margin-bottom: 60px;
+    letter-spacing: 4px;
 }
 #clients .clients{
     display: flex;
@@ -275,24 +304,27 @@ img{
 #contacts h2{
     font-family: HelveticaNeueCyrMedium;
     color: #C6C6C6;
-    font-size: 40px;
+    font-size: 56px;
     border-bottom: 8px solid rgba(237,205,31,1);
     width: fit-content;
-    margin-bottom: 0px;
-    letter-spacing: 2px;
+    margin-bottom: 60px;
+    letter-spacing: 4px;
 }
 #contacts h3{
     margin-top: 40px;
+    font-size: 22px;
 }
 #contacts h5, #contacts h4{
-    font-family: HelveticaNeueCyrThin;
-    font-size: 20px
+    font-family: HelveticaNeueCyrRoman;
+    font-size: 17px;
+    line-height: 24px;
+    margin: 0;
 }
 
 #contacts .map{
     width: 100%;
     text-align: center;
-    padding: 60px 0;
+    padding: 60px 0 10px 0;
 }
 
 #contacts iframe{
@@ -302,7 +334,7 @@ img{
 #contacts input{
     width: 100%;
     border: none;
-    background: rgba(240,240,240,1);
+    background: rgba(248,248,248,1);
     padding: 5px 10px;
     margin: 0 0 10px 0;
 }
@@ -346,7 +378,11 @@ img{
         margin-bottom: 50px;
     }
     #header h1{
-        width: 100%;
+        width: 80%;
+        font-size: 25px;
+    }
+    #menu .left_panel{
+        padding: 0;
     }
     #clients .clients{
         justify-content: center;
